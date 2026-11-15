@@ -1,13 +1,22 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["numpy>=2.0", "pandas>=2.2", "scipy>=1.14", "statsmodels>=0.14", "matplotlib>=3.9"]
+# ///
+
 # %% [markdown]
-# # Lab 4.1 · Check a comparison for test-item overlap and unequal tuning
+# # Lab 4.1 · Overlap and unequal budgets
 #
 # Day 4 · Session 1 (Contamination and unequal budgets) · 25 min.
 #
-# REPLACE: what participants build in this lab, in two or three lines.
+# Khattab's leaderboard puts configuration D far ahead of C. Before reading its claims, check how the comparison was made: whether test questions appear among the 120 examples used to tune D's prompt (some only after Arabic spelling is normalised), what D scores on the clean questions, and what the comparison looks like when both configurations are scored the same way.
 #
 # **Tasks**
-# - [ ] REPLACE: the tasks, each with its minutes; they add up to 25
-# - [ ] ✱ Stretch · REPLACE: an extension for those who finish early
+# - [ ] Exact matches between tuning examples and test questions · 4 min
+# - [ ] Arabic normalisation and the matches it adds · 6 min
+# - [ ] D on clean and overlapping questions · 5 min
+# - [ ] Best of five against mean of five · 5 min
+# - [ ] The comparison at equal budgets, clean questions only · 5 min
+# - [ ] ✱ Stretch · Estimate the winner's curse of choosing the best of twelve prompts on the test set
 
 # %%
 import os, sys, subprocess
@@ -19,27 +28,156 @@ if IN_COLAB:
     if not Path("/content/ds-403").exists():
         subprocess.run(["git", "clone", "-q", REPO_URL, "/content/ds-403"], check=True)
     os.chdir("/content/ds-403/labs")
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-r", "requirements-colab.txt"], check=True)
 else:
     while not Path("_tools").exists() and Path.cwd() != Path.cwd().parent:
         os.chdir("..")  # solutions/ notebooks run from labs/
 sys.path.insert(0, os.getcwd())
 
+import numpy as np
+import pandas as pd
+import bunyan as U
+
+REF = U.reference("d4_1")
+
 # %% [markdown]
-# ## 1 · REPLACE: the first task
+# ## 1 · Exact matches
 #
-# REPLACE: what to do and why, in two sentences.
+# `data/tuning_examples.csv` holds the 120 question-and-answer examples Khattab used to tune D's prompt. `data/report_settings.csv` says how each configuration was scored.
 
 # %%
-# ✏️ Exercise
-def first_task():
+items = U.items()
+tune = U.load("tuning_examples")
+settings = U.load("report_settings")
+print(settings.to_string(index=False))
+exact = set(items.question) & set(tune.question)
+print(f"test questions found verbatim among the tuning examples: {len(exact)}")
+
+# %% [markdown]
+# ## 2 · Arabic normalisation and the matches it adds
+#
+# Arabic text can differ invisibly: hamza on alef (أ or ا), ta marbuta written as ha (ة or ه), alef maqsura (ى or ي), a diacritic, a stray space. `U.normalize` folds these.
+#
+# ✏️ **Exercise** · Return the set of test `item_id`s whose normalised question equals a normalised tuning example.
+
+# %%
+def overlapping_items(items: pd.DataFrame, tune: pd.DataFrame) -> set:
     # BEGIN SOLUTION
-    return "the reference result"
+    seen = {U.normalize(q) for q in tune.question}
+    return set(items.loc[items.question.map(U.normalize).isin(seen), "item_id"])
     # END SOLUTION
 
+
 # %%
-# Check, with a safety net: the cells below still run when the exercise is not done yet
 try:
-    result = first_task()
+    leaked = overlapping_items(items, tune)
 except NotImplementedError:
-    result = "the reference result"
-print(result)
+    leaked = set(REF["leaked"])
+U.check("overlapping test questions after normalisation", len(leaked), len(REF["leaked"]))
+by_lang = items[items.item_id.isin(leaked)].language.value_counts().to_dict()
+print(f"{len(leaked)} overlapping questions after normalisation (verbatim only: {len(exact)}); by language {by_lang}")
+
+# %% [markdown]
+# **Look at** the difference between the two counts: a check without normalisation misses most of the Arabic overlap.
+#
+# ## 3 · D on clean and overlapping questions
+#
+# ✏️ **Exercise** · Return a table with one row per configuration (A to D): the mean score on overlapping questions, on clean questions, and the difference.
+
+# %%
+def clean_vs_overlap(leaked: set) -> pd.DataFrame:
+    rows = []
+    for c in "ABCD":
+        t = U.item_means(c, 0.2)
+        # BEGIN SOLUTION
+        on = t.item_id.isin(leaked)
+        rows.append({"config": c, "overlap": t[on].score.mean(), "clean": t[~on].score.mean(),
+                     "gap": t[on].score.mean() - t[~on].score.mean()})
+        # END SOLUTION
+    return pd.DataFrame(rows)
+
+
+# %%
+try:
+    cv = clean_vs_overlap(leaked)
+except NotImplementedError:
+    cv = pd.DataFrame(REF["clean_vs_overlap"])
+U.check("D on overlapping questions", cv.set_index("config").loc["D", "overlap"], REF["clean_vs_overlap_D"]["overlap"], 1e-9)
+print(cv.round(4).to_string(index=False))
+
+# %% [markdown]
+# **Look at** D's gap against the others'. The overlapping questions are not harder or easier for A, B and C; only D, whose prompt was tuned on them, does much better there.
+#
+# ## 4 · Best of five against mean of five
+#
+# The leaderboard scored D as the **best of five** samples (pass@5) and the others as the **mean** of five. Recompute both for every configuration.
+
+# %%
+rows = []
+for c in "ABCD":
+    m = U.results(c, 0.2).pivot(index="item_id", columns="sample", values="grader_pass")
+    rows.append({"config": c, "mean of 5": m.to_numpy().mean(), "best of 5": m.max(axis=1).mean()})
+budgets = pd.DataFrame(rows)
+print(budgets.round(4).to_string(index=False))
+U.check("D best of five, as reported", budgets.set_index("config").loc["D", "best of 5"], REF["report_D"], 1e-9)
+
+# %% [markdown]
+# ## 5 · The comparison at equal budgets, clean questions only
+#
+# ✏️ **Exercise** · Return the paired difference D minus C (mean of five, temperature 0.2) on the clean questions only, with its clustered 95% interval: `(diff, lo, hi)`.
+
+# %%
+def clean_comparison(leaked: set):
+    t = U.paired_table("C", "D", 0.2)
+    # BEGIN SOLUTION
+    t = t[~t.item_id.isin(leaked)]
+    d = t["diff"].mean()
+    se = U.clustered_se(t["diff"], t.doc_id)
+    return d, d - 1.96 * se, d + 1.96 * se
+    # END SOLUTION
+
+
+# %%
+try:
+    clean = clean_comparison(leaked)
+except NotImplementedError:
+    clean = tuple(REF["clean_diff"])
+U.check("D minus C on clean questions", clean, REF["clean_diff"], 1e-9)
+summary = pd.DataFrame([
+    {"comparison": "as reported: D best of 5, C mean of 5, all questions", "D minus C": REF["report_D"] - REF["report_C"]},
+    {"comparison": "equal budget: both mean of 5, all questions", "D minus C": REF["equal_diff"][0]},
+    {"comparison": "equal budget, clean questions only", "D minus C": clean[0]},
+])
+summary["D minus C"] = (100 * summary["D minus C"]).round(1)
+print(summary.to_string(index=False))
+print(f"clean questions: 95% CI {100 * clean[1]:.1f} to {100 * clean[2]:.1f} points")
+
+# %% [markdown]
+# ## ✱ Stretch · The winner's curse of twelve prompts
+#
+# D's prompt was chosen as the best of 12 variants **on the test set**. Even if all 12 were equally good, the best of 12 scores above its true rate. Simulate it: 12 variants with the same per-question probabilities as D, five samples each; take the best.
+
+# %%
+probs = U.item_means("D", 0.2).score.clip(0.02, 0.98).to_numpy()
+rng = np.random.default_rng(403)
+gains = []
+for _ in range(U.pick(500, 100)):
+    scores = [(rng.random((len(probs), 5)) < probs[:, None]).mean() for _ in range(12)]
+    gains.append(max(scores) - probs.mean())
+print(f"best of 12 equally good prompts scores {100 * np.mean(gains):.1f} points above their true rate, on average")
+
+# %% [markdown]
+# ## Check yourself
+#
+# 1. Why does D's overlap gap matter more than D's score on the overlapping questions?
+# <details><summary>Answer</summary>Overlapping questions could be easier for everyone; the comparison with A, B and C on the same questions shows the gain is D's alone, which points to the tuning examples.</details>
+#
+# 2. Is best of five wrong as a metric?
+# <details><summary>Answer</summary>No, it measures something else (a user who can retry). It is wrong to compare one configuration's best of five with another's mean of five.</details>
+#
+# 3. Why was the overlap check done after normalising Arabic?
+# <details><summary>Answer</summary>Spelling variants of hamza, ta marbuta, alef maqsura and diacritics make identical questions look different to an exact match; most of the Arabic overlap only shows after folding them.</details>
+#
+# ## Carry forward
+#
+# Lab 4.2 classes the leaderboard's claims; it recomputes what it needs, with these results in `data/reference/d4_1.json`.

@@ -228,8 +228,91 @@ def day3() -> None:
     write("d3_4", {"rates": rates, "point": point, "boot": boot, "observed": observed})
 
 
+def day4() -> None:
+    items = U.items()
+    tune = U.load("tuning_examples")
+    seen = {U.normalize(q) for q in tune.question}
+    leaked = sorted(items.loc[items.question.map(U.normalize).isin(seen), "item_id"])
+    cvo = []
+    for c in "ABCD":
+        t = U.item_means(c, 0.2)
+        on = t.item_id.isin(leaked)
+        cvo.append({"config": c, "overlap": f(t[on].score.mean()), "clean": f(t[~on].score.mean()),
+                    "gap": f(t[on].score.mean() - t[~on].score.mean())})
+    rep = {}
+    for c in "ABCD":
+        m = U.results(c, 0.2).pivot(index="item_id", columns="sample", values="grader_pass")
+        rep[c] = (m.to_numpy().mean(), m.max(axis=1).mean())
+    t = U.paired_table("C", "D", 0.2)
+    d, se = t["diff"].mean(), U.clustered_se(t["diff"], t.doc_id)
+    tc = t[~t.item_id.isin(leaked)]
+    dc, sec = tc["diff"].mean(), U.clustered_se(tc["diff"], tc.doc_id)
+    write("d4_1", {"leaked": leaked, "clean_vs_overlap": cvo, "clean_vs_overlap_D": cvo[3],
+                   "report_D": f(rep["D"][1]), "report_C": f(rep["C"][0]),
+                   "equal_diff": [f(d), f(d - 1.96 * se), f(d + 1.96 * se)],
+                   "clean_diff": [f(dc), f(dc - 1.96 * sec), f(dc + 1.96 * sec)]})
+
+    calib = U.load("grader_calibration")
+    cal = {lang: (g.human_pass.to_numpy(), g.grader_pass.to_numpy()) for lang, g in calib.groupby("language")}
+    r0 = {lang: U.rates(g) for lang, g in calib.groupby("language")}
+    gap, cgap, cci = {}, {}, {}
+    rng = np.random.default_rng(403)
+    for c in "ABCD":
+        t = U.item_means(c, 0.2)
+        ar, en = t.language == "ar", t.language == "en"
+        m_ar, m_en = t.score[ar].mean(), t.score[en].mean()
+        contrib = np.where(ar, (t.score - m_ar) / ar.sum(), -(t.score - m_en) / en.sum())
+        se = np.sqrt((pd.Series(contrib).groupby(t.doc_id.to_numpy()).sum() ** 2).sum())
+        gap[c] = [f(m_ar - m_en), f(se)]
+        cgap[c] = f(U.corrected_rate(m_ar, r0["ar"]["sens"], r0["ar"]["spec"]) - U.corrected_rate(m_en, r0["en"]["sens"], r0["en"]["spec"]))
+        docs = t.doc_id.unique()
+        by = {lang: t[t.language == lang].groupby("doc_id").score.agg(["sum", "count"]).reindex(docs, fill_value=0) for lang in ("ar", "en")}
+        out = np.empty(3000)
+        for b in range(3000):
+            pick = rng.integers(0, len(docs), size=len(docs))
+            th = {}
+            for lang in ("ar", "en"):
+                p = by[lang]["sum"].to_numpy()[pick].sum() / by[lang]["count"].to_numpy()[pick].sum()
+                h, v = cal[lang]
+                j = rng.integers(0, len(h), size=len(h))
+                sens, spec = v[j][h[j] == 1].mean(), 1 - v[j][h[j] == 0].mean()
+                th[lang] = (p + spec - 1) / (sens + spec - 1)
+            out[b] = th["ar"] - th["en"]
+        cci[c] = [f(np.percentile(out, 2.5)), f(np.percentile(out, 97.5))]
+    write("d4_3", {"gap": gap, "corrected_gap": cgap, "corrected_gap_ci": cci})
+
+    def paired(a, b, temp, keep=None):
+        t = U.paired_table(a, b, temp)
+        if keep is not None:
+            t = t[t.item_id.isin(keep)]
+        d, se = t["diff"].mean(), U.clustered_se(t["diff"], t.doc_id)
+        return d, d - 1.96 * se, d + 1.96 * se
+    clean = set(items.item_id) - set(leaked)
+    c1 = paired("C", "D", 0.2, clean)
+    claimed = rep["D"][1] - rep["C"][0]
+    v = {"C1": "supported" if c1[1] > 0 and c1[1] <= claimed <= c1[2] else "unsupported",
+         "C2": "supported" if paired("A", "B", 0.2)[1] > 0 else "unsupported",
+         "C3": "supported" if paired("A", "B", 0.8)[1] > 0 else "unsupported",
+         "C4": "unsupported",
+         "C5": "unsupported" if min(r["spec"] for r in r0.values()) < 0.85 else "supported",
+         "C6": "unsupported" if abs(gap["C"][0]) - 1.96 * gap["C"][1] > 0 else "supported",
+         "C7": "untestable", "C8": "untestable"}
+    write("d4_2", {"verdicts": v})
+
+    standard = ["plan_commit", "population", "items_and_clusters", "decoding", "estimand", "interval_method", "comparison",
+                "multiplicity", "minimum_effect_and_verdict", "grader_calibration", "budget_parity", "overlap_check",
+                "slices", "small_sets", "reproducibility"]
+    lb = {"decoding": 1, "estimand": 1, "interval_method": "naive", "comparison": "ranking by pass rate", "shared_items": True, "small_sets": 1}
+    problems = [f"missing: {k}" for k in standard if k not in lb]
+    problems += ["slices: Arabic and English results with intervals are required",
+                 "comparison: systems answered the same questions, so the comparison must be paired",
+                 "interval_method: use clustered intervals, and Wilson, Jeffreys or Clopper-Pearson for small sets",
+                 "grader_calibration: sensitivity and specificity per language are required"]
+    write("d4_4", {"standard": {k: k.replace("_", " ") for k in standard}, "leaderboard_problems": problems})
+
+
 if __name__ == "__main__":
-    steps = {"1": day1, "2": day2, "3": day3}
+    steps = {"1": day1, "2": day2, "3": day3, "4": day4}
     for k in (sys.argv[1:] or sorted(steps)):
         steps[k]()
         print("day", k, "references written")

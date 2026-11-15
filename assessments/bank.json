@@ -7,20 +7,20 @@
       "type": "single",
       "prompt": "An evaluation of a permits assistant reports 81% on 400 questions, 95% interval 77% to 85%. Which statement about the interval is correct?",
       "options": [
-        "It is the range of pass rates on these 400 questions if the evaluation were rerun with the same answers",
         "It is a plausible range for the pass rate on new questions written the same way",
         "It is the range of pass rates the assistant will reach next year",
-        "It is the range within which 95% of individual answers fall"
+        "It is the range within which 95% of individual answers fall",
+        "It is the range of pass rates on these 400 questions if the evaluation were rerun with the same answers"
       ],
       "correct": [
-        1
+        0
       ],
       "explanation": "The interval estimates the pass rate on the population the questions were sampled from.",
       "misconceptions": [
-        "Treats the fixed sample as uncertain: on these questions with these answers the rate is known",
         "",
         "Extends the interval to a different population and time",
-        "Confuses an interval for a rate with a range of single outcomes"
+        "Confuses an interval for a rate with a range of single outcomes",
+        "Treats the fixed sample as uncertain: on these questions with these answers the rate is known"
       ],
       "lo": [
         "LO1"
@@ -36,20 +36,20 @@
       "type": "single",
       "prompt": "A configuration passes 270 of 300 independent questions. What is the formula standard error of its pass rate, to two significant figures?",
       "options": [
-        "0.0010",
         "0.090",
         "0.017",
-        "0.30"
+        "0.30",
+        "0.0010"
       ],
       "correct": [
-        2
+        1
       ],
       "explanation": "p = 0.9, so SE = sqrt(0.9 × 0.1 / 300) = sqrt(0.0003) ≈ 0.017.",
       "misconceptions": [
-        "Forgets the square root: 0.09 / 300 = 0.0003, then divides again",
         "Reports p(1 − p) without dividing by n or taking the root",
         "",
-        "Uses the number of failures as the standard error"
+        "Uses the number of failures as the standard error",
+        "Forgets the square root: 0.09 / 300 = 0.0003, then divides again"
       ],
       "lo": [
         "LO1"
@@ -65,20 +65,20 @@
       "type": "single",
       "prompt": "A clustered standard error is 0.030 and the naive one is 0.020 on 900 questions. How many independent questions are the 900 worth?",
       "options": [
+        "2,025",
         "600",
         "400",
-        "1,350",
-        "2,025"
+        "1,350"
       ],
       "correct": [
-        1
+        2
       ],
       "explanation": "DEFF = (0.030 / 0.020)² = 2.25, and 900 / 2.25 = 400.",
       "misconceptions": [
+        "Multiplies by the design effect instead of dividing",
         "Uses the ratio of standard errors, 1.5, instead of its square",
         "",
-        "Multiplies by the ratio instead of dividing",
-        "Multiplies by the design effect instead of dividing"
+        "Multiplies by the ratio instead of dividing"
       ],
       "lo": [
         "LO1"
@@ -94,20 +94,20 @@
       "type": "single",
       "prompt": "An evaluation set has 50 documents with 10 questions each and a design effect of 3. Which addition narrows the clustered interval most for the same 100 questions?",
       "options": [
-        "Two more questions from each existing document",
-        "100 more questions from 10 new documents",
         "Five samples per question instead of one",
-        "Dropping the 10 documents with the most failures"
+        "Dropping the 10 documents with the most failures",
+        "Two more questions from each existing document",
+        "100 more questions from 10 new documents"
       ],
       "correct": [
-        1
+        3
       ],
       "explanation": "The clustered standard error falls with the number of independent clusters; new documents add them.",
       "misconceptions": [
-        "Treats extra questions from the same document as independent evidence",
-        "",
         "Confuses within-question sampling noise with between-document clustering",
-        "Removes data selectively, which biases the score"
+        "Removes data selectively, which biases the score",
+        "Treats extra questions from the same document as independent evidence",
+        ""
       ],
       "lo": [
         "LO1",
@@ -124,20 +124,20 @@
       "type": "single",
       "prompt": "At temperature 0.8 a configuration's within-item variance is 0.12 and its between-item variance 0.09. Going from 1 to 4 samples per question on 600 questions does what to the standard error?",
       "options": [
-        "Halves it, because four times the samples is like four times the questions",
-        "Leaves it unchanged, because samples of one question are not independent",
         "Reduces it from about 0.0187 to about 0.0141",
-        "Reduces it to zero, because sampling noise disappears"
+        "Reduces it to zero, because sampling noise disappears",
+        "Halves it, because four times the samples is like four times the questions",
+        "Leaves it unchanged, because samples of one question are not independent"
       ],
       "correct": [
-        2
+        0
       ],
       "explanation": "SE = sqrt((0.09 + 0.12 / K) / 600): 0.0187 for K = 1 and 0.0141 for K = 4.",
       "misconceptions": [
-        "Treats samples as if they were new questions",
-        "Thinks repeated samples add no information at all",
         "",
-        "Forgets the between-item part, which more samples do not reduce"
+        "Forgets the between-item part, which more samples do not reduce",
+        "Treats samples as if they were new questions",
+        "Thinks repeated samples add no information at all"
       ],
       "lo": [
         "LO1"
@@ -153,20 +153,20 @@
       "type": "single",
       "prompt": "A permits assistant gives each applicant one answer. Which estimand should the release report use as its primary score?",
       "options": [
-        "pass@5: right in at least one of five samples",
-        "pass^5: right in all five samples",
         "The best of five samples chosen by the grader",
-        "The mean pass rate per sample"
+        "The mean pass rate per sample",
+        "pass@5: right in at least one of five samples",
+        "pass^5: right in all five samples"
       ],
       "correct": [
-        3
+        1
       ],
       "explanation": "An applicant sees one answer, so the expected pass rate of a single sample is the quantity that matters.",
       "misconceptions": [
-        "Describes a user who can retry and pick the right answer",
-        "Describes a stricter, consistency requirement rather than the single answer",
         "Lets the grader choose after the fact, which no applicant can do",
-        ""
+        "",
+        "Describes a user who can retry and pick the right answer",
+        "Describes a stricter, consistency requirement rather than the single answer"
       ],
       "lo": [
         "LO1"
@@ -182,20 +182,20 @@
       "type": "single",
       "prompt": "Two configurations are compared on four metrics, each tested at 5%. The report headlines whichever metric is significant. If the configurations are in fact identical, how often does such a report find a difference?",
       "options": [
+        "Exactly 20% of the time, four times 5%",
         "About 5% of the time",
         "More than 5%, up to about 19% if the metrics were independent",
-        "Never, because each test controls its own error",
-        "Exactly 20% of the time, four times 5%"
+        "Never, because each test controls its own error"
       ],
       "correct": [
-        1
+        2
       ],
       "explanation": "Choosing the best of several tests after the results raises the chance of at least one false win; correlated metrics give a little less than 1 − 0.95⁴.",
       "misconceptions": [
+        "Adds the rates instead of combining them, and ignores correlation",
         "Assumes the per-test error rate survives selection",
         "",
-        "Confuses per-test control with control of the whole study",
-        "Adds the rates instead of combining them, and ignores correlation"
+        "Confuses per-test control with control of the whole study"
       ],
       "lo": [
         "LO2",
@@ -212,20 +212,20 @@
       "type": "single",
       "prompt": "Which plan field, left empty, most directly allows the analyst to change the conclusion after seeing the results?",
       "options": [
-        "The decision rule linking each possible interval to an action",
         "The owner's name",
         "The list of secondary metrics",
-        "The date the evaluation ran"
+        "The date the evaluation ran",
+        "The decision rule linking each possible interval to an action"
       ],
       "correct": [
-        0
+        3
       ],
       "explanation": "Without a decision rule written in advance, any interval can be read as supporting the preferred action.",
       "misconceptions": [
-        "",
         "Names who is accountable but does not fix any analysis choice",
         "Secondary results are labelled exploratory anyway",
-        "The run date is recorded by the logs and does not drive a conclusion"
+        "The run date is recorded by the logs and does not drive a conclusion",
+        ""
       ],
       "lo": [
         "LO6"
@@ -241,20 +241,20 @@
       "type": "single",
       "prompt": "Two configurations answer the same 600 questions; their per-question scores correlate at 0.8. Compared with an unpaired analysis, the paired standard error of their difference is:",
       "options": [
-        "Larger, because pairing loses degrees of freedom",
-        "About the same, because the means are the same",
         "Much smaller, because the shared question difficulty cancels",
-        "Zero, because the same questions were used"
+        "Zero, because the same questions were used",
+        "Larger, because pairing loses degrees of freedom",
+        "About the same, because the means are the same"
       ],
       "correct": [
-        2
+        0
       ],
       "explanation": "Var(D − C) = Var(D) + Var(C) − 2 Cov(C, D); a strong positive correlation removes most of the variance.",
       "misconceptions": [
-        "Overweights the loss of degrees of freedom, which is negligible with hundreds of questions",
-        "Confuses the point estimate, which is the same, with its precision",
         "",
-        "Thinks shared questions remove all noise, when per-question differences still vary"
+        "Thinks shared questions remove all noise, when per-question differences still vary",
+        "Overweights the loss of degrees of freedom, which is negligible with hundreds of questions",
+        "Confuses the point estimate, which is the same, with its precision"
       ],
       "lo": [
         "LO2"
@@ -329,20 +329,20 @@
       "type": "single",
       "prompt": "Fifteen paired comparisons have smallest p-values 0.001, 0.004 and 0.006. Under Holm at 5%, which are separated?",
       "options": [
-        "Only the first",
         "The first two",
         "All three",
-        "None"
+        "None",
+        "Only the first"
       ],
       "correct": [
-        0
+        3
       ],
       "explanation": "Holm compares 0.001 with 0.05/15 = 0.0033 (separated), then 0.004 with 0.05/14 = 0.0036 (fails) and stops.",
       "misconceptions": [
-        "",
         "Compares 0.004 with 0.05/13 or with 0.05 over its rank from the top, not with 0.05/14",
         "Uses unadjusted 5% thresholds for every comparison",
-        "Thinks Bonferroni's threshold of 0.0033 rejects nothing, though 0.001 is below it"
+        "Thinks Bonferroni's threshold of 0.0033 rejects nothing, though 0.001 is below it",
+        ""
       ],
       "lo": [
         "LO2"
@@ -358,20 +358,20 @@
       "type": "single",
       "prompt": "A leaderboard of six configurations lists one rank per row. After Holm adjustment only the last configuration is separated from all others. What should the rank column show?",
       "options": [
-        "The point-estimate ranks, since adjustment applies only to p-values",
-        "Ranks rounded to the nearest pair",
         "For each configuration, the range of ranks the data cannot rule out",
-        "Rank 1 for every configuration not separated from the leader"
+        "Rank 1 for every configuration not separated from the leader",
+        "The point-estimate ranks, since adjustment applies only to p-values",
+        "Ranks rounded to the nearest pair"
       ],
       "correct": [
-        2
+        0
       ],
       "explanation": "Plausible rank ranges state what the adjusted comparisons support; single ranks claim separations that were not shown.",
       "misconceptions": [
-        "Thinks ranks are exempt from uncertainty",
-        "Invents a rounding with no statistical basis",
         "",
-        "Treats not separated as tied for first, ignoring separations among the others"
+        "Treats not separated as tied for first, ignoring separations among the others",
+        "Thinks ranks are exempt from uncertainty",
+        "Invents a rounding with no statistical basis"
       ],
       "lo": [
         "LO2"
@@ -445,20 +445,20 @@
       "type": "single",
       "prompt": "A new question costs 100 times a sample, and the within-item variance equals the between-item variance. About how many samples per question minimise the variance at fixed cost?",
       "options": [
-        "1",
-        "10",
         "100",
-        "As many as the budget allows"
+        "As many as the budget allows",
+        "1",
+        "10"
       ],
       "correct": [
-        1
+        3
       ],
       "explanation": "K* = √(100 × 1) = 10.",
       "misconceptions": [
-        "Spends everything on questions, ignoring sampling noise",
-        "",
         "Uses the cost ratio without the square root",
-        "Ignores the between-item floor that samples cannot reduce"
+        "Ignores the between-item floor that samples cannot reduce",
+        "Spends everything on questions, ignoring sampling noise",
+        ""
       ],
       "lo": [
         "LO3"
@@ -474,20 +474,20 @@
       "type": "single",
       "prompt": "A 30-question set gives a pass rate of 29/30. Why is the normal-approximation interval a poor choice here?",
       "options": [
-        "It is too wide near 1",
         "Its estimated variance shrinks near 1, so it is too narrow and can pass 1",
         "It assumes the questions are clustered",
-        "It cannot be computed for fewer than 50 items"
+        "It cannot be computed for fewer than 50 items",
+        "It is too wide near 1"
       ],
       "correct": [
-        1
+        0
       ],
       "explanation": "Near 0 or 1 the plug-in variance p(1 − p)/n is small exactly where the estimate is least reliable, so coverage falls well below 95%.",
       "misconceptions": [
-        "Gets the direction of the error wrong",
         "",
         "Confuses the small-sample problem with clustering",
-        "Invents a hard limit; it can be computed but under-covers"
+        "Invents a hard limit; it can be computed but under-covers",
+        "Gets the direction of the error wrong"
       ],
       "lo": [
         "LO1"
@@ -503,20 +503,20 @@
       "type": "single",
       "prompt": "In a simulation, an interval method covers the true rate in 87% of evaluations of 40 items at p = 0.95. What does that mean for a report that uses it?",
       "options": [
+        "Nothing, because coverage averages out over many reports",
         "Its 95% intervals are, in effect, 87% intervals at such rates",
         "It is 8 points more precise than claimed",
-        "The pass rates it reports are 8 points too high",
-        "Nothing, because coverage averages out over many reports"
+        "The pass rates it reports are 8 points too high"
       ],
       "correct": [
-        0
+        1
       ],
       "explanation": "Coverage is the share of intervals that contain the truth; an 87% coverage means the stated 95% confidence is overstated.",
       "misconceptions": [
+        "Thinks under-coverage cancels across reports, when each report is overconfident",
         "",
         "Reads under-coverage as extra precision",
-        "Confuses coverage of the interval with bias of the estimate",
-        "Thinks under-coverage cancels across reports, when each report is overconfident"
+        "Confuses coverage of the interval with bias of the estimate"
       ],
       "lo": [
         "LO1"
@@ -561,20 +561,20 @@
       "type": "single",
       "prompt": "Two analysts report Beta posterior intervals for 40 out of 40: one with a uniform prior, one with a Jeffreys prior. Their lower ends differ by about 2.6 points. What should the report do?",
       "options": [
+        "Average the two intervals",
         "Use whichever prior gives the higher lower end",
         "Drop the Bayesian intervals because they disagree",
-        "State the prior used, and prefer the more cautious one for a safety claim",
-        "Average the two intervals"
+        "State the prior used, and prefer the more cautious one for a safety claim"
       ],
       "correct": [
-        2
+        3
       ],
       "explanation": "At the edge the prior matters; stating it makes the claim checkable, and a safety claim should not lean on the more optimistic prior.",
       "misconceptions": [
+        "Averages two posteriors without any model that justifies it",
         "Chooses the prior after seeing which looks better",
         "Treats sensitivity to the prior as a reason to report nothing",
-        "",
-        "Averages two posteriors without any model that justifies it"
+        ""
       ],
       "lo": [
         "LO1"
@@ -590,20 +590,20 @@
       "type": "single",
       "prompt": "A model grader has specificity 0.70 in Arabic. What does that mean?",
       "options": [
-        "It fails 30% of answers that people pass",
         "It passes 30% of answers that people fail",
         "It agrees with people on 70% of Arabic verdicts",
-        "70% of the answers it passes are right"
+        "70% of the answers it passes are right",
+        "It fails 30% of answers that people pass"
       ],
       "correct": [
-        1
+        0
       ],
       "explanation": "Specificity is the share of truly failing answers the grader fails; the remaining 30% of failing answers are passed.",
       "misconceptions": [
-        "Describes one minus sensitivity",
         "",
         "Confuses specificity with overall agreement",
-        "Describes the positive predictive value"
+        "Describes the positive predictive value",
+        "Describes one minus sensitivity"
       ],
       "lo": [
         "LO4"
@@ -619,20 +619,20 @@
       "type": "single",
       "prompt": "A grader's overall agreement with people is 91%. Its Arabic specificity is 0.73 and English 0.91. Which conclusion is right?",
       "options": [
-        "The grader is reliable; no correction is needed",
         "The grader is useless and must be replaced",
         "Arabic pass rates are inflated more than English ones; correct them by language",
-        "Only English rates need correcting, since English agreement is higher"
+        "Only English rates need correcting, since English agreement is higher",
+        "The grader is reliable; no correction is needed"
       ],
       "correct": [
-        2
+        1
       ],
       "explanation": "Agreement hides the class-specific errors; a lower Arabic specificity passes more bad Arabic answers.",
       "misconceptions": [
-        "Trusts overall agreement, which is dominated by the common class",
         "Overreacts: a grader with known error rates can be corrected",
         "",
-        "Gets the direction wrong: the lower specificity is in Arabic"
+        "Gets the direction wrong: the lower specificity is in Arabic",
+        "Trusts overall agreement, which is dominated by the common class"
       ],
       "lo": [
         "LO4"
@@ -648,20 +648,20 @@
       "type": "single",
       "prompt": "The grader passes 70% of a configuration's answers; its sensitivity is 0.90 and specificity 0.80. What is the corrected pass rate?",
       "options": [
-        "About 71%",
-        "About 63%",
         "About 78%",
-        "About 56%"
+        "About 56%",
+        "About 71%",
+        "About 63%"
       ],
       "correct": [
-        0
+        2
       ],
       "explanation": "(0.70 + 0.80 − 1) / (0.90 + 0.80 − 1) = 0.50 / 0.70 ≈ 0.714.",
       "misconceptions": [
-        "",
-        "Multiplies the observed rate by the sensitivity",
         "Divides the observed rate by the sensitivity",
-        "Multiplies the observed rate by the specificity"
+        "Multiplies the observed rate by the specificity",
+        "",
+        "Multiplies the observed rate by the sensitivity"
       ],
       "lo": [
         "LO4"
@@ -677,20 +677,20 @@
       "type": "single",
       "prompt": "A corrected pass rate's interval was built from the test set's standard error alone. Its sensitivity and specificity came from 120 labelled answers. What does the interval miss?",
       "options": [
+        "The bias from the correction itself",
         "Nothing, if the test set is large",
         "The clustering of the calibration set by grader",
-        "The uncertainty in sensitivity and specificity, which a joint bootstrap or delta method adds",
-        "The bias from the correction itself"
+        "The uncertainty in sensitivity and specificity, which a joint bootstrap or delta method adds"
       ],
       "correct": [
-        2
+        3
       ],
       "explanation": "Sensitivity and specificity are estimates; their sampling error passes into the corrected rate and must widen the interval.",
       "misconceptions": [
+        "The correction removes bias; the missing piece is variance",
         "Thinks a large test set removes uncertainty in the calibration estimates",
         "Invents a clustering that does not apply",
-        "",
-        "The correction removes bias; the missing piece is variance"
+        ""
       ],
       "lo": [
         "LO4"
@@ -698,6 +698,268 @@
       "day": "day3",
       "session": 4,
       "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-overlap",
+      "type": "single",
+      "prompt": "48 test questions appear among the examples used to tune configuration D. On them D scores 90%; on the other questions 73%. Configurations A, B and C score the same on both groups. What follows?",
+      "options": [
+        "D's lead comes partly from the overlap; compare on clean questions",
+        "D is better at hard questions",
+        "The overlap does not matter because it is under 10% of the set",
+        "The 48 questions are easier and should be dropped for every configuration"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "The other configurations act as a control: the questions are not easier in general, so D's gain there comes from having seen them.",
+      "misconceptions": [
+        "",
+        "Reverses the evidence: the gain is on seen questions, not hard ones",
+        "Judges by the share of items, not by the size of the effect on the comparison",
+        "Ignores the control: A, B and C show the questions are not easier"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 1,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-normalise",
+      "type": "single",
+      "prompt": "An overlap check by exact string match finds 8 Arabic test questions in the tuning examples; after folding hamza forms, ta marbuta, alef maqsura and diacritics it finds 21. Which count should the audit use?",
+      "options": [
+        "The average, about 15",
+        "21, because spelling variants of the same question carry the same answer",
+        "Neither: Arabic overlap cannot be measured",
+        "8, because only identical strings are contamination"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "A model that saw a question with a different hamza or diacritic has still seen the question; normalisation finds it.",
+      "misconceptions": [
+        "Averages two measurements of which one is known to undercount",
+        "",
+        "Gives up on a check that a simple normalisation makes reliable",
+        "Treats invisible spelling differences as different questions"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 1,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-budget",
+      "type": "single",
+      "prompt": "Configuration X is reported as pass@5 (best of five) and Y as the mean of five samples. X leads by 15 points. What is the fair comparison?",
+      "options": [
+        "Compare X's best sample with Y's best sample on one question",
+        "Keep the reported numbers; both used five samples",
+        "Compare X's mean of five with Y's mean of five, or both at pass@5",
+        "Halve X's lead to correct for the extra samples"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The same estimand and budget for both; a different scoring rule is a different quantity.",
+      "misconceptions": [
+        "Reduces the comparison to one question",
+        "Equal sample counts do not make different scoring rules comparable",
+        "",
+        "Invents a correction factor with no basis"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 1,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-classes",
+      "type": "single",
+      "prompt": "A report claims a configuration 'will perform as well next year'. The authority has no data from next year's questions. How should the audit class it?",
+      "options": [
+        "Supported, if the configuration ranks first",
+        "Supported, if this year's interval is narrow",
+        "Unsupported, because performance always drifts",
+        "Untestable with the data held; name the evaluation that would test it"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "No data the authority holds come from that population, so the claim can be neither backed nor contradicted until a new evaluation exists.",
+      "misconceptions": [
+        "Confuses a rank with a forecast",
+        "Extends this year's interval to another population",
+        "Asserts a contrary claim without data",
+        ""
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 2,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-supported",
+      "type": "single",
+      "prompt": "A claim says 'B is better than A'. The paired, clustered difference is 6.6 points, 95% interval 4.5 to 8.8. How should the audit class it?",
+      "options": [
+        "Supported: the interval of the difference excludes zero",
+        "Unsupported: 6.6 points is small",
+        "Untestable: A and B are different models",
+        "Unsupported: the intervals of A and B overlap"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "The claim is about direction, and the paired interval excludes zero; it is supported at the strength stated.",
+      "misconceptions": [
+        "",
+        "Imposes a size threshold the claim did not state",
+        "Thinks different systems cannot be compared",
+        "Uses overlap of separate intervals, which ignores the pairing"
+      ],
+      "lo": [
+        "LO5"
+      ],
+      "day": "day4",
+      "session": 2,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-gap",
+      "type": "single",
+      "prompt": "Two language slices share 80 documents. Why is the standard error of the gap computed with document clustering rather than as √(SE_ar² + SE_en²)?",
+      "options": [
+        "Because the Arabic slice is larger",
+        "Because a hard document lowers both languages, so the slices are correlated",
+        "Because clustering always gives a smaller standard error",
+        "Because the gap is a ratio, not a difference"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Shared documents make the two slice means correlated; the clustered contrast accounts for that, the independent formula does not.",
+      "misconceptions": [
+        "Slice size affects each SE, not the method for the gap",
+        "",
+        "Clustering can widen or narrow; it is about correctness, not size",
+        "The gap is a difference of rates"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 3,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-corrected-gap",
+      "type": "single",
+      "prompt": "After grader correction, C's Arabic minus English gap moves from −5.8 to −9.0 points, but its interval widens to −22.2 to +2.4. What should the report say?",
+      "options": [
+        "There is no language gap, since the corrected interval includes zero",
+        "Report only the observed gap, which is significant",
+        "The best estimate of the gap is larger than observed; more Arabic labels are needed to pin it down",
+        "Average the observed and corrected gaps"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Correction removes the grader's bias and adds the calibration's uncertainty; both facts belong in the report, with the step that narrows the interval.",
+      "misconceptions": [
+        "Reads a wide interval as evidence of no gap",
+        "Drops the correction because it is less convenient",
+        "",
+        "Averages a biased and an unbiased estimate"
+      ],
+      "lo": [
+        "LO4",
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 3,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-standard",
+      "type": "single",
+      "prompt": "Which field of an evaluation reporting standard would have stopped a headline that compared one configuration's best of five samples with another's mean of five?",
+      "options": [
+        "slices",
+        "interval_method",
+        "multiplicity",
+        "budget_parity, with the estimand stated per configuration"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "Budget parity requires the same scoring and tuning for every configuration, and a stated estimand makes a mismatch visible.",
+      "misconceptions": [
+        "Slices concern groups of questions",
+        "Interval method concerns uncertainty, not comparability",
+        "Multiplicity concerns the number of comparisons",
+        ""
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 4,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d4-slices-required",
+      "type": "single",
+      "prompt": "A team proposes making results by language optional in the reporting standard 'to keep reports short'. What is the strongest reason to keep them required?",
+      "options": [
+        "An average can hide a configuration that serves one language worse, and graders can err unequally by language",
+        "Regulators ask for two numbers",
+        "Slices make every interval narrower",
+        "Arabic results are always lower"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Without slices a weakness in one language, possibly shrunk further by a lenient grader, never reaches the decision owner.",
+      "misconceptions": [
+        "",
+        "Appeals to a rule not stated in the course",
+        "Slices widen intervals; they are required for fairness, not precision",
+        "Asserts a fixed direction that the data did not show for every configuration"
+      ],
+      "lo": [
+        "LO6"
+      ],
+      "day": "day4",
+      "session": 4,
+      "level": "evaluate",
       "pool": "practice",
       "weight": 1
     }
