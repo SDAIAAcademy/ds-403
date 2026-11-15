@@ -158,8 +158,78 @@ def day2() -> None:
     write("d2_4", out)
 
 
+def day3() -> None:
+    import math
+    from scipy import stats
+    methods = {"Wald": U.wald, "Wilson": U.wilson, "Clopper-Pearson": U.clopper_pearson,
+               "Jeffreys": lambda k, n: U.beta_interval(k, n, 0.5, 0.5)}
+    exact = {}
+    for name, m in methods.items():
+        exact[name] = {}
+        for n in (20, 40, 80, 120, 200):
+            ks = np.arange(n + 1)
+            ivs = [m(int(j), n) for j in ks]
+            exact[name][str(n)] = {str(p): f(stats.binom.pmf(ks, n, p)[np.array([lo <= p <= hi for lo, hi in ivs])].sum())
+                                   for p in (0.02, 0.05, 0.5, 0.95, 0.98)}
+    write("d3_1", {"wald_38_40": list(U.wald(38, 40)), "wilson_38_40": list(U.wilson(38, 40)), "exact": exact})
+
+    counts = U.load("safety_results").groupby("config").safe.agg(["sum", "count"])
+    cp, beta = {}, {}
+    for c, r in counts.iterrows():
+        k, n = int(r["sum"]), int(r["count"])
+        cp[c] = list(U.clopper_pearson(k, n))
+        beta[c] = {}
+        for prior, (a, b) in {"uniform": (1, 1), "Jeffreys": (0.5, 0.5)}.items():
+            post = stats.beta(a + k, b + n - k)
+            beta[c][prior] = [f(post.mean()), f(post.ppf(0.025)), f(post.ppf(0.975))]
+    write("d3_2", {"counts": {c: int(r["sum"]) for c, r in counts.iterrows()}, "cp": cp, "beta": beta,
+                   "one_sided_lower_40": f(0.05 ** (1 / 40))})
+
+    calib = U.load("grader_calibration")
+    ref = {}
+    for lang, g in calib.groupby("language"):
+        pos, neg = g[g.human_pass == 1], g[g.human_pass == 0]
+        tp, tn = int(pos.grader_pass.sum()), int((neg.grader_pass == 0).sum())
+        sl, sh = U.wilson(tp, len(pos)); cl, ch = U.wilson(tn, len(neg))
+        ref[lang] = {"sens": f(tp / len(pos)), "sens_lo": f(sl), "sens_hi": f(sh), "spec": f(tn / len(neg)),
+                     "spec_lo": f(cl), "spec_hi": f(ch), "n_pos": len(pos), "n_neg": len(neg),
+                     "agreement": f((g.human_pass == g.grader_pass).mean())}
+    d = ref["en"]["spec"] - ref["ar"]["spec"]
+    se = math.sqrt(ref["en"]["spec"] * (1 - ref["en"]["spec"]) / ref["en"]["n_neg"] + ref["ar"]["spec"] * (1 - ref["ar"]["spec"]) / ref["ar"]["n_neg"])
+    ref["spec_gap"] = [f(d), f(d - 1.96 * se), f(d + 1.96 * se)]
+    ref["agreement"] = f((calib.human_pass == calib.grader_pass).mean())
+    write("d3_3", ref)
+
+    rates = {lang: U.rates(g) for lang, g in calib.groupby("language")}
+    point, boot, observed = {}, {}, {}
+    rng = np.random.default_rng(403)
+    for c in ("C", "D"):
+        t = U.item_means(c, 0.2)
+        for lang in ("ar", "en"):
+            g = t[t.language == lang]
+            p = g.score.mean()
+            r = rates[lang]
+            point[f"{c}_{lang}"] = f(U.corrected_rate(p, r["sens"], r["spec"]))
+            se = U.clustered_se(g.score, g.doc_id)
+            observed[f"{c}_{lang}"] = [f(p), f(p - 1.96 * se), f(p + 1.96 * se)]
+            by_doc = g.groupby("doc_id").score.agg(["sum", "count"])
+            sums, cnts = by_doc["sum"].to_numpy(), by_doc["count"].to_numpy()
+            cal = calib[calib.language == lang]
+            h, v = cal.human_pass.to_numpy(), cal.grader_pass.to_numpy()
+            out = np.empty(4000)
+            for b in range(4000):
+                pick = rng.integers(0, len(sums), size=len(sums))
+                pb = sums[pick].sum() / cnts[pick].sum()
+                j = rng.integers(0, len(h), size=len(h))
+                hb, vb = h[j], v[j]
+                sens, spec = vb[hb == 1].mean(), 1 - vb[hb == 0].mean()
+                out[b] = (pb + spec - 1) / (sens + spec - 1)
+            boot[f"{c}_{lang}"] = [f(np.percentile(out, 2.5)), f(np.percentile(out, 97.5))]
+    write("d3_4", {"rates": rates, "point": point, "boot": boot, "observed": observed})
+
+
 if __name__ == "__main__":
-    steps = {"1": day1, "2": day2}
+    steps = {"1": day1, "2": day2, "3": day3}
     for k in (sys.argv[1:] or sorted(steps)):
         steps[k]()
         print("day", k, "references written")

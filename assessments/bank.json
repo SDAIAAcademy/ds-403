@@ -468,6 +468,238 @@
       "level": "apply",
       "pool": "practice",
       "weight": 1
+    },
+    {
+      "id": "d3-wald-edge",
+      "type": "single",
+      "prompt": "A 30-question set gives a pass rate of 29/30. Why is the normal-approximation interval a poor choice here?",
+      "options": [
+        "It is too wide near 1",
+        "Its estimated variance shrinks near 1, so it is too narrow and can pass 1",
+        "It assumes the questions are clustered",
+        "It cannot be computed for fewer than 50 items"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Near 0 or 1 the plug-in variance p(1 − p)/n is small exactly where the estimate is least reliable, so coverage falls well below 95%.",
+      "misconceptions": [
+        "Gets the direction of the error wrong",
+        "",
+        "Confuses the small-sample problem with clustering",
+        "Invents a hard limit; it can be computed but under-covers"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day3",
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-coverage",
+      "type": "single",
+      "prompt": "In a simulation, an interval method covers the true rate in 87% of evaluations of 40 items at p = 0.95. What does that mean for a report that uses it?",
+      "options": [
+        "Its 95% intervals are, in effect, 87% intervals at such rates",
+        "It is 8 points more precise than claimed",
+        "The pass rates it reports are 8 points too high",
+        "Nothing, because coverage averages out over many reports"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Coverage is the share of intervals that contain the truth; an 87% coverage means the stated 95% confidence is overstated.",
+      "misconceptions": [
+        "",
+        "Reads under-coverage as extra precision",
+        "Confuses coverage of the interval with bias of the estimate",
+        "Thinks under-coverage cancels across reports, when each report is overconfident"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day3",
+      "session": 1,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-zero-fail",
+      "type": "single",
+      "prompt": "A configuration passes all 100 questions of a safety set. What upper bound on its failure rate can be stated at 95% confidence?",
+      "options": [
+        "0%",
+        "About 1%",
+        "About 3%",
+        "About 5%"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "With zero failures in n, 1 − 0.05^(1/n) ≈ 3/n = 3%.",
+      "misconceptions": [
+        "Turns zero observed failures into a zero rate",
+        "Divides 1 by n instead of using the 95% bound",
+        "",
+        "Uses 5 / n, mixing the level with the bound"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day3",
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-prior",
+      "type": "single",
+      "prompt": "Two analysts report Beta posterior intervals for 40 out of 40: one with a uniform prior, one with a Jeffreys prior. Their lower ends differ by about 2.6 points. What should the report do?",
+      "options": [
+        "Use whichever prior gives the higher lower end",
+        "Drop the Bayesian intervals because they disagree",
+        "State the prior used, and prefer the more cautious one for a safety claim",
+        "Average the two intervals"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "At the edge the prior matters; stating it makes the claim checkable, and a safety claim should not lean on the more optimistic prior.",
+      "misconceptions": [
+        "Chooses the prior after seeing which looks better",
+        "Treats sensitivity to the prior as a reason to report nothing",
+        "",
+        "Averages two posteriors without any model that justifies it"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day3",
+      "session": 2,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-spec",
+      "type": "single",
+      "prompt": "A model grader has specificity 0.70 in Arabic. What does that mean?",
+      "options": [
+        "It fails 30% of answers that people pass",
+        "It passes 30% of answers that people fail",
+        "It agrees with people on 70% of Arabic verdicts",
+        "70% of the answers it passes are right"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "Specificity is the share of truly failing answers the grader fails; the remaining 30% of failing answers are passed.",
+      "misconceptions": [
+        "Describes one minus sensitivity",
+        "",
+        "Confuses specificity with overall agreement",
+        "Describes the positive predictive value"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 3,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-agreement",
+      "type": "single",
+      "prompt": "A grader's overall agreement with people is 91%. Its Arabic specificity is 0.73 and English 0.91. Which conclusion is right?",
+      "options": [
+        "The grader is reliable; no correction is needed",
+        "The grader is useless and must be replaced",
+        "Arabic pass rates are inflated more than English ones; correct them by language",
+        "Only English rates need correcting, since English agreement is higher"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Agreement hides the class-specific errors; a lower Arabic specificity passes more bad Arabic answers.",
+      "misconceptions": [
+        "Trusts overall agreement, which is dominated by the common class",
+        "Overreacts: a grader with known error rates can be corrected",
+        "",
+        "Gets the direction wrong: the lower specificity is in Arabic"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 3,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-correct",
+      "type": "single",
+      "prompt": "The grader passes 70% of a configuration's answers; its sensitivity is 0.90 and specificity 0.80. What is the corrected pass rate?",
+      "options": [
+        "About 71%",
+        "About 63%",
+        "About 78%",
+        "About 56%"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "(0.70 + 0.80 − 1) / (0.90 + 0.80 − 1) = 0.50 / 0.70 ≈ 0.714.",
+      "misconceptions": [
+        "",
+        "Multiplies the observed rate by the sensitivity",
+        "Divides the observed rate by the sensitivity",
+        "Multiplies the observed rate by the specificity"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d3-carry",
+      "type": "single",
+      "prompt": "A corrected pass rate's interval was built from the test set's standard error alone. Its sensitivity and specificity came from 120 labelled answers. What does the interval miss?",
+      "options": [
+        "Nothing, if the test set is large",
+        "The clustering of the calibration set by grader",
+        "The uncertainty in sensitivity and specificity, which a joint bootstrap or delta method adds",
+        "The bias from the correction itself"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Sensitivity and specificity are estimates; their sampling error passes into the corrected rate and must widen the interval.",
+      "misconceptions": [
+        "Thinks a large test set removes uncertainty in the calibration estimates",
+        "Invents a clustering that does not apply",
+        "",
+        "The correction removes bias; the missing piece is variance"
+      ],
+      "lo": [
+        "LO4"
+      ],
+      "day": "day3",
+      "session": 4,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
     }
   ]
 }
