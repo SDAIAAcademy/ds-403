@@ -1,0 +1,443 @@
+{
+  "$schema": "https://sdaiaacademy.github.io/engine/schemas/course.schema.json",
+  "engine": "1",
+  "id": "ds-403",
+  "code": "DS-403",
+  "version": "2027.1.0",
+  "lang": "en",
+  "title": {
+    "en": "Statistical Evaluation of AI Systems",
+    "ar": "التقييم الإحصائي لأنظمة الذكاء الاصطناعي"
+  },
+  "tagline": "REPLACE: one line under the title: what participants can do after the course",
+  "description": "Participants treat every evaluation of an AI system as an experiment with a sampling design. On item-level results from small open-weight models on a fictional permits authority's synthetic bilingual task set, they compute clustered standard errors, compare systems with paired designs, size evaluations within a budget, use exact or Bayesian intervals for small sets, correct for grader error and audit benchmark claims. Graders and harnesses are built in AE-303, not here.",
+  "track": "data-science",
+  "level": 400,
+  "badge": {
+    "name": "Data Science",
+    "level": "Expert"
+  },
+  "audience": "Specialists. Data scientists who have completed the level 300 core or can show equivalent work: a defended analysis with a validated model or a causal estimate that they can explain.",
+  "prerequisites": [
+    "DS-302 Online Experiments and A/B Testing",
+    "DS-305 Uncertainty, Interpretability and Model Validation",
+    "Computes bootstrap intervals and paired tests in code",
+    "Has logged a language model's outputs through an API"
+  ],
+  "site": {
+    "url": "https://sdaiaacademy.github.io/ds-403/",
+    "repo": "SDAIAAcademy/ds-403"
+  },
+  "outcomes": [
+    {
+      "id": "LO1",
+      "text": "Compute standard errors and intervals for an evaluation score that account for clustered items, repeated samples and small item counts, given item-level results where questions share source documents",
+      "level": "Applied",
+      "evidence": "naive, clustered and small-sample intervals with design effects"
+    },
+    {
+      "id": "LO2",
+      "text": "Decide whether the difference between two systems is real and large enough to matter, using a paired analysis, given item-level results for two configurations and a minimum effect",
+      "level": "Performance",
+      "evidence": "a decision note with the paired difference, its interval and a verdict"
+    },
+    {
+      "id": "LO3",
+      "text": "Design an evaluation's size in items, samples per item and grader calls to detect a stated difference within budget, given pilot variances and unit costs",
+      "level": "Performance",
+      "evidence": "a sizing plan with power by formula, checked by simulation"
+    },
+    {
+      "id": "LO4",
+      "text": "Evaluate the bias that grader error adds to a pass rate and correct it, carrying calibration uncertainty into the interval, given a model grader with 300 human-labelled verdicts in two languages",
+      "level": "Performance",
+      "evidence": "corrected and uncorrected pass rates with intervals, by language"
+    },
+    {
+      "id": "LO5",
+      "text": "Audit an evaluation claim for statistical validity, contamination risk and unequal tuning or token budgets, given a leaderboard-style report on four systems",
+      "level": "Performance",
+      "evidence": "an audit memo classing each claim as supported, unsupported or untestable"
+    },
+    {
+      "id": "LO6",
+      "text": "Design a reporting standard for evaluation claims, including results by language and subgroup, given the audit findings and a release process",
+      "level": "Performance",
+      "evidence": "a two-page standard with required fields and a worked example"
+    }
+  ],
+  "case_study": {
+    "name": "REPLACE: the name of the fictional organisation every lab works on",
+    "summary": "REPLACE: two sentences on the case study and its synthetic data"
+  },
+  "format": "intensive",
+  "format_note": "Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+  "hours": {
+    "instruction": 6,
+    "lab": 7,
+    "guided_self_study": 6,
+    "assessment": 1,
+    "capstone": 6
+  },
+  "unit": "day",
+  "days": [
+    {
+      "id": "day1",
+      "kind": "day",
+      "title": "Scores have standard errors",
+      "deck": "slides/day1.html",
+      "sessions": [
+        {
+          "title": "An evaluation is a sample",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.1",
+            "title": "Bootstrap a pass rate and compare it with the formula standard error",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_1_bootstrap_pass_rate.ipynb"
+          }
+        },
+        {
+          "title": "Clustered items",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.2",
+            "title": "Compute standard errors clustered by source document and the design effect",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_2_compute_standard_errors.ipynb"
+          }
+        },
+        {
+          "title": "Repeated samples",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "1.3",
+            "title": "Split variance into item and sampling parts at two temperatures",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_3_split_variance_into.ipynb"
+          }
+        },
+        {
+          "title": "Plan before results",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "1.4",
+            "title": "Draft a pre-registered plan comparing two configurations",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D1_4_draft_pre_registered.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day2",
+      "kind": "day",
+      "title": "Comparing systems",
+      "deck": "slides/day2.html",
+      "sessions": [
+        {
+          "title": "Paired designs",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "2.1",
+            "title": "Compare paired and unpaired analyses and explain the widths",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_1_compare_paired_unpaired.ipynb"
+          }
+        },
+        {
+          "title": "Many configurations",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO2"
+          ],
+          "lab": {
+            "id": "2.2",
+            "title": "Rank six configurations with adjusted intervals",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_2_rank_six_configurations.ipynb"
+          }
+        },
+        {
+          "title": "Sizing an evaluation",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.3",
+            "title": "Size an evaluation for a three-point difference; check by simulation",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_3_size_evaluation_three.ipynb"
+          }
+        },
+        {
+          "title": "Spending the budget",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO3"
+          ],
+          "lab": {
+            "id": "2.4",
+            "title": "Choose more items or more samples per item at fixed cost",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D2_4_choose_more_items.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day3",
+      "kind": "day",
+      "title": "Small sets and imperfect graders",
+      "deck": "slides/day3.html",
+      "sessions": [
+        {
+          "title": "Where large-sample intervals fail",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "3.1",
+            "title": "Simulate interval coverage for 20 to 200 items near 0 or 1",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_1_simulate_interval_coverage.ipynb"
+          }
+        },
+        {
+          "title": "Exact and Bayesian intervals",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO1"
+          ],
+          "lab": {
+            "id": "3.2",
+            "title": "Compute exact and beta-posterior intervals for a 40-item safety set",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_2_compute_exact_beta.ipynb"
+          }
+        },
+        {
+          "title": "Graders against people",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.3",
+            "title": "Estimate grader sensitivity and specificity by language",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_3_estimate_grader_sensitivity.ipynb"
+          }
+        },
+        {
+          "title": "Correcting for grader error",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO4"
+          ],
+          "lab": {
+            "id": "3.4",
+            "title": "Correct a pass rate, carrying calibration uncertainty into its interval",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D3_4_correct_pass_rate.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "day4",
+      "kind": "day",
+      "title": "Auditing claims and setting standards",
+      "deck": "slides/day4.html",
+      "sessions": [
+        {
+          "title": "Contamination and unequal budgets",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "4.1",
+            "title": "Check a comparison for test-item overlap and unequal tuning",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_1_check_comparison_test.ipynb"
+          }
+        },
+        {
+          "title": "Auditing a report",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO5"
+          ],
+          "lab": {
+            "id": "4.2",
+            "title": "Classify each claim as supported, unsupported or untestable",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_2_classify_each_claim.ipynb"
+          }
+        },
+        {
+          "title": "Slicing by language",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO6"
+          ],
+          "lab": {
+            "id": "4.3",
+            "title": "Report Arabic and English results with intervals and test the gap",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_3_report_arabic_english.ipynb"
+          }
+        },
+        {
+          "title": "A reporting standard",
+          "outcomes": [
+            "REPLACE: what a participant can do after this session"
+          ],
+          "lo": [
+            "LO6"
+          ],
+          "lab": {
+            "id": "4.4",
+            "title": "Draft the standard's required fields and choose the capstone systems",
+            "summary": "REPLACE: one line on what participants build and take away; then list the steps of the lab in course.json, their minutes adding up to 25",
+            "minutes": 25,
+            "href": "D4_4_draft_standard_s.ipynb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capstone",
+      "kind": "capstone",
+      "title": "Capstone project presentations",
+      "deck": "slides/capstone.html",
+      "subtitle": "REPLACE: the catalog gives 15 minutes for each presentation and nothing about questions; decide whether the questions are inside those minutes, set capstone.talk_minutes and capstone.qa_minutes in course.json and the timers of the now-presenting slide, and remove this line"
+    }
+  ],
+  "capstone": {
+    "summary": "A statistical evaluation report on two or more open-weight configurations with a committed plan, clustered and paired analysis, sizing, grader correction and results by language, in a public repository whose README reports measured results; 15-minute review",
+    "submission": "REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code",
+    "talk_minutes": 15,
+    "rubric": [
+      {
+        "criterion": "Plan",
+        "weight": 20
+      },
+      {
+        "criterion": "Uncertainty and comparison",
+        "weight": 25
+      },
+      {
+        "criterion": "Sizing",
+        "weight": 15
+      },
+      {
+        "criterion": "Grader correction and slicing",
+        "weight": 20
+      },
+      {
+        "criterion": "Reporting and reproducibility",
+        "weight": 20
+      }
+    ]
+  },
+  "labs": {
+    "kind": "notebooks",
+    "base": "labs/"
+  },
+  "tools": [
+    {
+      "slot": "Open-weight model serving (capstone only)",
+      "examples": [
+        "llama.cpp or Ollama on a laptop",
+        "vLLM on a free notebook GPU"
+      ]
+    },
+    {
+      "slot": "Evaluation harness with item-level logs",
+      "examples": [
+        "Inspect AI",
+        "lm-evaluation-harness",
+        "promptfoo"
+      ]
+    },
+    {
+      "slot": "Statistics and simulation",
+      "examples": [
+        "SciPy",
+        "statsmodels",
+        "PyMC"
+      ]
+    },
+    {
+      "slot": "Analysis environment",
+      "examples": [
+        "Python through uv with Jupyter or marimo",
+        "Quarto"
+      ]
+    }
+  ]
+}
