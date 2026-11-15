@@ -68,7 +68,8 @@
       <li>Four times the questions halves the standard error.</li>
     </ul>
   </div>
-  <aside class="notes"><p>Numbers from Lab 1.1's run on D's first sample at temperature 0.2. Ask the room for the interval width before revealing: about plus or minus 3.5 points. Most people underestimate it.</p></aside>
+  <div class="callout note small mt"><b>AI-off.</b> Work this first standard error by hand, with a calculator, before Lab 1.1 asks for it in code.</div>
+  <aside class="notes"><p>The course AI policy: the first standard error is done by hand, with no assistant, and so is the supervised check on the capstone day. In the labs an AI tutor may give hints but not finished code; in the capstone AI assistance is allowed, with a verification note. Give the room two minutes to compute 0.0178 on paper before revealing it.</p><p>Numbers from Lab 1.1's run on D's first sample at temperature 0.2. Ask the room for the interval width before revealing: about plus or minus 3.5 points. Most people underestimate it.</p></aside>
 </section>
 
 <section class="slide" id="bootstrap-idea" data-lo="LO1">
@@ -252,7 +253,7 @@
 
 <section class="slide" id="within-between-split" data-lo="LO1">
   <div class="kicker">Lab 1.3 result</div>
-  <h2>At temperature 0.8 the model's own randomness is half the variance</h2>
+  <h2>At temperature 0.8 the model's own randomness is more than half the variance</h2>
   <div class="bars">
     <div class="row"><span>0.2 · between</span><div class="bar c-navy" style="--w:99%"></div><span class="val">0.123</span></div>
     <div class="row"><span>0.2 · within</span><div class="bar c-coral" style="--w:55%"></div><span class="val">0.068</span></div>
@@ -284,7 +285,7 @@
     <tr><td>pass@5</td><td>Right at least once in five tries</td><td class="num">86.7%</td><td class="num">91.2%</td></tr>
     <tr><td>pass^5</td><td>Right every time in five</td><td class="num">59.2%</td><td class="num">41.2%</td></tr>
   </table>
-  <aside class="notes"><p>Recap from AE-302 and AE-303 (consistency over repeated trials). Note that raising the temperature lowers the mean and pass^5 but raises pass@5. A report that compares one configuration's pass@5 with another's mean is comparing different things: Day 4's audit finds exactly that in the leaderboard.</p></aside>
+  <aside class="notes"><p>Participants who took AE-302 or AE-303 met success in any and in every trial there; for the others, introduce the three estimands here. Note that raising the temperature lowers the mean and pass^5 but raises pass@5. A report that compares one configuration's pass@5 with another's mean is comparing different things: Day 4's audit finds exactly that in the leaderboard.</p></aside>
 </section>
 
 <section class="slide" id="temperature-is-design" data-lo="LO1">

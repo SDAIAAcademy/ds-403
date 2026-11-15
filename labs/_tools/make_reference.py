@@ -140,7 +140,8 @@ def day2() -> None:
     n_ind = math.ceil((z * s / 0.03) ** 2)
     n_need = math.ceil(n_ind * max(deff, 1.0))
     write("d2_3", {"sd": f(s), "deff": f(deff), "n_independent": n_ind, "n_needed": n_need,
-                   "simulated": [{"questions": 300, "power": 0.4}, {"questions": n_need, "power": 0.8}, {"questions": 900, "power": 0.97}]})
+                   # the powers printed by the Lab 2.3 solution in full mode (2,000 simulations, seed 403)
+                   "simulated": [{"questions": 300, "power": 0.71}, {"questions": n_need, "power": 0.846}, {"questions": 900, "power": 0.994}]})
 
     costs = json.loads((U.DATA / "costs.json").read_text(encoding="utf-8"))
     ci = costs["new_item_written_and_reviewed"]

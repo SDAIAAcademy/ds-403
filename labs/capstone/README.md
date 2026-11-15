@@ -12,7 +12,7 @@ The capstone of DS-403 is a statistical evaluation of **two or more open-weight 
 
 ## Serving the models
 
-The catalog allows model serving for the capstone only. Choose one; the runner speaks the same API (OpenAI-compatible chat completions) to all of them:
+This course allows model serving in the capstone only; every lab before it reads supplied logs. Choose one; the runner speaks the same API (OpenAI-compatible chat completions) to all of them:
 
 - **A laptop:** llama.cpp's `llama-server` or Ollama with a small open-weight instruct model. This downloads the model's weights to your machine: check its licence and size first.
 - **A free notebook GPU:** vLLM in a free Colab or Kaggle GPU session.
@@ -33,7 +33,7 @@ uv run analyze.py logs/run.csv --a baseline --b variant --min-effect 0.03 --labe
 
 ## The grader and the human labels
 
-Scoring by code is exact for Bunyan's numeric questions. The rubric's grader criterion asks for a **model grader** as well, corrected with **your own human labels**: grade each answer with a second open-weight model (a binary pass or fail prompt), label at least 100 answers per language yourself, and pass them to `analyze.py --labels` in the columns `language`, `human_pass`, `grader_pass`. On Bunyan's numeric questions your human label can be the code score: then the correction measures the model grader against it.
+Scoring by code is exact for Bunyan's numeric questions. The rubric's grader criterion asks for a **model grader** as well, corrected with **your own human labels**: grade each answer with a second open-weight model (a binary pass or fail prompt), add its verdict to the logs as a 0/1 column `grader_pass` (when that column exists, `analyze.py` scores and corrects it instead of `correct`; without it the correction section is meaningless), label at least 100 answers per language yourself, and pass them to `analyze.py --labels` in the columns `language`, `human_pass`, `grader_pass`. On Bunyan's numeric questions your human label can be the code score: then the correction measures the model grader against it.
 
 ## Your own task set
 

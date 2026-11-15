@@ -237,7 +237,7 @@
     <div class="card c-coral"><h4>Specificity</h4><p class="small mb0">Of answers people fail, the share the grader fails.</p></div>
   </div>
   <div class="callout note small mt"><b>Graders are built in AE-303.</b> Here the grader is given; the question is what its errors do to the statistics.</div>
-  <aside class="notes"><p>Recap: in AE-303 participants wrote a grader prompt and measured true-positive and true-negative rates on a held-out set. DS-403 takes those two rates as measurements with their own uncertainty, by language.</p><p>Sources: arXiv 2511.21140.</p></aside>
+  <aside class="notes"><p>AE-303 is not a prerequisite: participants who took it wrote a grader prompt there and measured true-positive and true-negative rates on a held-out set. DS-403 takes those two rates as measurements with their own uncertainty, by language.</p><p>Sources: arXiv 2511.21140.</p></aside>
 </section>
 
 <section class="slide" id="calibration-set" data-lo="LO4">
@@ -267,7 +267,7 @@
     <tr><td>English</td><td class="num">0.981 (0.933 to 0.995)</td><td class="num">0.911 (0.793 to 0.965)</td></tr>
   </table>
   <p class="small mt">Wilson intervals. Specificity rests on 49 failed answers in Arabic and 45 in English.</p>
-  <aside class="notes"><p>The specificity intervals are wide: a quarter of the information in the calibration set is about failed answers. That width will travel into the corrected pass rates in session 4.</p></aside>
+  <aside class="notes"><p>The specificity intervals are wide: only 94 of the 300 calibration answers are ones people failed. That width will travel into the corrected pass rates in session 4.</p></aside>
 </section>
 
 <section class="slide" id="agreement-hides" data-lo="LO4">
@@ -341,7 +341,7 @@
     <div class="card c-navy tint"><h4>Example</h4><p class="small mb0">C in Arabic: observed 0.692, sens 0.921, spec 0.735, corrected 0.652.</p></div>
   </div>
   <div class="callout warn small mt"><b>It needs sens + spec above 1,</b> and it leaves 0 to 1 when the observed rate is below 1 − spec or above sens.</div>
-  <aside class="notes"><p>Rogan and Gladen's estimator from epidemiology (1978), described for model judges in the plug-in correction paper. AE-303 computed the point estimate; today adds the interval. In Arabic the valid range of observed rates is 0.265 to 0.921.</p><p>Sources: arXiv 2511.21140.</p></aside>
+  <aside class="notes"><p>Rogan and Gladen's estimator from epidemiology (1978), described for model judges in the plug-in correction paper. Participants who took AE-303 computed the point estimate there; today adds the interval. In Arabic the valid range of observed rates is 0.265 to 0.921.</p><p>Sources: arXiv 2511.21140.</p></aside>
 </section>
 
 <section class="slide" id="correction-point" data-lo="LO4">

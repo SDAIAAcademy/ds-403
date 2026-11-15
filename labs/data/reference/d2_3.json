@@ -6,15 +6,15 @@
  "simulated": [
   {
    "questions": 300,
-   "power": 0.4
+   "power": 0.71
   },
   {
    "questions": 417,
-   "power": 0.8
+   "power": 0.846
   },
   {
    "questions": 900,
-   "power": 0.97
+   "power": 0.994
   }
  ]
 }

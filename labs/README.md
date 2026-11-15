@@ -43,6 +43,8 @@ Run `00_setup_check.ipynb` once before Day 1. `uv run prepare_data.py` rebuilds 
 | 4 | Slicing by language | [`D4_3_report_arabic_english.ipynb`](https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_3_report_arabic_english.ipynb) |
 | 4 | A reporting standard | [`D4_4_reporting_standard.ipynb`](https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_4_reporting_standard.ipynb) |
 
+**AI use.** The first standard error (Lab 1.1, step 2) is computed by hand before it is coded, with no assistant. In the labs an AI tutor may give hints, not finished code. In the capstone AI assistance is allowed, and every output you rely on is checked in a verification note.
+
 Exercises are marked **✏️ Exercise** and raise `NotImplementedError` until you fill them in; the cell after each one has a safety net that loads the reference result from `data/reference/`, so the rest of the notebook still runs. Complete reference versions are in `solutions/`. Cells marked **✱ Stretch** are optional. Self-checks print ✅ or ❌.
 
 The notebooks are generated from the percent-format sources in `_src/` by `_tools/py2nb.py` (`uv run python _tools/py2nb.py` from `labs/`), which also writes the solutions. Edit the sources, not the notebooks. A lab that writes a file writes it under `artifacts/`; delete that folder when you are done.
