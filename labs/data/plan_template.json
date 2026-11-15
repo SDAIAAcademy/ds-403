@@ -1,0 +1,23 @@
+{
+  "title": "",
+  "owner": "",
+  "date_committed": "",
+  "question": "",
+  "systems": [],
+  "population": "",
+  "items": "",
+  "unit_of_analysis": "",
+  "primary_metric": "",
+  "grader": "",
+  "samples_per_item": null,
+  "temperature": null,
+  "clustering": "",
+  "comparison": "",
+  "minimum_effect": null,
+  "alpha": null,
+  "power": null,
+  "decision_rule": "",
+  "slices": [],
+  "exclusions": "",
+  "secondary_metrics": []
+}

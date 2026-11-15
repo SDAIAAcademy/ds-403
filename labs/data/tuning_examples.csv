@@ -1,0 +1,121 @@
+example_id,question,answer
+T001,ما أقصى مسافة للوصول إلى مخرج المطبق على فندق في حي جديد؟,45
+T002,"Under regulation R-070, what is the months of permit validity for a hotel?",18
+T003,"For a villa in a new district, what maximum number of floors applies?",8
+T004,"For a school in a new district, what maximum number of floors applies?",3
+T005,"Under regulation R-045, what is the permit fee per square metre for a school?",6
+T006,وفق اللائحة R-039، ماَ أقصى ارتفاع للواجهة في حالة فيلا؟,10
+T007,"For a office building in a new district, what minimum plot area applies?",700
+T008,"For a school in a new district, what maximum number of floors applies?",2
+T009,"For a school in a new district, what renewal fee applies?",450
+T010,"Under regulation R-027, what is the maximum travel distance to an exit for a school?",35
+T011,"Under regulation R-038, what is the months of permit validity for an office building?",18
+T012,ما أقصى مسافة للوصول إلى مخرج المطبق على مستودع في حي جديد؟,35
+T013,"Under regulation R-047, what is the minimum distance from a listed building for a villa?",80
+T014,"For a school in a new district, what minimum accessible parking spaces applies?",3
+T015,ما أدنى مسافة من مبنى مسجل المطبق على عمارة سكنية في حي جديد؟,100
+T016,"Under regulation R-028, what is the minimum slab thickness for a clinic?",22
+T017,ما الحد الأدنى للارتداد الأمامي المطبق على مستودع في حي جديد؟,3
+T018,ما الحد الأدنى للارتداد الأمامي المطبق على فندق في حي جديد؟,7
+T019,"For a office building in a new district, what minimum slab thickness applies?",24
+T020,"Under regulation R-039, what is the minimum distance from a listed building for a hotel?",80
+T021,"For a villa in a new district, what minimum plot area applies?",750
+T022,وفق اللائحة R-020، ماَ أدنى عمق للأساسات في حالة مستودع؟,300
+T023,"Under regulation R-041, what is the maximum built-up ratio for a villa?",40
+T024,ما نسبة البناء القصوى المطبق على مستودع في حي جديد؟,55
+T025,ما أدنى عمق للأساسات المطبق على مستودع في حي جديد؟,240
+T026,ما أدنى عمق للأساسات المطبق على فندق في حي جديد؟,280
+T027,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,20
+T028,"For a office building in a new district, what minimum plot area applies?",800
+T029,"For a office building in a new district, what maximum number of floors applies?",12
+T030,ما أقصى مسافة للوصول إلى مخرج المطبق على عيادة في حي جديد؟,40
+T031,"For a villa in a new district, what renewal fee applies?",700
+T032,"Under regulation R-019, what is the maximum travel distance to an exit for an office building?",40
+T033,"Under regulation R-080, what is the minimum accessible parking spaces for an apartment block?",4
+T034,"Under regulation R-029, what is the permit fee per square metre for an office building?",8
+T035,"Under regulation R-078, what is the months of permit validity for an office building?",30
+T036,"For a school in a new district, what minimum plot area applies?",300
+T037,"Under regulation R-042, what is the maximum number of floors for a warehouse?",6
+T038,ما الحد الأدنى للارتداد الأمامي المطبق على عمارة سكنية في حي جديد؟,3
+T039,"For a villa in a new district, what minimum slab thickness applies?",18
+T040,"For a shop in a new district, what minimum accessible parking spaces applies?",6
+T041,ما أدنى عرض للمنحدر المطبق على فندق في حي جديد؟,90
+T042,"For a office building in a new district, what minimum plot area applies?",700
+T043,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة محل تجاري؟ ,130
+T044,"For a shop in a new district, what maximum facade height applies?",13
+T045,"Under regulation R-010, what is the maximum number of floors for a shop?",2
+T046,"Under regulation R-073, what is the maximum built-up ratio for a villa?",60
+T047,ما أدنى عمق للأساسات المطبق على عمارة سكنية في حي جديد؟,240
+T048,ما أدنى عمق للأساسات المطبق على مستودع في حي جديد؟,240
+T049,"For a villa in a new district, what minimum slab thickness applies?",20
+T050,"Under regulation R-042, what is the maximum number of floors for a school?",4
+T051,ما رسم الترخيص للمتر المربع المطبق على فندق في حي جديد؟,9
+T052,"For a office building in a new district, what maximum facade height applies?",12
+T053,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة فيلا؟,45
+T054,وفق اللائحة R-064، ما أدنى عرض للمنحدر في حالة فندق؟ ,150
+T055,ما نسبة البناء القصوى المطبق على فندق في حي جديد؟,45
+T056,ما أدنى عمق للأساسات المطبق على مستودع في حي جديد؟,140
+T057,"For a villa in a new district, what minimum accessible parking spaces applies?",1
+T058,ما أدنى عمق للأساسات المطبق على عمارة سكنية في حي جديد؟,120
+T059,"Under regulation R-059, what is the maximum travel distance to an exit for a clinic?",45
+T060,ما الحد الأدنى للارتداد الأمامي المطبق على عيادة في حي جديد؟,5
+T061,ما عدد أيام إصدار القرار المطبق على عمارة سكنية في حي جديد؟,10
+T062,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة فندق؟,120
+T063,ما أدنى مسافة من مبنى مسجل المطبق على مستودع في حي جديد؟,100
+T064,ما نسبة البناء القصوى المطبق على مستودع في حي جديد؟,45
+T065,وفق اللائحة R-021، ماَ رسم التجديد في حالة مبنى مكتبي؟,500
+T066,وفق اللائحة R-036، ما أدنى عمق للأساسات في حالة مدرسة؟,160
+T067,وفق اللائحة R-019، ما الحد الأدنى لعدد المخارج في حالة مستودع؟ ,2
+T068,"Under regulation R-008, what is the minimum accessible parking spaces for a shop?",4
+T069,"For a villa in a new district, what maximum number of floors applies?",3
+T070,"For a school in a new district, what minimum number of exits applies?",3
+T071,وفق اللائحة R-076، ماَ أدنى عمق للأساسات في حالة مدرسة؟,260
+T072,ما الحد الأدنى للارتداد الأمامي المطبق على عيادة في حي جديد؟,6
+T073,ما أدنى مسافة من مبنى مسجل المطبق على عمارة سكنية في حي جديد؟,90
+T074,ما الحد الأدنى للارتداد الأمامي المطبق على فندق في حي جديد؟,3
+T075,ما أدنى عرض للمنحدر المطبق على عيادة في حي جديد؟,110
+T076,ما أدنى عرض للمنحدر المطبق على عيادة في حي جديد؟,140
+T077,ما أدنى عرض للمنحدر المطبق على فندق في حي جديد؟,150
+T078,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,35
+T079,"For a office building in a new district, what minimum number of exits applies?",1
+T080,"For a shop in a new district, what maximum facade height applies?",7
+T081,"For a office building in a new district, what minimum plot area applies?",450
+T082,وفق اللائحة R-067، ماَ الحد الأدنى لعدد المخارج في حالة مستودع؟,2
+T083,ما رسم الترخيص للمتر المربع المطبق على عمارة سكنية في حي جديد؟,5
+T084,"For a shop in a new district, what months of permit validity applies?",18
+T085,وفق اللائحه R-017، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,500
+T086,"For a shop in a new district, what minimum accessible parking spaces applies?",2
+T087,وفق اللائحه R-037، ما رسم التجديد في حالة مدرسة؟,350
+T088,ما عدد أيام إصدار القرار المطبق على عيادة في حي جديد؟,5
+T089,ما أدنى عمق للأساسات المطبق على عيادة في حي جديد؟,120
+T090,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة عيادة؟,7
+T091,"For a school in a new district, what renewal fee applies?",450
+T092,"For a villa in a new district, what months of permit validity applies?",18
+T093,ما رسم الترخيص للمتر المربع المطبق على عيادة في حي جديد؟,16
+T094,"Under regulation R-071, what is the minimum distance from a listed building for a hotel?",80
+T095,"For a villa in a new district, what renewal fee applies?",500
+T096,ما أدنى عرض للمنحدر المطبق على فندق في حي جديد؟,150
+T097,"For a shop in a new district, what minimum number of exits applies?",2
+T098,"Under regulation R-050, what is the maximum number of floors for an apartment block?",8
+T099,وفق اللائحة R-025، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟ ,300
+T100,"For a school in a new district, what minimum number of exits applies?",2
+T101,"For a office building in a new district, what maximum facade height applies?",8
+T102,"For a shop in a new district, what months of permit validity applies?",18
+T103,وفق اللائحة R-057، ماَ الحد الأدنى لمساحة القطعة في حالة فيلا؟,500
+T104,"For a shop in a new district, what maximum facade height applies?",15
+T105,"Under regulation R-049, what is the maximum built-up ratio for a villa?",60
+T106,ما أدنى مسافة من مبنى مسجل المطبق على عمارة سكنية في حي جديد؟,80
+T107,ما نسبة البناء القصوى المطبق على عمارة سكنية في حي جديد؟,50
+T108,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة فيلا؟,20
+T109,"For a school in a new district, what months of permit validity applies?",30
+T110,وفق اللائحة R-068، ماَ أدنى عمق للأساسات في حالة فندق؟,160
+T111,"Under regulation R-077, what is the permit fee per square metre for a school?",12
+T112,وفق اللائحة R-044، ماَ أدنى عمق للأساسات في حالة مدرسة؟,180
+T113,"Under regulation R-025, what is the maximum built-up ratio for a villa?",45
+T114,"Under regulation R-002, what is the maximum number of floors for an apartment block?",8
+T115,"Under regulation R-067, what is the maximum travel distance to an exit for a shop?",25
+T116,"Under regulation R-063, what is the minimum distance from a listed building for a shop?",90
+T117,"For a shop in a new district, what months of permit validity applies?",30
+T118,ما أدنى مسافة من مبنى مسجل المطبق على مستودع في حي جديد؟,20
+T119,ما أدنى عرض للمنحدر المطبق على عيادة في حي جديد؟,100
+T120,وفق اللائحة R-041، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,600

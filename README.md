@@ -5,7 +5,7 @@
 
 Data Science Track · SDAIA Academy · DS-403 · Level 400
 
-REPLACE: one line under the title: what participants can do after the course
+Treat every evaluation of an AI system as an experiment: report scores with honest intervals, compare systems with paired designs, size evaluations within budget, correct for grader error and audit the claims
 
 Participants treat every evaluation of an AI system as an experiment with a sampling design. On item-level results from small open-weight models on a fictional permits authority's synthetic bilingual task set, they compute clustered standard errors, compare systems with paired designs, size evaluations within a budget, use exact or Bayesian intervals for small sets, correct for grader error and audit benchmark claims. Graders and harnesses are built in AE-303, not here.
 
@@ -48,22 +48,22 @@ Every lab is a notebook in `labs/`. Open it in Google Colab from the course page
 
 | | Session | Lab | File |
 |---|---|---|---|
-| 1.1 | Day 1 · Session 1 | Bootstrap a pass rate and compare it with the formula standard error | [`D1_1_bootstrap_pass_rate.ipynb`](labs/D1_1_bootstrap_pass_rate.ipynb) |
-| 1.2 | Day 1 · Session 2 | Compute standard errors clustered by source document and the design effect | [`D1_2_compute_standard_errors.ipynb`](labs/D1_2_compute_standard_errors.ipynb) |
-| 1.3 | Day 1 · Session 3 | Split variance into item and sampling parts at two temperatures | [`D1_3_split_variance_into.ipynb`](labs/D1_3_split_variance_into.ipynb) |
-| 1.4 | Day 1 · Session 4 | Draft a pre-registered plan comparing two configurations | [`D1_4_draft_pre_registered.ipynb`](labs/D1_4_draft_pre_registered.ipynb) |
-| 2.1 | Day 2 · Session 1 | Compare paired and unpaired analyses and explain the widths | [`D2_1_compare_paired_unpaired.ipynb`](labs/D2_1_compare_paired_unpaired.ipynb) |
-| 2.2 | Day 2 · Session 2 | Rank six configurations with adjusted intervals | [`D2_2_rank_six_configurations.ipynb`](labs/D2_2_rank_six_configurations.ipynb) |
-| 2.3 | Day 2 · Session 3 | Size an evaluation for a three-point difference; check by simulation | [`D2_3_size_evaluation_three.ipynb`](labs/D2_3_size_evaluation_three.ipynb) |
-| 2.4 | Day 2 · Session 4 | Choose more items or more samples per item at fixed cost | [`D2_4_choose_more_items.ipynb`](labs/D2_4_choose_more_items.ipynb) |
-| 3.1 | Day 3 · Session 1 | Simulate interval coverage for 20 to 200 items near 0 or 1 | [`D3_1_simulate_interval_coverage.ipynb`](labs/D3_1_simulate_interval_coverage.ipynb) |
-| 3.2 | Day 3 · Session 2 | Compute exact and beta-posterior intervals for a 40-item safety set | [`D3_2_compute_exact_beta.ipynb`](labs/D3_2_compute_exact_beta.ipynb) |
-| 3.3 | Day 3 · Session 3 | Estimate grader sensitivity and specificity by language | [`D3_3_estimate_grader_sensitivity.ipynb`](labs/D3_3_estimate_grader_sensitivity.ipynb) |
-| 3.4 | Day 3 · Session 4 | Correct a pass rate, carrying calibration uncertainty into its interval | [`D3_4_correct_pass_rate.ipynb`](labs/D3_4_correct_pass_rate.ipynb) |
-| 4.1 | Day 4 · Session 1 | Check a comparison for test-item overlap and unequal tuning | [`D4_1_check_comparison_test.ipynb`](labs/D4_1_check_comparison_test.ipynb) |
-| 4.2 | Day 4 · Session 2 | Classify each claim as supported, unsupported or untestable | [`D4_2_classify_each_claim.ipynb`](labs/D4_2_classify_each_claim.ipynb) |
-| 4.3 | Day 4 · Session 3 | Report Arabic and English results with intervals and test the gap | [`D4_3_report_arabic_english.ipynb`](labs/D4_3_report_arabic_english.ipynb) |
-| 4.4 | Day 4 · Session 4 | Draft the standard's required fields and choose the capstone systems | [`D4_4_draft_standard_s.ipynb`](labs/D4_4_draft_standard_s.ipynb) |
+| 1.1 | Day 1 · Session 1 | A pass rate with two intervals | [`D1_1_bootstrap_pass_rate.ipynb`](labs/D1_1_bootstrap_pass_rate.ipynb) |
+| 1.2 | Day 1 · Session 2 | Clustered by document | [`D1_2_compute_standard_errors.ipynb`](labs/D1_2_compute_standard_errors.ipynb) |
+| 1.3 | Day 1 · Session 3 | Item and sampling variance | [`D1_3_split_variance_into.ipynb`](labs/D1_3_split_variance_into.ipynb) |
+| 1.4 | Day 1 · Session 4 | A plan before the results | [`D1_4_draft_pre_registered.ipynb`](labs/D1_4_draft_pre_registered.ipynb) |
+| 2.1 | Day 2 · Session 1 | Paired against unpaired | [`D2_1_compare_paired_unpaired.ipynb`](labs/D2_1_compare_paired_unpaired.ipynb) |
+| 2.2 | Day 2 · Session 2 | Six configurations ranked | [`D2_2_rank_six_configurations.ipynb`](labs/D2_2_rank_six_configurations.ipynb) |
+| 2.3 | Day 2 · Session 3 | Sizing for three points | [`D2_3_size_evaluation_three.ipynb`](labs/D2_3_size_evaluation_three.ipynb) |
+| 2.4 | Day 2 · Session 4 | Items or samples at fixed cost | [`D2_4_choose_more_items.ipynb`](labs/D2_4_choose_more_items.ipynb) |
+| 3.1 | Day 3 · Session 1 | Coverage by simulation | [`D3_1_simulate_interval_coverage.ipynb`](labs/D3_1_simulate_interval_coverage.ipynb) |
+| 3.2 | Day 3 · Session 2 | Forty safety questions | [`D3_2_compute_exact_beta.ipynb`](labs/D3_2_compute_exact_beta.ipynb) |
+| 3.3 | Day 3 · Session 3 | The grader against people | [`D3_3_estimate_grader_sensitivity.ipynb`](labs/D3_3_estimate_grader_sensitivity.ipynb) |
+| 3.4 | Day 3 · Session 4 | Correcting the pass rate | [`D3_4_correct_pass_rate.ipynb`](labs/D3_4_correct_pass_rate.ipynb) |
+| 4.1 | Day 4 · Session 1 | Overlap and unequal budgets | [`D4_1_check_comparison_test.ipynb`](labs/D4_1_check_comparison_test.ipynb) |
+| 4.2 | Day 4 · Session 2 | Auditing the leaderboard | [`D4_2_classify_each_claim.ipynb`](labs/D4_2_classify_each_claim.ipynb) |
+| 4.3 | Day 4 · Session 3 | Arabic and English | [`D4_3_report_arabic_english.ipynb`](labs/D4_3_report_arabic_english.ipynb) |
+| 4.4 | Day 4 · Session 4 | The standard and the capstone choice | [`D4_4_draft_standard_s.ipynb`](labs/D4_4_draft_standard_s.ipynb) |
 <!-- /academy:labs -->
 
 ## Capstone
@@ -93,7 +93,39 @@ Each line is a capability; the examples are interchangeable.
 <!-- academy:sources -->
 ## Sources
 
-- REPLACE: every source the course cites, with its address, in course.json under "sources"; this list is written from there
+### Statistics of evaluations
+
+- [Evan Miller: Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations (arXiv 2411.00640)](https://arxiv.org/abs/2411.00640)
+- [Anthropic: A statistical approach to model evaluations](https://www.anthropic.com/research/statistical-approach-to-model-evals)
+- [Bowyer, Aitchison and Ivanova: Position: Don't Use the CLT in LLM Evals With Fewer Than a Few Hundred Datapoints (arXiv 2503.01747)](https://arxiv.org/abs/2503.01747)
+- [Brown, Cai and DasGupta: Interval Estimation for a Binomial Proportion, Statistical Science 16(2), 2001](https://doi.org/10.1214/ss/1009213286)
+
+### Graders, claims and contamination
+
+- [How to Correctly Report LLM-as-a-Judge Evaluations (arXiv 2511.21140)](https://arxiv.org/abs/2511.21140)
+- [Angelopoulos and others: Prediction-Powered Inference (arXiv 2301.09633)](https://arxiv.org/abs/2301.09633)
+- [Benchmark Data Contamination of Large Language Models: A Survey (arXiv 2406.04244)](https://arxiv.org/abs/2406.04244)
+- [The Leaderboard Illusion (arXiv 2504.20879)](https://arxiv.org/abs/2504.20879)
+
+### Tools
+
+- [Inspect, an evaluation framework](https://inspect.aisi.org.uk/)
+- [EleutherAI lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)
+- [promptfoo documentation](https://www.promptfoo.dev/docs/intro/)
+- [SciPy: scipy.stats.binomtest](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html)
+- [statsmodels: proportion_confint](https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html)
+- [uv](https://docs.astral.sh/uv/)
+- [marimo](https://marimo.io/)
+- [Quarto](https://quarto.org/)
+- [llama.cpp](https://github.com/ggml-org/llama.cpp)
+- [Ollama](https://ollama.com/)
+
+### National references
+
+- [National AI Risk Management Framework, English executive summary (SDAIA)](https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/ExecutiveSummaryEn.pdf)
+- [AI Ethics Principles (SDAIA)](https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf)
+- [AI Bias Reference Guide (SDAIA)](https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/EN-AI-BIAS.pdf)
+- [Data Classification Policy (National Data Management Office, SDAIA)](https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf)
 <!-- /academy:sources -->
 
 ### National references

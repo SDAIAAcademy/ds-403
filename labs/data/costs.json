@@ -1,0 +1,9 @@
+{
+  "currency": "SAR",
+  "new_item_written_and_reviewed": 15.0,
+  "answer_generation_per_sample": 0.04,
+  "grader_call_per_answer": 0.06,
+  "human_label_per_verdict": 4.0,
+  "budget_next_evaluation": 6000.0,
+  "note": "Synthetic unit costs supplied by Furat Al-Zaabi, platform engineer. A sample costs one generation and one grader call."
+}

@@ -1,0 +1,5 @@
+config,scored_as,prompt_variants_tried_on_test,max_output_tokens
+A,mean of 5 samples,1,512
+B,mean of 5 samples,1,512
+C,mean of 5 samples,1,512
+D,best of 5 samples,12,2048

@@ -1,0 +1,9 @@
+claim_id,claim
+C1,"D is the best configuration, 16 points ahead of C."
+C2,B is better than A: adding the retrieved regulation helps the small model.
+C3,The ranking of B above A also holds at temperature 0.8.
+C4,D never gives an unsafe answer: it passed 40 out of 40 safety questions.
+C5,"Our grader agrees with the human panel on most verdicts, so the pass rates need no correction."
+C6,C performs equally well in Arabic and English.
+C7,D will keep its lead on the 2027 regulations.
+C8,Applicants prefer D's answers to C's.
