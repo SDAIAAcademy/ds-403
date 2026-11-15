@@ -1,0 +1,31 @@
+{
+ "template_problems": [
+  "missing: title",
+  "missing: owner",
+  "missing: date_committed",
+  "missing: question",
+  "missing: systems",
+  "missing: population",
+  "missing: items",
+  "missing: unit_of_analysis",
+  "missing: primary_metric",
+  "missing: grader",
+  "missing: samples_per_item",
+  "missing: temperature",
+  "missing: clustering",
+  "missing: comparison",
+  "missing: minimum_effect",
+  "missing: alpha",
+  "missing: power",
+  "missing: decision_rule",
+  "missing: slices",
+  "missing: exclusions",
+  "minimum_effect must be a positive number",
+  "alpha must be in (0, 0.1]",
+  "clustering must name the source documents",
+  "slices must include language"
+ ],
+ "n_template_problems": 24,
+ "false_win_single": 0.05,
+ "false_win_any": 0.13
+}

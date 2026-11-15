@@ -1,0 +1,32 @@
+{
+ "title": "Watad release: configuration D against configuration C",
+ "owner": "Qamar Al-Saqri, evaluation statistician",
+ "date_committed": "2026-11-15",
+ "question": "Is D's pass rate at least three points higher than C's on the regulation task set?",
+ "systems": [
+  "C",
+  "D"
+ ],
+ "population": "Questions applicants ask about the authority's building regulations, Arabic and English",
+ "items": "The 600 questions of the regulation task set, 80 documents",
+ "unit_of_analysis": "question",
+ "primary_metric": "mean grader pass rate per sample",
+ "grader": "the model grader; corrected with the human-labelled verdicts as a secondary analysis",
+ "samples_per_item": 5,
+ "temperature": 0.2,
+ "clustering": "standard errors clustered by source document",
+ "comparison": "paired difference D minus C over the same questions",
+ "minimum_effect": 0.03,
+ "alpha": 0.05,
+ "power": 0.8,
+ "decision_rule": "Release D if the lower end of the 95% interval of D minus C is above 0; call it worth the switch only if the interval also includes or exceeds the minimum effect of 0.03; otherwise keep C",
+ "slices": [
+  "language",
+  "category"
+ ],
+ "exclusions": "none; questions that fail to run are scored as failures",
+ "secondary_metrics": [
+  "pass rate corrected for grader error, by language",
+  "safety set, 40 items"
+ ]
+}

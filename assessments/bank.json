@@ -3,24 +3,53 @@
   "version": 1,
   "questions": [
     {
-      "id": "q-example-1",
+      "id": "d1-population",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO1, as a short scenario",
+      "prompt": "An evaluation of a permits assistant reports 81% on 400 questions, 95% interval 77% to 85%. Which statement about the interval is correct?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "It is the range of pass rates on these 400 questions if the evaluation were rerun with the same answers",
+        "It is a plausible range for the pass rate on new questions written the same way",
+        "It is the range of pass rates the assistant will reach next year",
+        "It is the range within which 95% of individual answers fall"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "The interval estimates the pass rate on the population the questions were sampled from.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Treats the fixed sample as uncertain: on these questions with these answers the rate is known",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Extends the interval to a different population and time",
+        "Confuses an interval for a rate with a range of single outcomes"
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d1-se-by-hand",
+      "type": "single",
+      "prompt": "A configuration passes 270 of 300 independent questions. What is the formula standard error of its pass rate, to two significant figures?",
+      "options": [
+        "0.0010",
+        "0.090",
+        "0.017",
+        "0.30"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "p = 0.9, so SE = sqrt(0.9 × 0.1 / 300) = sqrt(0.0003) ≈ 0.017.",
+      "misconceptions": [
+        "Forgets the square root: 0.09 / 300 = 0.0003, then divides again",
+        "Reports p(1 − p) without dividing by n or taking the root",
+        "",
+        "Uses the number of failures as the standard error"
       ],
       "lo": [
         "LO1"
@@ -32,135 +61,178 @@
       "weight": 1
     },
     {
-      "id": "q-example-2",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO2 that is true",
-      "options": [
-        "True",
-        "False"
-      ],
-      "correct": [
-        0
-      ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
-      "misconceptions": [
-        "",
-        "REPLACE: the misconception behind this option"
-      ],
-      "lo": [
-        "LO2"
-      ],
-      "day": "day1",
-      "session": 1,
-      "level": "understand",
-      "pool": "practice",
-      "weight": 1
-    },
-    {
-      "id": "q-example-3",
+      "id": "d1-deff",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO3, as a short scenario",
+      "prompt": "A clustered standard error is 0.030 and the naive one is 0.020 on 900 questions. How many independent questions are the 900 worth?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "600",
+        "400",
+        "1,350",
+        "2,025"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "DEFF = (0.030 / 0.020)² = 2.25, and 900 / 2.25 = 400.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Uses the ratio of standard errors, 1.5, instead of its square",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Multiplies by the ratio instead of dividing",
+        "Multiplies by the design effect instead of dividing"
       ],
       "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d1-more-docs",
+      "type": "single",
+      "prompt": "An evaluation set has 50 documents with 10 questions each and a design effect of 3. Which addition narrows the clustered interval most for the same 100 questions?",
+      "options": [
+        "Two more questions from each existing document",
+        "100 more questions from 10 new documents",
+        "Five samples per question instead of one",
+        "Dropping the 10 documents with the most failures"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The clustered standard error falls with the number of independent clusters; new documents add them.",
+      "misconceptions": [
+        "Treats extra questions from the same document as independent evidence",
+        "",
+        "Confuses within-question sampling noise with between-document clustering",
+        "Removes data selectively, which biases the score"
+      ],
+      "lo": [
+        "LO1",
         "LO3"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "apply",
+      "session": 2,
+      "level": "analyze",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-4",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO4 that is true",
+      "id": "d1-samples",
+      "type": "single",
+      "prompt": "At temperature 0.8 a configuration's within-item variance is 0.12 and its between-item variance 0.09. Going from 1 to 4 samples per question on 600 questions does what to the standard error?",
       "options": [
-        "True",
-        "False"
+        "Halves it, because four times the samples is like four times the questions",
+        "Leaves it unchanged, because samples of one question are not independent",
+        "Reduces it from about 0.0187 to about 0.0141",
+        "Reduces it to zero, because sampling noise disappears"
       ],
       "correct": [
-        0
+        2
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "SE = sqrt((0.09 + 0.12 / K) / 600): 0.0187 for K = 1 and 0.0141 for K = 4.",
       "misconceptions": [
+        "Treats samples as if they were new questions",
+        "Thinks repeated samples add no information at all",
         "",
-        "REPLACE: the misconception behind this option"
+        "Forgets the between-item part, which more samples do not reduce"
       ],
       "lo": [
-        "LO4"
+        "LO1"
       ],
       "day": "day1",
-      "session": 1,
+      "session": 3,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d1-pass-at-k",
+      "type": "single",
+      "prompt": "A permits assistant gives each applicant one answer. Which estimand should the release report use as its primary score?",
+      "options": [
+        "pass@5: right in at least one of five samples",
+        "pass^5: right in all five samples",
+        "The best of five samples chosen by the grader",
+        "The mean pass rate per sample"
+      ],
+      "correct": [
+        3
+      ],
+      "explanation": "An applicant sees one answer, so the expected pass rate of a single sample is the quantity that matters.",
+      "misconceptions": [
+        "Describes a user who can retry and pick the right answer",
+        "Describes a stricter, consistency requirement rather than the single answer",
+        "Lets the grader choose after the fact, which no applicant can do",
+        ""
+      ],
+      "lo": [
+        "LO1"
+      ],
+      "day": "day1",
+      "session": 3,
       "level": "understand",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-5",
+      "id": "d1-forking",
       "type": "single",
-      "prompt": "REPLACE: a practice question on LO5, as a short scenario",
+      "prompt": "Two configurations are compared on four metrics, each tested at 5%. The report headlines whichever metric is significant. If the configurations are in fact identical, how often does such a report find a difference?",
       "options": [
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: the right answer",
-        "REPLACE: a wrong option that a common misconception makes tempting",
-        "REPLACE: a wrong option that a common misconception makes tempting"
+        "About 5% of the time",
+        "More than 5%, up to about 19% if the metrics were independent",
+        "Never, because each test controls its own error",
+        "Exactly 20% of the time, four times 5%"
       ],
       "correct": [
         1
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Choosing the best of several tests after the results raises the chance of at least one false win; correlated metrics give a little less than 1 − 0.95⁴.",
       "misconceptions": [
-        "REPLACE: the misconception behind this option",
+        "Assumes the per-test error rate survives selection",
         "",
-        "REPLACE: the misconception behind this option",
-        "REPLACE: the misconception behind this option"
+        "Confuses per-test control with control of the whole study",
+        "Adds the rates instead of combining them, and ignores correlation"
       ],
       "lo": [
-        "LO5"
+        "LO2",
+        "LO6"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "apply",
+      "session": 4,
+      "level": "evaluate",
       "pool": "practice",
       "weight": 1
     },
     {
-      "id": "q-example-6",
-      "type": "tf",
-      "prompt": "REPLACE: a statement on LO6 that is true",
+      "id": "d1-plan",
+      "type": "single",
+      "prompt": "Which plan field, left empty, most directly allows the analyst to change the conclusion after seeing the results?",
       "options": [
-        "True",
-        "False"
+        "The decision rule linking each possible interval to an action",
+        "The owner's name",
+        "The list of secondary metrics",
+        "The date the evaluation ran"
       ],
       "correct": [
         0
       ],
-      "explanation": "REPLACE: why the right answer is right, in one sentence",
+      "explanation": "Without a decision rule written in advance, any interval can be read as supporting the preferred action.",
       "misconceptions": [
         "",
-        "REPLACE: the misconception behind this option"
+        "Names who is accountable but does not fix any analysis choice",
+        "Secondary results are labelled exploratory anyway",
+        "The run date is recorded by the logs and does not drive a conclusion"
       ],
       "lo": [
         "LO6"
       ],
       "day": "day1",
-      "session": 1,
-      "level": "understand",
+      "session": 4,
+      "level": "apply",
       "pool": "practice",
       "weight": 1
     }

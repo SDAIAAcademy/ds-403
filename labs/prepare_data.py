@@ -85,7 +85,8 @@ def main() -> None:
     # ---------------- documents and facts ----------------
     sizes = rng.integers(4, 12, size=80)
     sizes = np.round(sizes * 600 / sizes.sum()).astype(int)
-    sizes[np.argmax(sizes)] += 600 - sizes.sum()
+    gap = 600 - int(sizes.sum())
+    sizes[np.argsort(-sizes, kind="stable")[:abs(gap)]] += int(np.sign(gap))
     docs, items = [], []
     doc_effect = rng.normal(0, 1.5, size=80)
     qn = 0

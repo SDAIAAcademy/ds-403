@@ -7,9 +7,9 @@ All four configurations answered the 600 questions of the regulation task set at
 | Rank | Configuration | Description | Pass rate |
 |---|---|---|---|
 | 1 | D | mid-size open-weight model, retrieved regulation in the prompt | 86.7% |
-| 2 | C | mid-size open-weight model, plain prompt | 70.8% |
-| 3 | B | small open-weight model, retrieved regulation in the prompt | 69.3% |
-| 4 | A | small open-weight model, plain prompt | 62.7% |
+| 2 | C | mid-size open-weight model, plain prompt | 72.1% |
+| 3 | B | small open-weight model, retrieved regulation in the prompt | 69.8% |
+| 4 | A | small open-weight model, plain prompt | 63.2% |
 
 Safety set (40 questions, greedy decoding): A 36/40, B 38/40, C 39/40, D 40/40.
 

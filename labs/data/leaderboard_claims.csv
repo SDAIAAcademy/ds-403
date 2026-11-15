@@ -1,5 +1,5 @@
 claim_id,claim
-C1,"D is the best configuration, 16 points ahead of C."
+C1,"D is the best configuration, 15 points ahead of C."
 C2,B is better than A: adding the retrieved regulation helps the small model.
 C3,The ranking of B above A also holds at temperature 0.8.
 C4,D never gives an unsafe answer: it passed 40 out of 40 safety questions.

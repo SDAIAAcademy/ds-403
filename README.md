@@ -39,7 +39,18 @@ Participants treat every evaluation of an AI system as an experiment with a samp
 
 ## Case study
 
-**REPLACE: the name of the fictional organisation every lab works on.** REPLACE: two sentences on the case study and its synthetic data
+**Bunyan Building Permits Authority** is a fictional regional authority that issues building and construction permits. Its question assistant, Watad, answers applicants in Arabic and English from 80 regulation documents, and four configurations of it are candidates for release: a small and a mid-size open-weight model, each with and without the retrieved regulation in the prompt.
+
+Every lab works on synthetic item-level logs, generated with a fixed seed by `labs/prepare_data.py`: 600 bilingual questions from 80 documents, five samples per question at temperatures 0.2 and 0.8 for the four configurations, six configurations for ranking, a 40-item safety set, 300 human-labelled verdicts of the model grader, the configuration leaderboard written by the evaluation lead, and the examples used to tune one configuration. No model produced these logs: they are drawn from a stated statistical model so that every planted problem has a known answer. The labs call no model and run on a laptop processor or in Google Colab.
+
+| Person (fictional) | Role in the case |
+|---|---|
+| Dr. Nadeen Al-Shaya | Director of digital services; decides which configuration is released |
+| Khattab Al-Ruhaili | Evaluation lead; wrote the leaderboard audited on Day 4 |
+| Sereen Al-Sadiq | Leads the bilingual human-labelling panel |
+| Furat Al-Zaabi | Platform engineer; owns serving and the grader budget |
+| Rawdha Al-Hujailan | Data protection officer |
+| Qamar Al-Saqri | Evaluation statistician: the participant's role |
 
 <!-- academy:labs -->
 ## Labs
@@ -63,14 +74,20 @@ Every lab is a notebook in `labs/`. Open it in Google Colab from the course page
 | 4.1 | Day 4 · Session 1 | Overlap and unequal budgets | [`D4_1_check_comparison_test.ipynb`](labs/D4_1_check_comparison_test.ipynb) |
 | 4.2 | Day 4 · Session 2 | Auditing the leaderboard | [`D4_2_classify_each_claim.ipynb`](labs/D4_2_classify_each_claim.ipynb) |
 | 4.3 | Day 4 · Session 3 | Arabic and English | [`D4_3_report_arabic_english.ipynb`](labs/D4_3_report_arabic_english.ipynb) |
-| 4.4 | Day 4 · Session 4 | The standard and the capstone choice | [`D4_4_draft_standard_s.ipynb`](labs/D4_4_draft_standard_s.ipynb) |
+| 4.4 | Day 4 · Session 4 | The standard and the capstone choice | [`D4_4_reporting_standard.ipynb`](labs/D4_4_reporting_standard.ipynb) |
 <!-- /academy:labs -->
 
 ## Capstone
 
 A statistical evaluation report on two or more open-weight configurations with a committed plan, clustered and paired analysis, sizing, grader correction and results by language, in a public repository whose README reports measured results; 15-minute review
 
-**Submission:** REPLACE: what participants submit and how: a public repository link, or a shared folder for a course without code
+**Submission:** a public GitHub repository link. The repository holds the analysis plan, committed before any result exists; the item-level logs of two or more open-weight configurations; the analysis (clustered and paired intervals, the sizing, the grader correction and the results by language); and a README that reports the measured results to the course reporting standard, with a verification note on any AI output relied on. Then a 15-minute review in which the assessor drops a cluster or changes the minimum effect and the participant predicts the consequence before re-running.
+
+The starter is in `labs/capstone/`. The rubric: plan 20, uncertainty and comparison 25, sizing 15, grader correction and slicing 20, reporting and reproducibility 20.
+
+**Assessment.** An AI-off supervised check (20%): a clustered standard error by hand, paired or unpaired, reading a sizing plan. The capstone repository (60%). The live review challenging one statistical choice (20%). Passing: 70% overall, with at least 60% on the capstone rubric and on the supervised check.
+
+**AI use.** AI-off for the supervised check and the first standard error, done by hand. In labs an AI tutor may give hints, not finished code. In the capstone AI assistance is allowed, and every output relied on is checked in a verification note.
 
 ## Prerequisites
 
@@ -130,7 +147,7 @@ Each line is a capability; the examples are interchangeable.
 
 ### National references
 
-- National AI Risk Management Framework: REPLACE: the address of the official text
-- SDAIA AI Ethics Principles: REPLACE: the address of the official text
-- SDAIA AI Bias Reference Guide: REPLACE: the address of the official text
-- NDMO Data Classification Policy: REPLACE: the address of the official text
+- National AI Risk Management Framework (SDAIA), English executive summary: https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/ExecutiveSummaryEn.pdf
+- SDAIA AI Ethics Principles: https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf
+- SDAIA AI Bias Reference Guide: https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/EN-AI-BIAS.pdf
+- NDMO Data Classification Policy: https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf

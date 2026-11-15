@@ -1,158 +1,439 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Welcome. Ask the room one question to calibrate: "Who has reported an evaluation score this year, and who put an interval on it?" Usually most hands go up for the first and few for the second; that gap is the course.</p><p>The rhythm: four sessions, each about 20 to 25 minutes of concepts and a 25-minute lab. Breaks are yours to call (press B).</p></aside>
 </section>
 
-<section class="slide" id="agenda" data-auto="agenda"></section>
+<section class="slide" id="agenda" data-auto="agenda">
+  <aside class="notes"><p>Day 1 builds one sentence: an evaluation score is an estimate from a sample, and its standard error must respect how the sample was drawn. Day 2 compares systems, Day 3 handles small sets and imperfect graders, Day 4 audits claims.</p></aside>
+</section>
+
+<section class="slide" id="setup-check" data-label="Setup">
+  <div class="kicker">Before the first lab</div>
+  <h2>Everything runs on a laptop processor or in Colab, from supplied logs</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li><b>Local:</b> <code>uv sync</code> in <code>labs/</code>, then <code>uv run jupyter lab</code>.</li>
+      <li><b>Colab:</b> open a notebook from the course page; its first cell clones the repository.</li>
+      <li><b>No model call, no key:</b> every lab reads item-level logs in <code>labs/data/</code>.</li>
+      <li><b>Quick mode:</b> <code>DS403_QUICK=1</code> cuts bootstrap and simulation draws.</li>
+    </ul>
+    <div class="card c-teal"><h4>The proof</h4><p class="small mb0">Run <code>00_setup_check.ipynb</code>. It imports every library, reads the logs and prints the 600 questions and the four configurations.</p></div>
+  </div>
+  <div class="callout note small mt"><b>Pre-work recap.</b> You classified Bunyan's logs with the NDMO levels: questions and verdicts are Public, the applicants' own messages would not be.</div>
+  <aside class="notes"><p>Ask everyone to run the setup check now while you introduce the case. Common failures: a long Windows path (set UV_PROJECT_ENVIRONMENT to a short folder before uv sync), a corporate proxy blocking Colab's clone (use local), an old Python (uv installs 3.12 from labs/.python-version).</p><p>The pre-work applied the NDMO Data Classification Policy's four levels (Top Secret, Secret, Restricted, Public) to decide which logs may go to a hosted grader. Revisit it on Day 3.</p></aside>
+</section>
+
+<section class="slide" id="the-case" data-label="The case">
+  <div class="kicker">The case study</div>
+  <h2>Bunyan Building Permits Authority must choose a configuration of Watad</h2>
+  <div class="cols cols-21">
+    <div>
+      <p class="small">Watad answers applicants' questions on building regulations, in Arabic and English. Four configurations are candidates:</p>
+      <table class="t small">
+        <tr><th></th><th>Plain prompt</th><th>Regulation retrieved</th></tr>
+        <tr><td>Small open-weight model</td><td>A</td><td>B</td></tr>
+        <tr><td>Mid-size open-weight model</td><td>C</td><td>D</td></tr>
+      </table>
+    </div>
+    <div class="card c-navy tint"><h4>The logs</h4><p class="small mb0">600 questions from 80 regulation documents, five samples per question at temperatures 0.2 and 0.8, a model grader's verdict on every answer. Synthetic, fixed seed.</p></div>
+  </div>
+  <aside class="notes"><p>The people: Dr. Nadeen Al-Shaya, director of digital services, decides. Khattab Al-Ruhaili, evaluation lead, wrote the leaderboard we audit on Day 4. Sereen Al-Sadiq leads the bilingual human-labelling panel. Furat Al-Zaabi runs the serving and owns the grader budget. Rawdha Al-Hujailan is the data protection officer. The participant is Qamar Al-Saqri, evaluation statistician.</p><p>Say plainly: no model produced these logs. They are drawn from a stated model so that every planted problem has a known answer.</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="score-is-estimate" data-lo="LO1">
+  <div class="kicker">The frame</div>
+  <h2>An evaluation is an experiment, and its questions are a sample</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>Population</b>every question applicants could ask about the regulations</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>Sample</b>the 600 questions someone wrote</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Estimate</b>D passes 74.7% of them</div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout tip mt"><b>The question a reader cares about</b> is how D would do on questions not yet written. The 74.7% is an estimate of that, with a standard error.</div>
+  <aside class="notes"><p>This frame is from Evan Miller's paper on error bars for evaluations: questions as draws from an unseen super-population. Ask: "If Khattab had written a different 600 questions, would D still score 74.7%?" No: so the score has sampling error.</p><p>Sources: arXiv 2411.00640.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="formula-se" data-lo="LO1">
+  <div class="kicker">The formula</div>
+  <h2>A pass rate is a mean of zeros and ones, so it has a standard error</h2>
+  <div class="cols cols-2 mid">
+    <div class="stat center"><div class="big">±1.8</div><div class="lbl">points: the standard error of D's first sample, 600 questions</div></div>
+    <ul class="bullets small">
+      <li><code>SE = √(p(1 − p) / n)</code> with p = 0.747 and n = 600 gives 0.0178.</li>
+      <li>A 95% interval is p ± 1.96 SE: 71.2% to 78.1%.</li>
+      <li>Four times the questions halves the standard error.</li>
+    </ul>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Numbers from Lab 1.1's run on D's first sample at temperature 0.2. Ask the room for the interval width before revealing: about plus or minus 3.5 points. Most people underestimate it.</p></aside>
+</section>
+
+<section class="slide" id="bootstrap-idea" data-lo="LO1">
+  <div class="kicker">The bootstrap</div>
+  <h2>Resample the questions to see how much the score would move</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Draw</b>600 questions with replacement</div>
+    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · Score</b>the pass rate of the draw</div>
+    <div class="arrow frag" data-frag="c">→</div><div class="step c-purple frag" data-frag="c"><b>3 · Repeat</b>5,000 times</div>
+    <div class="arrow frag" data-frag="d">→</div><div class="step c-coral frag" data-frag="d"><b>4 · Read</b>the spread is the standard error</div>
+  </div>
+  <div class="callout tip mt frag" data-frag="d"><b>No formula needed:</b> the same recipe works for medians, differences and corrected rates later in the course.</div>
+  <aside class="notes"><p>Press once per step. The bootstrap is the participants' prerequisite (DS-302, DS-305): keep it brisk, the point is that it resamples the unit you name, and that choice matters in session 2.</p></aside>
+</section>
+
+<section class="slide" id="two-intervals-agree" data-lo="LO1">
+  <div class="kicker">Lab 1.1 result</div>
+  <h2>With 600 independent questions, the formula and the bootstrap agree</h2>
+  <table class="t">
+    <tr><th>Method</th><th class="num">SE</th><th class="num">95% interval</th></tr>
+    <tr><td>Formula</td><td class="num">0.0178</td><td class="num">71.2% to 78.1%</td></tr>
+    <tr><td>Bootstrap over questions, 5,000 draws</td><td class="num">0.0178</td><td class="num">71.2% to 78.2%</td></tr>
+    <tr class="hl"><td>Bootstrap over documents</td><td class="num">0.0254</td><td class="num">wider: session 2</td></tr>
+  </table>
+  <aside class="notes"><p>From Lab 1.1's solution run. The third row is the lab's stretch item: leave it as a teaser. Both of the first two rows assume questions are independent; the third does not, and it is 40% wider.</p></aside>
+</section>
+
+<section class="slide" id="what-interval-says" data-lo="LO1">
+  <div class="kicker">Reading an interval</div>
+  <h2>The interval is about new questions, not about these 600</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>It says</h4><p class="small mb0">If questions were written again the same way, intervals built like this would contain D's true pass rate 95% of the time.</p></div>
+    <div class="card c-coral"><h4>It does not say</h4><p class="small mb0">That D passes between 71.2% and 78.1% of these 600 questions: on these, the rate is known exactly.</p></div>
+  </div>
+  <div class="callout note small mt"><b>And it is silent</b> on questions of a different kind: dialect, new regulations, other agencies.</div>
+  <aside class="notes"><p>The last line foreshadows Day 4: an interval only covers the population the items were drawn from. The 2027 regulations are a different population.</p></aside>
+</section>
+
+<section class="slide" id="report-with-interval" data-lo="LO1">
+  <div class="kicker">Reporting</div>
+  <h2>A score travels with its interval, its n, its samples and its temperature</h2>
+  <div class="prompt" data-tool="Report line">D: 74.7% (95% CI 71.2 to 78.1), 600 questions, 1 sample each, temperature 0.2</div>
+  <ul class="bullets small mt">
+    <li>Without the interval, a one-point lead looks like a win.</li>
+    <li>Without n, samples and temperature, nobody can reproduce or compare it.</li>
+  </ul>
+  <aside class="notes"><p>This is the line participants write at the end of Lab 1.1. On Day 4 it grows into the reporting standard. Ask: which of the five parts is most often missing in reports you have read? Usually the samples and the temperature.</p></aside>
+</section>
+
+<section class="slide" id="check-sample" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>What does the interval describe?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">Configuration B scores 69.8% on the 600 questions, 95% interval 66.7% to 72.9%. A manager asks what the interval means. Which answer is right?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats the 600 questions as the population: on them the rate is known exactly">B passes between 66.7% and 72.9% of these 600 questions</div>
+      <div class="opt" data-ok>B's pass rate on questions written the same way is plausibly between 66.7% and 72.9%</div>
+      <div class="opt" data-why="Reads the interval as a range of individual answers, not of a rate">Each answer of B passes with a probability between 66.7% and 72.9%</div>
+      <div class="opt" data-why="Assumes the interval covers any population, including questions of a different kind">B will score between 66.7% and 72.9% on next year's regulations</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The interval estimates the pass rate on the population the questions were sampled from; on the sample itself there is no uncertainty, and other populations are not covered.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. If many choose A, return to the slide "The interval is about new questions". If many choose D, say: the 2027 regulations are a different population; Day 4 audits exactly that kind of claim.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-1" data-auto="lab" data-lab="1.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Walk the room. Typical problems: forgetting to keep only sample 1 (they get 3,000 rows and a too-small SE); filtering temperature with == on floats (use np.isclose); bootstrapping indices once instead of B times. Anyone who finishes early does the stretch: the document bootstrap.</p></aside>
 </section>
 
 <!-- Session 2 -->
 
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="questions-share-documents" data-lo="LO1">
+  <div class="kicker">How the items were written</div>
+  <h2>Questions written from one document succeed and fail together</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
+    <ul class="bullets small">
+      <li>Khattab's team wrote 4 to 9 questions from each of 80 regulation documents.</li>
+      <li>A document the model reads well yields many passes; an obscure one, many failures.</li>
+      <li>So the 600 questions are not 600 independent draws: they are 80 clusters.</li>
     </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-coral flat"><h4>What it does</h4><p class="small mb0">Formulas that assume independence understate the standard error. The interval is too narrow and differences look more certain than they are.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Ask the room where else items cluster in evaluations they know: reading-comprehension sets with several questions per passage, code benchmarks with several tests per repository, multi-turn tasks per conversation. Miller recommends clustered standard errors for exactly this.</p><p>Sources: arXiv 2411.00640.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="clustered-formula" data-lo="LO1">
+  <div class="kicker">The clustered standard error</div>
+  <h2>Sum the deviations inside each document before squaring</h2>
+  <pre class="code" data-file="Lab 1.2"><code class="language-python">def clustered_se(x, groups):
+    x = np.asarray(x, dtype=float)
+    sums = pd.Series(x - x.mean()).groupby(groups).sum()
+    return np.sqrt((sums ** 2).sum()) / len(x)</code></pre>
+  <p class="small">Deviations of the same sign inside one document add up, so a document whose questions fail together contributes much more than nine independent questions would.</p>
+  <aside class="notes"><p>Write the formula on the board: SE_cl = (1/n) times the square root of the sum over documents of the squared sum of deviations. With one question per document it reduces to the naive formula (up to n versus n minus 1).</p></aside>
+</section>
+
+<section class="slide" id="design-effect" data-lo="LO1">
+  <div class="kicker">Design effect</div>
+  <h2>The design effect says how many independent questions the 600 are worth</h2>
+  <div class="cols cols-2 mid">
+    <ul class="bullets small">
+      <li><code>DEFF = (SE clustered / SE naive)²</code></li>
+      <li>Effective number of questions: n / DEFF</li>
+      <li>D: naive SE 0.0151, clustered 0.0234</li>
+    </ul>
+    <div class="stat center"><div class="big">2.4</div><div class="lbl">D's design effect: 600 questions are worth about 249 independent ones</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From Lab 1.2's run on the mean of five samples at temperature 0.2. The interval is the square root of 2.4, about 1.55 times wider than the naive one.</p></aside>
+</section>
+
+<section class="slide" id="deff-all-configs" data-lo="LO1">
+  <div class="kicker">Lab 1.2 result</div>
+  <h2>Every configuration's interval widens by half once documents are counted</h2>
+  <table class="t">
+    <tr><th>Config</th><th class="num">Mean</th><th class="num">Naive SE</th><th class="num">Clustered SE</th><th class="num">DEFF</th><th class="num">Effective n</th></tr>
+    <tr><td>A</td><td class="num">63.2%</td><td class="num">0.0165</td><td class="num">0.0281</td><td class="num">2.88</td><td class="num">209</td></tr>
+    <tr><td>B</td><td class="num">69.8%</td><td class="num">0.0156</td><td class="num">0.0258</td><td class="num">2.72</td><td class="num">221</td></tr>
+    <tr><td>C</td><td class="num">72.1%</td><td class="num">0.0153</td><td class="num">0.0244</td><td class="num">2.54</td><td class="num">236</td></tr>
+    <tr class="hl"><td>D</td><td class="num">74.3%</td><td class="num">0.0151</td><td class="num">0.0234</td><td class="num">2.41</td><td class="num">249</td></tr>
+  </table>
+  <aside class="notes"><p>Point out that the configurations differ less in their means than their naive intervals suggest: with clustered SEs of 2.3 to 2.8 points, C and D overlap heavily. Do not draw a conclusion yet: Day 2 shows that comparing two configurations on the same questions is a different calculation.</p></aside>
+</section>
+
+<section class="slide" id="cluster-bootstrap" data-lo="LO1">
+  <div class="kicker">Two checks</div>
+  <h2>Resample documents, or ask statsmodels for cluster covariance</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Cluster bootstrap</h4><p class="small mb0">Draw 80 documents with replacement and keep all their questions: SE 0.0231 against 0.0234 by formula.</p></div>
+    <div class="card c-purple"><h4>statsmodels</h4><p class="small mb0">OLS on a constant with <code>cov_type="cluster"</code>: 0.0236, the formula times √(G / (G − 1)).</p></div>
+  </div>
+  <div class="callout warn small mt"><b>Few clusters.</b> With 8 categories as clusters the estimate is itself noisy; with 80 documents it is stable.</div>
+  <aside class="notes"><p>Numbers from Lab 1.2. statsmodels applies a small-sample factor of G over G minus 1; with 80 documents it adds 0.6%. The stretch item clusters by category: 8 clusters is too few for the sandwich estimator to be trusted without a t correction.</p></aside>
+</section>
+
+<section class="slide" id="more-documents" data-lo="LO1 LO3">
+  <div class="kicker">What it means for writing items</div>
+  <h2>New documents buy more precision than more questions per document</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral flat"><h4>120 more questions from the same 80 documents</h4><p class="small mb0">The document effects stay; the clustered SE barely moves.</p></div>
+    <div class="card c-teal flat"><h4>120 questions from 16 new documents</h4><p class="small mb0">More clusters: the clustered SE falls by about the square root of 96/80.</p></div>
+  </div>
+  <aside class="notes"><p>This anticipates Day 2's sizing. The rule of thumb: when DEFF is large, add clusters, not items per cluster. Ask: how many documents does your own evaluation set draw from?</p></aside>
+</section>
+
+<section class="slide" id="check-clusters" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Which change narrows the interval most?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">C's design effect is 2.5. Furat can pay for 160 more questions. Which plan narrows C's clustered interval most?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats questions as independent: more questions from the same documents carry the same document effects">160 questions from the same 80 documents, two per document</div>
+      <div class="opt" data-why="Confuses sampling noise with clustering: more samples shrink the within-item part only">Ten samples per question in place of five</div>
+      <div class="opt" data-ok>160 questions from 20 new documents</div>
+      <div class="opt" data-why="Believes the naive formula is the safer report: it is narrower because it is wrong">Report the naive interval, which is already narrower</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The clustered standard error falls with the number of documents; new documents add independent evidence that more questions from old documents do not.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. Option B returns in the next session: more samples per question reduce only the sampling part of the variance.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-2" data-auto="lab" data-lab="1.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Typical problems: grouping the raw deviations by document after squaring (gives the naive SE); computing the design effect as a ratio of SEs instead of variances. The statsmodels check fails if the groups are passed as strings in older versions: pd.factorize is in the cell for that reason.</p></aside>
 </section>
 
 <!-- Session 3 -->
 
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO1">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="two-sources" data-lo="LO1">
+  <div class="kicker">Two sources of noise</div>
+  <h2>A score varies because of which questions were written and because the model samples</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-navy"><h4>Between items</h4><p class="small mb0">Some questions are easy, some hard. Only more questions reduce this part.</p></div>
+    <div class="card c-coral"><h4>Within items</h4><p class="small mb0">Asked twice, the model may answer differently. More samples per question reduce this part.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <p class="small mt"><code>Var(question mean) = between + within / K</code> for the mean of K samples per question.</p>
+  <aside class="notes"><p>Miller's paper recommends resampling each question several times when the model is sampled with a nonzero temperature: it removes part of the noise for free compared with writing questions. Today's lab measures how big that part is.</p><p>Sources: arXiv 2411.00640.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO1">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="within-between-split" data-lo="LO1">
+  <div class="kicker">Lab 1.3 result</div>
+  <h2>At temperature 0.8 the model's own randomness is half the variance</h2>
+  <div class="bars">
+    <div class="row"><span>0.2 · between</span><div class="bar c-navy" style="--w:99%"></div><span class="val">0.123</span></div>
+    <div class="row"><span>0.2 · within</span><div class="bar c-coral" style="--w:55%"></div><span class="val">0.068</span></div>
+    <div class="row"><span>0.8 · between</span><div class="bar c-navy" style="--w:70%"></div><span class="val">0.087</span></div>
+    <div class="row"><span>0.8 · within</span><div class="bar c-coral" style="--w:100%"></div><span class="val">0.124</span></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Configuration D, Lab 1.3. Within: the average variance of a question's five verdicts. Between: the variance of the per-question means minus within over five. At 0.8 the answers spread over more outcomes, so the within part grows and the between part shrinks.</p></aside>
+</section>
+
+<section class="slide" id="se-by-k" data-lo="LO1 LO3">
+  <div class="kicker">What more samples buy</div>
+  <h2>Five samples help; twenty barely help more</h2>
+  <table class="t">
+    <tr><th>Samples per question</th><th class="num">SE at 0.2</th><th class="num">SE at 0.8</th></tr>
+    <tr><td>1</td><td class="num">0.0179</td><td class="num">0.0187</td></tr>
+    <tr class="hl"><td>5</td><td class="num">0.0151</td><td class="num">0.0136</td></tr>
+    <tr><td>20</td><td class="num">0.0145</td><td class="num">0.0124</td></tr>
+  </table>
+  <p class="small mt">600 questions, configuration D, ignoring clustering. The floor is the between-item part.</p>
+  <aside class="notes"><p>Predicted by se_for_k in Lab 1.3; the stretch checks K = 2 against the logs (0.0158 observed, 0.0157 predicted at 0.8). Day 2 session 4 turns this into a budget decision.</p></aside>
+</section>
+
+<section class="slide" id="three-estimands" data-lo="LO1">
+  <div class="kicker">Pass rates over repeated attempts</div>
+  <h2>The mean, pass@5 and pass^5 answer three different questions</h2>
+  <table class="t">
+    <tr><th>Estimand</th><th>The question it answers</th><th class="num">D at 0.2</th><th class="num">D at 0.8</th></tr>
+    <tr><td>Mean per sample</td><td>One answer to one applicant</td><td class="num">74.3%</td><td class="num">70.0%</td></tr>
+    <tr><td>pass@5</td><td>Right at least once in five tries</td><td class="num">86.7%</td><td class="num">91.2%</td></tr>
+    <tr><td>pass^5</td><td>Right every time in five</td><td class="num">59.2%</td><td class="num">41.2%</td></tr>
+  </table>
+  <aside class="notes"><p>Recap from AE-302 and AE-303 (consistency over repeated trials). Note that raising the temperature lowers the mean and pass^5 but raises pass@5. A report that compares one configuration's pass@5 with another's mean is comparing different things: Day 4's audit finds exactly that in the leaderboard.</p></aside>
+</section>
+
+<section class="slide" id="temperature-is-design" data-lo="LO1">
+  <div class="kicker">Temperature is part of the design</div>
+  <h2>Fix the temperature and the samples in the plan, not after the results</h2>
+  <ul class="bullets">
+    <li>Evaluate at the temperature the deployed configuration will use.</li>
+    <li>At temperature 0, sampling variance is near zero, but the score still has between-item error.</li>
+    <li>Report the samples per question and how they were combined.</li>
+  </ul>
+  <aside class="notes"><p>Watad will run at 0.2 in production, so 0.2 is the primary analysis; 0.8 is a robustness check. Some serving stacks are not exactly deterministic at temperature 0; say so in the plan rather than assuming zero within-item variance.</p></aside>
+</section>
+
+<section class="slide" id="check-samples" data-lo="LO1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Twenty samples per question</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">At temperature 0.2, D's between-item variance is 0.123 and its within-item variance 0.068. A colleague proposes 20 samples per question in place of 5 to "make the score precise". What happens?</p>
+    <div class="opts">
+      <div class="opt" data-ok>The standard error barely falls, because the between-item part does not shrink with samples</div>
+      <div class="opt" data-why="Treats samples as independent questions: they share the question's difficulty">The standard error halves, as it would with four times the questions</div>
+      <div class="opt" data-why="Confuses precision with bias: more samples change the noise, not the expected score">The pass rate rises, because more samples find more right answers</div>
+      <div class="opt" data-why="Mistakes pass@k for the mean: the mean is unchanged in expectation">The score becomes pass@20, which is the right metric at last</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> More samples reduce only the within / K term; the between-item term, 0.123 here, stays, so the SE goes from 0.0151 to 0.0145.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. Ask a participant to compute the two SEs aloud from the table on the previous slides.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-3" data-auto="lab" data-lab="1.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Typical problems: using ddof=0 for the within-item variance (biases it down by a fifth with K = 5); forgetting to subtract within over K from the variance of means. If anyone gets a negative between-item variance, they subtracted within, not within over K.</p></aside>
 </section>
 
 <!-- Session 4 -->
 
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="forking-paths" data-lo="LO2 LO6">
+  <div class="kicker">Choices after the results</div>
+  <h2>Each choice made after seeing the results is another chance of a false win</h2>
+  <div class="cols cols-4 gap-s">
+    <div class="card c-teal"><h4>Metric</h4><p class="small mb0">mean, first sample, pass@5</p></div>
+    <div class="card c-cyan"><h4>Subset</h4><p class="small mb0">all, Arabic, one category</p></div>
+    <div class="card c-coral"><h4>Analysis</h4><p class="small mb0">paired or not, clustered or not</p></div>
+    <div class="card c-purple"><h4>Exclusions</h4><p class="small mb0">drop "broken" questions</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout warn small mt"><b>Every path is defensible alone.</b> Choosing the one that wins is what inflates the error rate.</div>
+  <aside class="notes"><p>The participants met pre-registration for A/B tests in DS-302; here it is the evaluation version. Ask: which of these four have you seen changed after results in a report you read?</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="false-wins-simulated" data-lo="LO2">
+  <div class="kicker">Lab 1.4 result</div>
+  <h2>Choosing the best of four metrics after the fact triples the false wins</h2>
+  <div class="cols cols-2 mid">
+    <div class="bars">
+      <div class="row"><span>One planned metric</span><div class="bar c-teal" style="--w:32%"></div><span class="val">5.2%</span></div>
+      <div class="row"><span>Best of four, chosen after</span><div class="bar c-coral" style="--w:100%"></div><span class="val">16.3%</span></div>
+    </div>
+    <p class="small">2,000 simulated comparisons of two <b>identical</b> configurations, 600 questions, five samples each.</p>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From Lab 1.4's simulation: the four metrics are the mean of five samples, the first sample, pass@5, and the Arabic questions only. They are correlated, so the rate is not 1 minus 0.95 to the fourth (18.5%), but close.</p></aside>
+</section>
+
+<section class="slide" id="what-plan-fixes" data-lo="LO6">
+  <div class="kicker">What a plan fixes</div>
+  <h2>The plan fixes the question, the metric, the analysis and the decision</h2>
+  <table class="t small">
+    <tr><th>Field</th><th>For C against D</th></tr>
+    <tr><td>Question</td><td>Is D at least three points better than C?</td></tr>
+    <tr><td>Primary metric</td><td>mean grader pass rate per sample, 5 samples, temperature 0.2</td></tr>
+    <tr><td>Analysis</td><td>paired difference D minus C, clustered by document</td></tr>
+    <tr><td>Minimum effect</td><td>3 points; alpha 0.05; power 0.8</td></tr>
+    <tr><td>Slices</td><td>language and category, declared now</td></tr>
+  </table>
+  <aside class="notes"><p>This is the reference plan of Lab 1.4 (data/reference/plan_C_vs_D.json). Twenty fields in all; the validator in the lab refuses an empty one, a non-positive minimum effect, clustering that does not name documents, and slices without language.</p></aside>
+</section>
+
+<section class="slide" id="minimum-effect" data-lo="LO2">
+  <div class="kicker">The minimum effect</div>
+  <h2>A difference can be real and still too small to act on</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>Switching configurations costs migration, retesting and serving.</li>
+      <li>Dr. Nadeen will switch only for three points or more.</li>
+      <li>Written before the results, the threshold cannot drift to fit them.</li>
+    </ul>
+    <div class="card c-navy tint"><h4>Three verdicts</h4><p class="small mb0">Worth switching; real but too small to matter; not shown. The plan says which interval leads to which.</p></div>
+  </div>
+  <aside class="notes"><p>The minimum effect also drives the sizing on Day 2: the smaller the effect that matters, the more questions are needed. Ask the decision owner for it, do not invent it.</p></aside>
+</section>
+
+<section class="slide" id="decision-rule" data-lo="LO2 LO6">
+  <div class="kicker">The decision rule</div>
+  <h2>Write what each possible interval leads to, before you see it</h2>
+  <div class="flow v">
+    <div class="step c-teal"><b>Whole interval above 3 points</b>switch to D</div>
+    <div class="arrow">↓</div>
+    <div class="step c-cyan"><b>Above 0, but includes values below 3</b>D is better; whether by enough is not shown</div>
+    <div class="arrow">↓</div>
+    <div class="step c-coral"><b>Includes 0</b>no difference shown; keep C</div>
+  </div>
+  <aside class="notes"><p>The middle branch is the uncomfortable one and the most common. Agree with the decision owner in advance what happens there: often, keep the cheaper configuration or run a larger evaluation sized on Day 2.</p></aside>
+</section>
+
+<section class="slide" id="commit-plan" data-lo="LO6">
+  <div class="kicker">Evidence that the plan came first</div>
+  <h2>Commit the plan to git before the results exist</h2>
+  <pre class="code s" data-file="capstone repository"><code class="language-bash">git add plan.json
+git commit -m "Commit the analysis plan"
+# later, in a separate commit
+git add results/ analysis/</code></pre>
+  <p class="small">The commit history is the timestamp the capstone review checks. An amendment is a new dated commit with its reason, never a silent edit.</p>
+  <aside class="notes"><p>The catalog's authenticity rule: the analysis plan is committed before results exist. Assessors check the history of plan.json. Remind them that AI-off applies to the supervised check, not here: drafting the plan with an assistant is allowed, and the verification note says what was checked.</p></aside>
+</section>
+
+<section class="slide" id="check-plan" data-lo="LO2 LO6">
+  <div class="kicker">Checkpoint</div>
+  <h2>The metric changed after the results</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">The plan named the mean pass rate. After the run, D beats C on pass@5 but not on the mean. The team wants to headline pass@5 "because it shows D's potential". What should the report do?</p>
+    <div class="opts">
+      <div class="opt" data-why="Treats any defensible metric as equal once results are known: that is the forking path">Headline pass@5, since it is a recognised metric</div>
+      <div class="opt" data-why="Believes a lower alpha repairs a post hoc choice: it does not undo the selection">Headline pass@5 with alpha lowered to 0.01</div>
+      <div class="opt" data-why="Thinks a plan forbids any other result: secondary results are allowed when labelled">Delete pass@5 from the report entirely</div>
+      <div class="opt" data-ok>Headline the planned mean and label pass@5 as an unplanned, exploratory result</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The planned metric carries the stated error rate; an outcome chosen because it won does not, so it can be shown only as exploratory.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Connect to the SDAIA AI Bias Reference Guide, which lists outcome reporting bias: reporting the outcomes that look best.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-1-4" data-auto="lab" data-lab="1.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Participants usually fill the plan in five minutes and then argue about the decision rule: let them, it is the point. The simulation takes a minute in full mode; in quick mode about ten seconds. If someone's validator reports zero problems on the empty template, they skipped the required-fields loop.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Day 1 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>A score is an estimate</h4><p class="small mb0">Report it with its interval, n, samples and temperature.</p></div>
+    <div class="card c-coral"><h4>Count documents, not questions</h4><p class="small mb0">D's 600 questions are worth about 249 independent ones.</p></div>
+    <div class="card c-purple"><h4>Plan first</h4><p class="small mb0">Metric, analysis, minimum effect and decision rule, committed before the results.</p></div>
   </div>
+  <aside class="notes"><p>Ask each table for the one number from today they will quote at work. Collect unfinished labs: they can be finished at home; every Day 2 lab starts from the supplied logs.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
   <h2>Day 2: Comparing systems</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <p class="lead">Bring your plan for C against D. Tomorrow you test it with a paired analysis and size the next evaluation within Furat's budget.</p>
+  <aside class="notes"><p>Nothing to install. Participants who did not finish Lab 1.4 can use data/reference/plan_C_vs_D.json tomorrow.</p></aside>
 </section>

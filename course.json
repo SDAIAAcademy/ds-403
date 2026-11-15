@@ -762,7 +762,7 @@
             "title": "The standard and the capstone choice",
             "summary": "Draft the reporting standard's required fields, test a worked example against them, and choose the configurations and the plan of the capstone.",
             "minutes": 25,
-            "href": "D4_4_draft_standard_s.ipynb",
+            "href": "D4_4_reporting_standard.ipynb",
             "steps": [
               {
                 "text": "Fields from the week's findings",
