@@ -68,6 +68,12 @@ Synthetic and deterministic (seed 403). No model produced these logs: they are d
 
 The configurations: **A** a small open-weight model with a plain prompt; **B** the same with the retrieved regulation in the prompt; **C** a mid-size open-weight model with a plain prompt; **D** the same with the retrieved regulation; **E** and **F** two prompt variants of D. The names describe size classes, not products.
 
+## Capstone
+
+`capstone/` holds the capstone starter: `run_eval.py` runs two or more open-weight configurations over Bunyan's questions through any OpenAI-compatible endpoint (or a scripted stand-in with `--stub`), `analyze.py` writes the clustered, paired, sizing, language and grader-correction results, and `TEMPLATE_README.md` is the shape of the report. See `capstone/README.md`.
+
+## Trainers
+
 `solutions/answer_key.md` lists every planted problem, the lab that finds it and the numbers each solution prints (left out of a trainee build).
 
 ## Helpers: `bunyan.py`
