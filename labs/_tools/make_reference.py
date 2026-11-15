@@ -87,8 +87,79 @@ def day1() -> None:
     write("plan_C_vs_D", plan)
 
 
+def day2() -> None:
+    import math
+    from itertools import combinations
+    from scipy import stats
+    t = U.paired_table("C", "D", 0.2)
+    d = t["diff"].mean()
+    se_u = math.sqrt(U.clustered_se(t.score_C, t.doc_id) ** 2 + U.clustered_se(t.score_D, t.doc_id) ** 2)
+    se_p = U.clustered_se(t["diff"], t.doc_id)
+    lo = d - 1.96 * se_p
+    v = "switch" if lo >= 0.03 else ("better, not shown to matter" if lo > 0 else "no difference shown")
+    write("d2_1", {"diff": f(d), "unpaired_se": f(se_u), "paired_se": f(se_p), "corr": f(t.score_C.corr(t.score_D)),
+                   "lo": f(lo), "hi": f(d + 1.96 * se_p), "verdict": v})
+
+    six = U.load("results_six").merge(U.items()[["item_id", "doc_id"]], on="item_id")
+    wide = six.pivot(index=["item_id", "doc_id"], columns="config", values="grader_pass").reset_index()
+    cs = list("ABCDEF")
+    rows = []
+    for a, b in combinations(cs, 2):
+        x = wide[b] - wide[a]
+        se = U.clustered_se(x, wide.doc_id)
+        z = x.mean() / se
+        rows.append({"a": a, "b": b, "diff": f(x.mean()), "se": f(se), "z": f(z), "p": f(2 * stats.norm.sf(abs(z)))})
+    pairs = pd.DataFrame(rows)
+    zb = stats.norm.ppf(1 - 0.05 / 30)
+    pairs["bonf_lo"] = pairs["diff"] - zb * pairs.se
+    pairs["bonf_hi"] = pairs["diff"] + zb * pairs.se
+    rej = np.zeros(15, dtype=bool)
+    for k, i in enumerate(np.argsort(pairs.p.to_numpy())):
+        if pairs.p.iloc[i] <= 0.05 / (15 - k):
+            rej[i] = True
+        else:
+            break
+    pairs["holm_reject"] = rej
+    means = wide[cs].mean()
+    ranks = []
+    for c in cs:
+        above = below = 0
+        for _, r in pairs[pairs.holm_reject].iterrows():
+            if c == r.b:
+                above += r["diff"] < 0; below += r["diff"] > 0
+            elif c == r.a:
+                above += r["diff"] > 0; below += r["diff"] < 0
+        ranks.append({"config": c, "pass_rate": f(means[c]), "best_rank": int(1 + above), "worst_rank": int(6 - below)})
+    ranks = sorted(ranks, key=lambda r: -r["pass_rate"])
+    write("d2_2", {"pairs": pd.DataFrame(rows).to_dict("records"), "adjusted": json.loads(pairs.to_json(orient="records")),
+                   "n_holm": int(rej.sum()), "ranks": ranks, "means": {c: f(means[c]) for c in cs}})
+
+    s = t["diff"].std(ddof=1)
+    deff = (U.clustered_se(t["diff"], t.doc_id) / U.se_formula(t["diff"])) ** 2
+    z = stats.norm.ppf(0.975) + stats.norm.ppf(0.8)
+    n_ind = math.ceil((z * s / 0.03) ** 2)
+    n_need = math.ceil(n_ind * max(deff, 1.0))
+    write("d2_3", {"sd": f(s), "deff": f(deff), "n_independent": n_ind, "n_needed": n_need,
+                   "simulated": [{"questions": 300, "power": 0.4}, {"questions": n_need, "power": 0.8}, {"questions": 900, "power": 0.97}]})
+
+    costs = json.loads((U.DATA / "costs.json").read_text(encoding="utf-8"))
+    ci = costs["new_item_written_and_reviewed"]
+    cs_ = costs["answer_generation_per_sample"] + costs["grader_call_per_answer"]
+    v13 = json.loads((OUT / "d1_3.json").read_text(encoding="utf-8"))
+    out = {}
+    for tt in ("0.2", "0.8"):
+        b, w = v13[tt]["between"], v13[tt]["within"]
+        ds = []
+        for K in range(1, 31):
+            n = math.floor(costs["budget_next_evaluation"] / (ci + cs_ * K))
+            ds.append({"K": K, "n": n, "se": f(math.sqrt((b + w / K) / n))})
+        best = min(ds, key=lambda r: r["se"])
+        out[tt] = {"designs": ds, "best_k": best["K"], "k_star": f(math.sqrt(ci / cs_ * w / b))}
+    write("d2_4", out)
+
+
 if __name__ == "__main__":
-    steps = {"1": day1}
+    steps = {"1": day1, "2": day2}
     for k in (sys.argv[1:] or sorted(steps)):
         steps[k]()
         print("day", k, "references written")

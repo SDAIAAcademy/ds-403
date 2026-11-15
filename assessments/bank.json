@@ -235,6 +235,239 @@
       "level": "apply",
       "pool": "practice",
       "weight": 1
+    },
+    {
+      "id": "d2-paired-why",
+      "type": "single",
+      "prompt": "Two configurations answer the same 600 questions; their per-question scores correlate at 0.8. Compared with an unpaired analysis, the paired standard error of their difference is:",
+      "options": [
+        "Larger, because pairing loses degrees of freedom",
+        "About the same, because the means are the same",
+        "Much smaller, because the shared question difficulty cancels",
+        "Zero, because the same questions were used"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Var(D − C) = Var(D) + Var(C) − 2 Cov(C, D); a strong positive correlation removes most of the variance.",
+      "misconceptions": [
+        "Overweights the loss of degrees of freedom, which is negligible with hundreds of questions",
+        "Confuses the point estimate, which is the same, with its precision",
+        "",
+        "Thinks shared questions remove all noise, when per-question differences still vary"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day2",
+      "session": 1,
+      "level": "understand",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-verdict",
+      "type": "single",
+      "prompt": "The paired difference is 2.0 points, 95% interval 0.6 to 3.4, and the minimum effect is 3 points. Which verdict follows the plan?",
+      "options": [
+        "Switch: the difference is significant",
+        "Better, but not shown to be better by the minimum effect",
+        "No difference shown",
+        "Worse than the minimum effect, so keep the old configuration as proven better"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "The interval excludes zero but includes values below 3 points, so the gain is real but not shown to reach the threshold.",
+      "misconceptions": [
+        "Treats statistical significance as practical importance",
+        "",
+        "Ignores that the whole interval is above zero",
+        "Reads an interval that includes 3 as proof the effect is below 3"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day2",
+      "session": 1,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-cluster-paired",
+      "type": "single",
+      "prompt": "Clustering by document widened each configuration's interval by half, but barely changed the paired interval of their difference. Why?",
+      "options": [
+        "The paired analysis uses fewer questions",
+        "Clustering only applies to single scores by definition",
+        "The document effect moves both configurations together and cancels in the difference",
+        "The paired difference is always normally distributed"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "A shared document effect raises or lowers both scores, so it drops out of D minus C.",
+      "misconceptions": [
+        "Pairing uses the same questions, not fewer",
+        "Clustering applies to any statistic; it just may not matter",
+        "",
+        "Normality has nothing to do with whether clustering matters"
+      ],
+      "lo": [
+        "LO1",
+        "LO2"
+      ],
+      "day": "day2",
+      "session": 1,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-holm",
+      "type": "single",
+      "prompt": "Fifteen paired comparisons have smallest p-values 0.001, 0.004 and 0.006. Under Holm at 5%, which are separated?",
+      "options": [
+        "Only the first",
+        "The first two",
+        "All three",
+        "None"
+      ],
+      "correct": [
+        0
+      ],
+      "explanation": "Holm compares 0.001 with 0.05/15 = 0.0033 (separated), then 0.004 with 0.05/14 = 0.0036 (fails) and stops.",
+      "misconceptions": [
+        "",
+        "Compares 0.004 with 0.05/13 or with 0.05 over its rank from the top, not with 0.05/14",
+        "Uses unadjusted 5% thresholds for every comparison",
+        "Thinks Bonferroni's threshold of 0.0033 rejects nothing, though 0.001 is below it"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day2",
+      "session": 2,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-ranks",
+      "type": "single",
+      "prompt": "A leaderboard of six configurations lists one rank per row. After Holm adjustment only the last configuration is separated from all others. What should the rank column show?",
+      "options": [
+        "The point-estimate ranks, since adjustment applies only to p-values",
+        "Ranks rounded to the nearest pair",
+        "For each configuration, the range of ranks the data cannot rule out",
+        "Rank 1 for every configuration not separated from the leader"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "Plausible rank ranges state what the adjusted comparisons support; single ranks claim separations that were not shown.",
+      "misconceptions": [
+        "Thinks ranks are exempt from uncertainty",
+        "Invents a rounding with no statistical basis",
+        "",
+        "Treats not separated as tied for first, ignoring separations among the others"
+      ],
+      "lo": [
+        "LO2"
+      ],
+      "day": "day2",
+      "session": 2,
+      "level": "evaluate",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-size",
+      "type": "single",
+      "prompt": "The SD of per-question paired differences is 0.20. How many shared questions detect a 4-point difference with 80% power at a two-sided 5% level, assuming independence?",
+      "options": [
+        "About 98",
+        "About 196",
+        "About 1,960",
+        "About 50"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "n = (1.96 + 0.84)² × 0.20² / 0.04² = 7.84 × 0.04 / 0.0016 = 196.",
+      "misconceptions": [
+        "Halves the answer by using one z value only",
+        "",
+        "Forgets to square the effect in the denominator correctly",
+        "Uses the effect instead of its square"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 3,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-sim",
+      "type": "single",
+      "prompt": "A sizing formula gives 400 questions, but a simulation that resamples documents from the pilot shows 62% power at 400. What is the best reading?",
+      "options": [
+        "The simulation is wrong because it is random",
+        "Use the formula; it is exact",
+        "An assumption of the formula fails for this data, probably clustering; size up and rerun the simulation",
+        "Lower the power target to 62%"
+      ],
+      "correct": [
+        2
+      ],
+      "explanation": "The simulation keeps the real cluster structure and the planned test; when it disagrees, the formula's assumptions are the suspect.",
+      "misconceptions": [
+        "Mistakes Monte Carlo noise, which is small with enough draws, for bias",
+        "Trusts assumptions over the data's own structure",
+        "",
+        "Changes the requirement to fit the plan"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 3,
+      "level": "analyze",
+      "pool": "practice",
+      "weight": 1
+    },
+    {
+      "id": "d2-budget",
+      "type": "single",
+      "prompt": "A new question costs 100 times a sample, and the within-item variance equals the between-item variance. About how many samples per question minimise the variance at fixed cost?",
+      "options": [
+        "1",
+        "10",
+        "100",
+        "As many as the budget allows"
+      ],
+      "correct": [
+        1
+      ],
+      "explanation": "K* = √(100 × 1) = 10.",
+      "misconceptions": [
+        "Spends everything on questions, ignoring sampling noise",
+        "",
+        "Uses the cost ratio without the square root",
+        "Ignores the between-item floor that samples cannot reduce"
+      ],
+      "lo": [
+        "LO3"
+      ],
+      "day": "day2",
+      "session": 4,
+      "level": "apply",
+      "pool": "practice",
+      "weight": 1
     }
   ]
 }

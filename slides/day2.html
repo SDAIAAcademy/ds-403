@@ -1,158 +1,411 @@
 <section class="slide title" id="title" data-auto="title">
-  <aside class="notes">REPLACE: welcome; introduce yourself; one question to the room that calibrates the pace; the rhythm of the day</aside>
+  <aside class="notes"><p>Open with yesterday's open question: D scores 74.3% and C 72.1%, each with a clustered interval of about plus or minus 4.6 points. Is D better? Most of the room will say "can't tell". Today shows that the answer is different, because both answered the same questions.</p></aside>
 </section>
 
-<section class="slide" id="agenda" data-auto="agenda"></section>
+<section class="slide" id="agenda" data-auto="agenda">
+  <aside class="notes"><p>Two sessions on comparing (two configurations, then six), two on planning (how many questions, and how to spend a budget between questions and samples).</p></aside>
+</section>
+
+<section class="slide" id="review-day1" data-lo="LO1">
+  <div class="kicker">Review of Day 1</div>
+  <h2>Which standard error belongs in the report?</h2>
+  <div class="quiz" data-type="single" data-lo="LO1">
+    <p class="lead">A new task set has 400 questions from 40 documents. The naive standard error of a configuration's score is 0.020 and the clustered one is 0.032. Which should the report use, and what does it imply?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks the narrower interval is the more precise one, when it is narrower only because it ignores clustering">The naive one: it is more precise</div>
+      <div class="opt" data-why="Averages two estimates as if both were valid">The mean of the two, 0.026</div>
+      <div class="opt" data-why="Believes repeated samples fix clustering, which comes from documents, not draws">Either, if each question was sampled five times</div>
+      <div class="opt" data-ok>The clustered one: the 400 questions are worth about 156 independent ones</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Questions from one document share its difficulty; DEFF = (0.032 / 0.020)² = 2.56, so 400 / 2.56 ≈ 156.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Ask someone to compute the design effect aloud. If the room hesitates, go back to the Day 1 table of design effects (2.4 to 2.9 for the four configurations).</p></aside>
+</section>
 
 <!-- Session 1 -->
 
 <section class="slide section" id="s1" data-auto="section" data-session="1"></section>
 
-<section class="slide" id="s1-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
+<section class="slide" id="same-questions" data-lo="LO2">
+  <div class="kicker">The design you already have</div>
+  <h2>C and D answered the same 600 questions, so compare them question by question</h2>
   <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+    <div class="card c-coral flat"><h4>Unpaired</h4><p class="small mb0">Two scores, two standard errors, combined as if the question sets were different.</p></div>
+    <div class="card c-teal flat"><h4>Paired</h4><p class="small mb0">One difference per question, D minus C, and the standard error of that one column.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <div class="callout tip small mt"><b>Same mean, different width.</b> Both estimate D minus C = 2.2 points; only the paired analysis uses the fact that the questions are shared.</div>
+  <aside class="notes"><p>Recap from AE-303, which compared two configurations with a paired bootstrap. Here the analytic version, clustered, and the reason it is narrower. Miller's paper recommends paired differences whenever two models answer the same questions.</p><p>Sources: arXiv 2411.00640.</p></aside>
 </section>
 
-<section class="slide" id="s1-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="variance-of-difference" data-lo="LO2">
+  <div class="kicker">Why pairing helps</div>
+  <h2>Hard questions are hard for both, and the difference removes what they share</h2>
+  <div class="cols cols-2 mid">
+    <div>
+      <p><code>Var(D − C) = Var(D) + Var(C) − 2 Cov(C, D)</code></p>
+      <p class="small">Unpaired analysis drops the covariance term. With a strong positive correlation it overstates the variance of the difference several times over.</p>
+    </div>
+    <div class="stat center"><div class="big">0.83</div><div class="lbl">correlation of C's and D's per-question scores</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>From Lab 2.1. Ask: what would the correlation be if C and D were two unrelated systems? Near zero, and pairing would buy nothing. Models evaluated on the same items are almost never unrelated: the question's difficulty dominates.</p></aside>
+</section>
+
+<section class="slide" id="four-widths" data-lo="LO2">
+  <div class="kicker">Lab 2.1 result</div>
+  <h2>Pairing makes the interval four times narrower than the clustered unpaired one</h2>
+  <table class="t">
+    <tr><th>Analysis of D minus C</th><th class="num">SE</th><th class="num">95% half-width</th></tr>
+    <tr><td>Unpaired, naive</td><td class="num">0.0215</td><td class="num">±4.2 points</td></tr>
+    <tr><td>Unpaired, clustered</td><td class="num">0.0338</td><td class="num">±6.6 points</td></tr>
+    <tr><td>Paired, naive</td><td class="num">0.0089</td><td class="num">±1.7 points</td></tr>
+    <tr class="hl"><td>Paired, clustered by document</td><td class="num">0.0086</td><td class="num">±1.7 points</td></tr>
+  </table>
+  <aside class="notes"><p>Two lessons in one table. Clustering widens an unpaired comparison (row 2 against row 1). Once paired, clustering hardly matters (row 4 against row 3), because each document's effect moves C and D together and cancels in the difference. Always report the clustered paired version: it costs nothing and protects against the case where it does matter.</p></aside>
+</section>
+
+<section class="slide" id="paired-code" data-lo="LO2">
+  <div class="kicker">The calculation</div>
+  <h2>One column of differences, one clustered standard error</h2>
+  <pre class="code" data-file="Lab 2.1"><code class="language-python">t = U.paired_table("C", "D", 0.2)     # one row per question
+d = t["diff"].mean()                  # 0.0217
+se = U.clustered_se(t["diff"], t.doc_id)   # 0.0086
+lo, hi = d - 1.96 * se, d + 1.96 * se      # 0.005 to 0.039</code></pre>
+  <aside class="notes"><p>Point out that the per-question score is already the mean of five samples: the pairing is at the level of questions, the sampling noise is inside each question's mean. A paired bootstrap over documents gives the same width within rounding; the stretch of Lab 2.2 does that for ranks.</p></aside>
+</section>
+
+<section class="slide" id="three-verdicts" data-lo="LO2">
+  <div class="kicker">The verdict against the minimum effect</div>
+  <h2>D is better than C, but not shown to be better by three points</h2>
+  <div class="figure">
+    <svg viewBox="0 0 900 220" role="img" aria-label="The interval of D minus C runs from 0.5 to 3.9 points: above zero, but it includes values below the minimum effect of 3 points">
+      <line x1="60" y1="120" x2="860" y2="120" stroke="#8a8f98" stroke-width="2"/>
+      <line x1="120" y1="80" x2="120" y2="160" stroke="#264653" stroke-width="3"/>
+      <text x="120" y="190" text-anchor="middle" font-size="22" fill="#264653">0</text>
+      <line x1="570" y1="60" x2="570" y2="170" stroke="#e76f51" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="570" y="200" text-anchor="middle" font-size="22" fill="#e76f51">3 points: minimum effect</text>
+      <rect x="195" y="104" width="510" height="32" rx="16" fill="#2a9d8f" opacity="0.25"/>
+      <line x1="195" y1="120" x2="705" y2="120" stroke="#2a9d8f" stroke-width="6"/>
+      <circle cx="450" cy="120" r="12" fill="#2a9d8f"/>
+      <text x="450" y="80" text-anchor="middle" font-size="22" fill="#2a9d8f">2.2 (0.5 to 3.9)</text>
+    </svg>
+    <div class="caption">Paired, clustered by document; 600 questions, five samples at temperature 0.2 (Lab 2.1).</div>
+  </div>
+  <aside class="notes"><p>The plan's middle branch: the lower end is above zero, so D is better; the interval includes values below three, so "better by enough to switch" is not shown.</p><p>Do not let the room round this up to "D wins". Day 4 adds a reason why even the 2.2 is suspect.</p></aside>
+</section>
+
+<section class="slide" id="decision-note" data-lo="LO2">
+  <div class="kicker">The decision note</div>
+  <h2>Three lines the decision owner can act on</h2>
+  <div class="prompt" data-tool="Decision note">Paired difference D minus C: 2.2 points, 95% CI 0.5 to 3.9, clustered by document, 600 questions, 5 samples, temperature 0.2. Minimum effect: 3 points. Verdict: better, not shown to matter. The unpaired analysis would have given ±6.6 points and no conclusion.</div>
+  <ul class="bullets small mt">
+    <li>At temperature 0.8 the difference is 2.9 points, CI 0.8 to 5.0: the same verdict.</li>
+  </ul>
+  <aside class="notes"><p>This is the evidence for LO2: a decision note with the paired difference, its interval and a verdict. The last sentence is optional in a real note but useful here: it shows the reader what the design bought.</p></aside>
+</section>
+
+<section class="slide" id="check-paired" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Two configurations on the same questions</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">Two configurations answer the same 500 questions. Their scores' intervals overlap heavily. A colleague concludes there is no difference. What is wrong with that?</p>
+    <div class="opts">
+      <div class="opt" data-ok>Overlapping separate intervals ignore the correlation; the paired interval of the difference can exclude zero</div>
+      <div class="opt" data-why="Thinks clustering is the missing piece, when it barely changes a paired difference">The intervals should have been clustered first</div>
+      <div class="opt" data-why="Believes overlap is always conclusive, which is true only for independent samples, and then only roughly">Nothing: overlapping intervals mean no difference</div>
+      <div class="opt" data-why="Confuses the size of the effect with the evidence for it">The difference must be checked against the minimum effect before anything else</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Shared questions make the scores correlated; the variance of their difference subtracts twice the covariance, so the paired interval is much narrower than the overlap suggests.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. Option D is a fair second step but not what is wrong with the colleague's reasoning.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-1" data-auto="lab" data-lab="2.1">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Typical problems: computing the unpaired SE with naive instead of clustered SEs (they get 0.0215, not 0.0338: both rows are in the table, so let them compare); a verdict function that tests the upper end against the minimum effect. Participants without yesterday's plan use data/reference/plan_C_vs_D.json.</p></aside>
 </section>
 
 <!-- Session 2 -->
 
 <section class="slide section" id="s2" data-auto="section" data-session="2"></section>
 
-<section class="slide" id="s2-idea" data-lo="LO2">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="six-configs" data-lo="LO2">
+  <div class="kicker">Many configurations</div>
+  <h2>Six configurations mean fifteen comparisons, and fifteen chances of a false separation</h2>
+  <div class="cols cols-2 mid">
+    <div class="bars">
+      <div class="row"><span>F · D, Arabic system prompt</span><div class="bar c-teal" style="--w:100%"></div><span class="val">76.5%</span></div>
+      <div class="row"><span>D · mid-size, retrieval</span><div class="bar c-cyan" style="--w:97.6%"></div><span class="val">74.7%</span></div>
+      <div class="row"><span>E · D, long instructions</span><div class="bar c-cyan" style="--w:97.6%"></div><span class="val">74.7%</span></div>
+      <div class="row"><span>C · mid-size, plain</span><div class="bar c-purple" style="--w:95.6%"></div><span class="val">73.2%</span></div>
+      <div class="row"><span>B · small, retrieval</span><div class="bar c-amber" style="--w:91.5%"></div><span class="val">70.0%</span></div>
+      <div class="row"><span>A · small, plain</span><div class="bar c-coral" style="--w:81.9%"></div><span class="val">62.7%</span></div>
+    </div>
+    <p class="small">One greedy sample per question, 600 questions, temperature 0.2. The naive ranking crowns F.</p>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>Numbers from Lab 2.2 (results_six.csv). E and F are prompt variants of D that Khattab added. Ask the room to guess how many of the fifteen pairs are really separated before showing the next slide.</p></aside>
 </section>
 
-<section class="slide" id="s2-steps" data-lo="LO2">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="family-wise" data-lo="LO2">
+  <div class="kicker">Family-wise error</div>
+  <h2>Adjust the threshold to the number of comparisons you make</h2>
+  <table class="t small">
+    <tr><th>Method</th><th>Rule</th><th class="num">Pairs separated</th></tr>
+    <tr><td>Unadjusted</td><td>each test at 5%</td><td class="num">10</td></tr>
+    <tr><td>Bonferroni</td><td>each test at 5% / 15; intervals with z = 2.94</td><td class="num">6</td></tr>
+    <tr class="hl"><td>Holm</td><td>k-th smallest p against 5% / (15 − k + 1), stop at the first failure</td><td class="num">8</td></tr>
+  </table>
+  <p class="small mt">Both adjustments keep the chance of any false separation among the fifteen at 5%. Holm never separates fewer pairs than Bonferroni.</p>
+  <aside class="notes"><p>Recap from DS-302, where participants corrected twenty segment results for false discoveries. Here the family-wise rate is the right target: a release decision should not rest on a single false separation. False discovery rate control (Benjamini and Hochberg) is the alternative when many comparisons are screened.</p></aside>
+</section>
+
+<section class="slide" id="separated-pairs" data-lo="LO2">
+  <div class="kicker">Lab 2.2 result</div>
+  <h2>At the top, nothing is separated except F from C</h2>
+  <table class="t small">
+    <tr><th>Pair</th><th class="num">Difference</th><th class="num">p</th><th class="num">Bonferroni interval</th><th>Holm</th></tr>
+    <tr><td>C, F</td><td class="num">+3.3</td><td class="num">0.006</td><td class="num">−0.2 to 6.9</td><td>separated</td></tr>
+    <tr><td>D, F</td><td class="num">+1.8</td><td class="num">0.24</td><td class="num">−2.7 to 6.4</td><td>not</td></tr>
+    <tr><td>E, F</td><td class="num">+1.8</td><td class="num">0.19</td><td class="num">−2.3 to 6.0</td><td>not</td></tr>
+    <tr><td>C, D</td><td class="num">+1.5</td><td class="num">0.32</td><td class="num">−2.9 to 5.9</td><td>not</td></tr>
+    <tr><td>D, E</td><td class="num">0.0</td><td class="num">1.00</td><td class="num">−4.3 to 4.3</td><td>not</td></tr>
+  </table>
+  <aside class="notes"><p>Differences in points, second minus first, clustered by document. C against F is separated by Holm (p = 0.006 meets its step's threshold) but its Bonferroni interval just touches zero: the two methods disagree at the margin, which is exactly where Holm's extra power shows.</p></aside>
+</section>
+
+<section class="slide" id="plausible-ranks" data-lo="LO2">
+  <div class="kicker">Ranks with honest ties</div>
+  <h2>Report each configuration's plausible ranks, not one number</h2>
+  <table class="t">
+    <tr><th>Config</th><th class="num">Pass rate</th><th class="num">Plausible ranks</th></tr>
+    <tr><td>F</td><td class="num">76.5%</td><td class="num">1 to 3</td></tr>
+    <tr><td>E</td><td class="num">74.7%</td><td class="num">1 to 4</td></tr>
+    <tr><td>D</td><td class="num">74.7%</td><td class="num">1 to 5</td></tr>
+    <tr><td>C</td><td class="num">73.2%</td><td class="num">2 to 5</td></tr>
+    <tr><td>B</td><td class="num">70.0%</td><td class="num">3 to 5</td></tr>
+    <tr class="hl"><td>A</td><td class="num">62.7%</td><td class="num">6</td></tr>
+  </table>
+  <aside class="notes"><p>Best plausible rank: 1 plus the configurations separated above it; worst: 6 minus those separated below it (Holm). Only A's rank is certain. A leaderboard with one rank per row claims far more than the data supports.</p></aside>
+</section>
+
+<section class="slide" id="rank-bootstrap" data-lo="LO2">
+  <div class="kicker">Lab 2.2 stretch</div>
+  <h2>Resampled over documents, F is first four times in five</h2>
+  <div class="bars">
+    <div class="row"><span>F first</span><div class="bar c-teal" style="--w:81%"></div><span class="val">81%</span></div>
+    <div class="row"><span>D first</span><div class="bar c-cyan" style="--w:11.4%"></div><span class="val">11%</span></div>
+    <div class="row"><span>E first</span><div class="bar c-purple" style="--w:7.4%"></div><span class="val">7%</span></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">2,000 resamples of the 80 documents. Likely first is not the same as shown to be first.</p>
+  <aside class="notes"><p>A useful complement to the adjusted intervals for a reader: the probability of being first under resampling. It is not a test; one in five resamples puts another configuration on top. Also remind them: E and F were tuned after D's results, so their lead may be a selection effect (Day 4).</p></aside>
+</section>
+
+<section class="slide" id="check-ranking" data-lo="LO2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Announcing a winner</h2>
+  <div class="quiz" data-type="single" data-lo="LO2">
+    <p class="lead">Of six configurations, F has the highest pass rate. After Holm adjustment F is separated from A, B and C, but not from D or E. What may the release note say?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads the highest point estimate as a shown ranking">F is the best configuration</div>
+      <div class="opt" data-why="Uses unadjusted tests after looking at fifteen pairs">F is the best, because it beats D at the 25% level</div>
+      <div class="opt" data-ok>F, D and E are tied at the top; F is better than A, B and C</div>
+      <div class="opt" data-why="Confuses not separated with shown to be equal">F, D and E are shown to be equally good</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The adjusted analysis separates F from three configurations only; between F, D and E the data cannot tell, which is a tie in the evidence, not a proof of equality.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. Option D is the subtle trap: absence of a separation is not evidence of equivalence. An equivalence claim needs its own margin and test.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-2" data-auto="lab" data-lab="2.2">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>The Holm loop is where most errors happen: comparing with alpha over k instead of alpha over (m minus k), or not stopping at the first failure. The rank logic trips on the sign: the difference is b minus a, so a positive difference means b is better.</p></aside>
 </section>
 
 <!-- Session 3 -->
 
 <section class="slide section" id="s3" data-auto="section" data-session="3"></section>
 
-<section class="slide" id="s3-idea" data-lo="LO3">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
+<section class="slide" id="sizing-question" data-lo="LO3">
+  <div class="kicker">Before the next evaluation</div>
+  <h2>Size the evaluation for the difference that matters, not for the one you hope to see</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>The effect</h4><p class="small mb0">Three points, from Dr. Nadeen: the minimum worth a switch.</p></div>
+    <div class="card c-cyan"><h4>The errors</h4><p class="small mb0">5% false alarm, 80% power: a true three-point gain is found four times in five.</p></div>
+    <div class="card c-purple"><h4>The noise</h4><p class="small mb0">The spread of per-question differences, from a pilot.</p></div>
   </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+  <aside class="notes"><p>The 2027 regulations need a new task set. Today's C against D comparison is the pilot. The pilot's observed difference (2.2 points) plays no role in the sizing: using it would size for whatever the pilot happened to show.</p></aside>
 </section>
 
-<section class="slide" id="s3-steps" data-lo="LO3">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="power-formula" data-lo="LO3">
+  <div class="kicker">The formula</div>
+  <h2>Questions needed grow with the square of the noise over the effect</h2>
+  <p class="center"><code>n = (z<sub>0.975</sub> + z<sub>0.80</sub>)² × s² / δ²  =  (1.96 + 0.84)² × 0.219² / 0.03²</code></p>
+  <div class="cols cols-3 mt">
+    <div class="stat center"><div class="big">0.219</div><div class="lbl">SD of the per-question difference D minus C</div></div>
+    <div class="stat center"><div class="big">0.93</div><div class="lbl">design effect of the difference: floored at 1</div></div>
+    <div class="stat center"><div class="big">417</div><div class="lbl">questions, about 56 documents</div></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <aside class="notes"><p>Numbers from Lab 2.3. Halving the minimum effect quadruples the questions. The design effect of a paired difference is near 1 here because the document effect cancels; flooring it at 1 is a conservative choice to write in the plan.</p></aside>
+</section>
+
+<section class="slide" id="deff-in-sizing" data-lo="LO3">
+  <div class="kicker">Where the design effect bites</div>
+  <h2>Sizing a single score with the naive formula falls far short</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal flat"><h4>Paired difference</h4><p class="small mb0">DEFF about 1: the documents cancel. 417 questions.</p></div>
+    <div class="card c-coral flat"><h4>Unpaired, each score DEFF about 2.4</h4><p class="small mb0">5,826 questions per configuration for the same three points.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>The same rule for a single score:</b> to estimate D's pass rate within ±2 points, multiply the naive n by its design effect of 2.4.</div>
+  <aside class="notes"><p>The unpaired figure is the stretch of Lab 2.3: twice the per-question variance of a score, times its design effect. It is fourteen times the paired figure: pairing is the cheapest design decision in evaluation.</p></aside>
+</section>
+
+<section class="slide" id="power-by-simulation" data-lo="LO3">
+  <div class="kicker">Check by simulation</div>
+  <h2>Resample documents from the pilot, plant three points, run the planned test</h2>
+  <div class="flow">
+    <div class="step c-teal"><b>1 · Draw</b>56 documents with replacement</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>2 · Plant</b>shift differences to a mean of 3 points</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>3 · Test</b>clustered paired interval above 0?</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Count</b>2,000 times</div>
+  </div>
+  <aside class="notes"><p>This keeps the real shape of the data: clusters of 4 to 9 questions, skewed differences, the planned clustered test. Participants met power by simulation in DS-302 for heavy-tailed revenue; here the clusters are the reason.</p></aside>
+</section>
+
+<section class="slide" id="simulated-power" data-lo="LO3">
+  <div class="kicker">Lab 2.3 result</div>
+  <h2>At the formula's 417 questions the simulated power is 85%</h2>
+  <div class="bars">
+    <div class="row"><span>300 questions</span><div class="bar c-coral" style="--w:71%"></div><span class="val">71%</span></div>
+    <div class="row"><span>417 questions</span><div class="bar c-teal" style="--w:84.6%"></div><span class="val">85%</span></div>
+    <div class="row"><span>900 questions</span><div class="bar c-navy" style="--w:99.4%"></div><span class="val">99%</span></div>
+  </div>
+  <p class="small mt">The formula is slightly conservative here, because the difference's design effect is below 1 and the formula floored it.</p>
+  <aside class="notes"><p>If the simulation had come out far below 80%, the formula's assumptions would have failed for this data, and the simulation would win. Report both in the plan: the formula's n and the simulated power at that n.</p></aside>
+</section>
+
+<section class="slide" id="sizing-plan" data-lo="LO3">
+  <div class="kicker">The sizing plan</div>
+  <h2>Three lines that go into the committed plan</h2>
+  <div class="prompt" data-tool="Sizing plan">Detect D minus C = 3 points (paired, two-sided, alpha 0.05) with 80% power: 417 questions from about 56 documents, 5 samples each at temperature 0.2. Pilot: 600 questions of the 2026 set; SD of the per-question difference 0.219; design effect 0.93; simulated power at 417 questions 85%.</div>
+  <aside class="notes"><p>This is the evidence for LO3 (a sizing plan with power by formula, checked by simulation). The capstone asks for the same three lines for the participant's own configurations.</p></aside>
+</section>
+
+<section class="slide" id="check-sizing" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Sizing from a pilot</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A pilot of two configurations on 200 shared questions shows a 6-point difference and an SD of per-question differences of 0.25. The decision needs to detect 3 points. Which inputs should the sizing use?</p>
+    <div class="opts">
+      <div class="opt" data-why="Sizes for the pilot's lucky draw instead of the effect that matters">The 6-point difference and SD 0.25</div>
+      <div class="opt" data-ok>The 3-point minimum effect and SD 0.25</div>
+      <div class="opt" data-why="Uses each score's spread, which ignores the pairing">3 points and the SD of each configuration's scores</div>
+      <div class="opt" data-why="Thinks the pilot's own n settles the question">200 questions, since the pilot already found a difference</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The effect to detect comes from the decision, the noise from the pilot; the pilot's observed difference is itself uncertain and would undersize the study.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Ask: with 6 points the formula gives a quarter of the questions; what would happen if the true difference were 3? Power would be well under 50%.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-3" data-auto="lab" data-lab="2.3">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Watch for: using the variance of the scores instead of the differences; centring the resampled differences on zero instead of three points (power then equals the false alarm rate, about 5%: a good diagnostic). The simulation takes about a minute in full mode.</p></aside>
 </section>
 
 <!-- Session 4 -->
 
 <section class="slide section" id="s4" data-auto="section" data-session="4"></section>
 
-<section class="slide" id="s4-idea" data-lo="LO3">
-  <div class="kicker">REPLACE: the question this slide answers</div>
-  <h2>REPLACE: one idea, stated as a sentence</h2>
-  <div class="cols cols-2">
-    <ul class="bullets">
-      <li>REPLACE: at most six bullets, each a complete thought</li>
-      <li>REPLACE: bold the key phrase; numbers come from the lab run, not from memory</li>
-    </ul>
-    <div class="card c-teal"><h4>In the case study</h4><p class="small mb0">REPLACE: tie the idea to the case study and its data</p></div>
-  </div>
-  <div class="callout warn mt"><b>What goes wrong.</b> REPLACE: the failure participants will hit, and how to recognise it</div>
-  <aside class="notes">REPLACE: what to say, the demo to run, the question to ask the room, the common failure and its fix</aside>
+<section class="slide" id="budget-question" data-lo="LO3">
+  <div class="kicker">A fixed budget</div>
+  <h2>Every riyal buys either new questions or more samples of the old ones</h2>
+  <table class="t">
+    <tr><th>Unit (synthetic costs from Furat)</th><th class="num">SAR</th></tr>
+    <tr><td>A new question, written and reviewed in both languages</td><td class="num">15.00</td></tr>
+    <tr><td>One sample: a generation</td><td class="num">0.04</td></tr>
+    <tr><td>One sample: a grader call</td><td class="num">0.06</td></tr>
+    <tr><td>A human label of a grader verdict</td><td class="num">4.00</td></tr>
+    <tr class="hl"><td>Budget of the next evaluation</td><td class="num">6,000</td></tr>
+  </table>
+  <aside class="notes"><p>From data/costs.json. Ask: which line do teams most often forget? The grader call: it is more expensive than the generation here, because the grader is a larger hosted model.</p></aside>
 </section>
 
-<section class="slide" id="s4-steps" data-lo="LO3">
-  <div class="kicker">Step by step</div>
-  <h2>REPLACE: a process, shown one step per key press</h2>
-  <div class="flow">
-    <div class="step c-teal"><b>1 · REPLACE: name</b>REPLACE: what happens first</div>
-    <div class="arrow frag" data-frag="b">→</div><div class="step c-cyan frag" data-frag="b"><b>2 · REPLACE: name</b>REPLACE: the next piece</div>
-    <div class="arrow frag" data-frag="c">→</div><div class="step c-coral frag" data-frag="c"><b>3 · REPLACE: name</b>REPLACE: the result</div>
+<section class="slide" id="variance-and-cost" data-lo="LO3">
+  <div class="kicker">The trade-off</div>
+  <h2>The variance falls with questions and samples; the cost rises with both</h2>
+  <div class="cols cols-2">
+    <div class="card c-navy"><h4>Variance</h4><p class="small mb0"><code>(between + within / K) / n</code></p></div>
+    <div class="card c-amber"><h4>Cost</h4><p class="small mb0"><code>n × (15 + 0.10 K) ≤ 6,000</code></p></div>
   </div>
-  <div class="callout tip mt frag"><b>Takeaway.</b> REPLACE: the one sentence to remember</div>
-  <aside class="notes">Press once per step and say what each step adds before the next one appears. REPLACE: the example to walk through</aside>
+  <p class="small mt">Minimising the first under the second gives <code>K* = √((15 / 0.10) × within / between)</code>.</p>
+  <aside class="notes"><p>The variance parts come from Lab 1.3 (D: between 0.123 and within 0.068 at temperature 0.2; 0.087 and 0.124 at 0.8). This ignores clustering by document: the next slide but one says what that changes.</p></aside>
+</section>
+
+<section class="slide" id="budget-result" data-lo="LO3">
+  <div class="kicker">Lab 2.4 result</div>
+  <h2>The optimum is flat: from five to ten samples changes the error by 1%</h2>
+  <table class="t">
+    <tr><th>Temperature</th><th class="num">K*</th><th class="num">Best design</th><th class="num">SE</th><th class="num">At K = 5</th></tr>
+    <tr><td>0.2</td><td class="num">9.1</td><td class="num">375 questions × 10</td><td class="num">0.0186</td><td class="num">387 × 5: 0.0188</td></tr>
+    <tr class="hl"><td>0.8</td><td class="num">14.7</td><td class="num">368 questions × 13</td><td class="num">0.0162</td><td class="num">387 × 5: 0.0170</td></tr>
+  </table>
+  <p class="small mt">Questions cost 150 samples each, so several samples per question pay; more of them pay at 0.8, where sampling noise is larger.</p>
+  <aside class="notes"><p>The flat optimum is the practical message: any K from 5 to 15 is within a few percent. What matters more is not to spend everything on one end: K = 1 or K = 30 are both clearly worse.</p></aside>
+</section>
+
+<section class="slide" id="grader-in-budget" data-lo="LO3 LO4">
+  <div class="kicker">What the budget must include</div>
+  <h2>Leave the grader out of the cost and you over-sample; leave people out and you cannot correct</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral flat"><h4>Grader call forgotten</h4><p class="small mb0">K* at 0.2 rises from 9.1 to 14.4: the plan buys samples it cannot afford to grade.</p></div>
+    <div class="card c-purple flat"><h4>Human labels reserved</h4><p class="small mb0">SAR 1,200 for 300 labels leaves 300 questions × 10: SE 0.0208 instead of 0.0186.</p></div>
+  </div>
+  <aside class="notes"><p>The reserve for human labels is the stretch of Lab 2.4 and the bridge to Day 3: without labels the grader's error cannot be measured or corrected. A slightly wider interval that is unbiased beats a narrow one that is wrong.</p></aside>
+</section>
+
+<section class="slide" id="clusters-in-budget" data-lo="LO3">
+  <div class="kicker">One more term</div>
+  <h2>With documents in the picture, new questions should come from new documents</h2>
+  <ul class="bullets">
+    <li>The between-item part is inflated by the design effect, about 2.4 for one score.</li>
+    <li>That favours spending on questions over samples, and on documents over questions per document.</li>
+    <li>A full model has three costs: a document, a question, a sample.</li>
+  </ul>
+  <aside class="notes"><p>Ask the room to sketch the three-level version: documents, questions per document, samples per question, each with its variance component and its cost. The capstone does not require it, but strong capstones use it.</p></aside>
+</section>
+
+<section class="slide" id="check-budget" data-lo="LO3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Spending the next SAR 6,000</h2>
+  <div class="quiz" data-type="single" data-lo="LO3">
+    <p class="lead">A new question costs SAR 15 and a sample with its grader call SAR 0.10. At temperature 0.8 within-item variance exceeds between-item variance. Which design is closest to the best at a fixed budget?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks only questions reduce variance, ignoring that sampling noise is the larger part here">As many questions as possible, one sample each</div>
+      <div class="opt" data-why="Thinks cheap samples are always the answer, ignoring the between-item floor">Few questions, thirty samples each</div>
+      <div class="opt" data-why="Believes the cost of grading does not affect the choice">Whatever K, since the grader cost does not enter</div>
+      <div class="opt" data-ok>About ten to fifteen samples per question, the rest on questions</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> K* = √((15 / 0.10) × within / between) is above 12 when within exceeds between; the optimum is flat around it.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. The lab's numbers: K* = 14.7 at 0.8, with the best affordable design at 13 samples.</p></aside>
 </section>
 
 <section class="slide lab" id="lab-2-4" data-auto="lab" data-lab="2.4">
-  <aside class="notes">REPLACE: what to watch for while participants work, the typical problems, and the fallback for anyone who did not finish an earlier lab</aside>
+  <aside class="notes"><p>Fast lab. Watch for n computed with ceiling instead of floor (over budget). Participants who did not finish Lab 1.3 get the variance parts from its reference file automatically.</p></aside>
 </section>
 
 <section class="slide" id="wrap-up">
   <div class="kicker">Day 2 · wrap-up</div>
   <h2>Three things to keep</h2>
   <div class="cols cols-3">
-    <div class="card c-teal"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-coral"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
-    <div class="card c-purple"><h4>Remember</h4><p class="small mb0">REPLACE: one idea participants keep</p></div>
+    <div class="card c-teal"><h4>Pair whenever you can</h4><p class="small mb0">Same questions, one column of differences: four times narrower here.</p></div>
+    <div class="card c-coral"><h4>Adjust for the comparisons you make</h4><p class="small mb0">Six configurations, fifteen pairs: report plausible ranks.</p></div>
+    <div class="card c-purple"><h4>Size for the effect that matters</h4><p class="small mb0">417 questions for three points, checked by simulation; spend between questions and samples.</p></div>
   </div>
+  <aside class="notes"><p>Ask: which of the three would have changed a decision in your own team this year? Collect two answers.</p></aside>
 </section>
 
 <section class="slide dark" id="next" data-label="Next">
   <div class="kicker">Next</div>
   <h2>Day 3: Small sets and imperfect graders</h2>
-  <p class="lead">REPLACE: what participants prepare before then; unfinished labs can be finished at home</p>
-  <aside class="notes">REPLACE: accounts, installs or reading participants need before the next unit</aside>
+  <p class="lead">Tomorrow: a 40-item safety set where one configuration passes everything, and a grader that is more lenient in Arabic than in English.</p>
+  <aside class="notes"><p>Nothing to prepare. Optional reading: the position paper on small benchmarks (arXiv 2503.01747), abstract only.</p></aside>
 </section>

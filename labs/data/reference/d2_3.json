@@ -1,0 +1,20 @@
+{
+ "sd": 0.2186555265,
+ "deff": 0.9348719933,
+ "n_independent": 417,
+ "n_needed": 417,
+ "simulated": [
+  {
+   "questions": 300,
+   "power": 0.4
+  },
+  {
+   "questions": 417,
+   "power": 0.8
+  },
+  {
+   "questions": 900,
+   "power": 0.97
+  }
+ ]
+}
