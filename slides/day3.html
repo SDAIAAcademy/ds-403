@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 3 · Small sets and imperfect graders · Statistical Evaluation of AI Systems</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="day3.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistical Evaluation of AI Systems" data-track="data-science" data-day="Day 3">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistical Evaluation of AI Systems</div>
+  <h1>Small sets and imperfect graders</h1>
+  <p class="lead mt">Day 3: Intervals that keep their promise on small sets, and pass rates corrected for an imperfect grader</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>4 sessions · 4 labs</span><span>DS-403</span></div>
+  <aside class="notes"><p>Today has two halves. The morning is about small sets: 40 safety questions, where the formula of Day 1 breaks. The afternoon is about the grader: every pass rate so far was measured by a model, and today we check the instrument.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">Today</div>
+  <h2>Small sets and imperfect graders</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Where large-sample intervals fail</b><small>The normal-approximation interval fails when items are few or the rate is near 0 or 1: coverage measured by simulation</small></div></div><div class="item"><div><b>Session 2 · Exact and Bayesian intervals</b><small>Exact and Bayesian intervals for a 40-item safety set where one configuration passes every item</small></div></div><div class="item"><div><b>Session 3 · Graders against people</b><small>A model grader is a measuring instrument: sensitivity and specificity against people, by language</small></div></div><div class="item"><div><b>Session 4 · Correcting for grader error</b><small>Correct a pass rate for the grader's error and carry the uncertainty of the calibration into the interval, by language</small></div></div></div>
+  <aside class="notes"><p>Sessions 1 and 2 serve LO1 (small-sample intervals); sessions 3 and 4 serve LO4 (grader error by language).</p></aside>
+</section>
+
+<section class="slide" id="review-day2" data-lo="LO2 LO3" data-n="3">
+  <div class="kicker">Review of Day 2</div>
+  <h2>What the paired interval allows you to say</h2>
+  <div class="quiz" data-type="single" data-lo="LO2" data-id="review-day2-q1">
+    <p class="lead">D minus C is 2.2 points, paired and clustered 95% interval 0.5 to 3.9, minimum effect 3 points. Dr. Nadeen asks for one sentence. Which is right?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads significance as importance: the interval includes values below the threshold" data-k="A">D is three points better; switch</div>
+      <div class="opt" data-ok data-k="B">D is better, but not shown to be better by three points</div>
+      <div class="opt" data-why="Reads an interval that includes 3 as proof of an effect below 3" data-k="C">D is better, but by less than three points</div>
+      <div class="opt" data-why="Uses the unpaired interval, which ignores that the questions are shared" data-k="D">No difference can be shown</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> The interval excludes zero, so D is better; it includes values both below and above 3, so whether the gain reaches the minimum effect is not shown.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. Option C is the subtle one: the data cannot rule out 3.9 points, so "less than three" is not shown either.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Where large-sample intervals fail</h1>
+  <ul class="bullets outcomes"><li>Define the coverage of an interval</li><li>Measure the coverage of four intervals by simulation</li><li>Choose an interval for a small set near 0 or 1</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="small-sets-common" data-lo="LO1" data-n="5" data-session="1">
+  <div class="kicker">Small, specialised sets</div>
+  <h2>Many evaluations that matter have tens of items, not thousands</h2>
+  <div class="cols cols-3">
+    <div class="card c-coral"><h4>Safety sets</h4><p class="small mb0">40 questions on exits, walls and fuel.</p></div>
+    <div class="card c-purple"><h4>New regulations</h4><p class="small mb0">A circular issued last week, 25 questions.</p></div>
+    <div class="card c-cyan"><h4>Slices</h4><p class="small mb0">Heritage-area questions in Arabic: 38.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>And the rates sit near 0 or 1,</b> which is exactly where the normal approximation breaks.</div>
+  <aside class="notes"><p>Bowyer, Aitchison and Ivanova argue that intervals based on the central limit theorem are fine for thousands of items and badly too narrow for the small specialised benchmarks that are now common. Today's lab measures it.</p><p>Sources: arXiv 2503.01747.</p></aside>
+</section>
+
+<section class="slide" id="coverage-defined" data-lo="LO1" data-n="6" data-session="1">
+  <div class="kicker">Coverage</div>
+  <h2>A 95% interval should contain the true rate in 95% of evaluations</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>1 · Fix</b>a true rate p and a size n</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Draw</b>thousands of evaluations</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Build</b>an interval for each</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Count</b>how many contain p</div>
+  </div>
+  <p class="small mt">Only n + 1 outcomes are possible, so the coverage can also be computed exactly by summing binomial probabilities.</p>
+  <aside class="notes"><p>Coverage is a property of a method, not of one interval. A method that covers 87% when it says 95% makes every claim built on it overconfident.</p></aside>
+</section>
+
+<section class="slide" id="four-intervals" data-lo="LO1" data-n="7" data-session="1">
+  <div class="kicker">Four intervals for a proportion</div>
+  <h2>Wald is the formula of Day 1; three others behave better near the edges</h2>
+  <table class="t small">
+    <tr><th>Interval</th><th>Idea</th><th class="num">38 of 40</th></tr>
+    <tr><td>Wald</td><td>p ± 1.96 √(p(1 − p) / n)</td><td class="num">0.883 to 1.018</td></tr>
+    <tr><td>Wilson</td><td>inverts the score test; centre pulled toward 0.5</td><td class="num">0.835 to 0.986</td></tr>
+    <tr><td>Clopper-Pearson</td><td>exact, from Beta quantiles; never under-covers</td><td class="num">0.831 to 0.994</td></tr>
+    <tr><td>Jeffreys</td><td>Beta(0.5, 0.5) prior, posterior interval</td><td class="num">0.849 to 0.989</td></tr>
+  </table>
+  <aside class="notes"><p>Wald's upper end of 1.018 is an impossible pass rate: the first sign that something is wrong. In code: statsmodels' proportion_confint offers all of these by name; SciPy's binomtest gives Clopper-Pearson and Wilson.</p><p>Sources: Brown, Cai and DasGupta (2001); statsmodels and SciPy documentation.</p></aside>
+</section>
+
+<section class="slide" id="coverage-table" data-lo="LO1" data-n="8" data-session="1">
+  <div class="kicker">Lab 3.1 result</div>
+  <h2>With 20 items at 98%, Wald covers the truth one time in three</h2>
+  <table class="t small">
+    <tr><th>Coverage at p = 0.98</th><th class="num">n = 20</th><th class="num">40</th><th class="num">80</th><th class="num">200</th></tr>
+    <tr class="hl"><td>Wald</td><td class="num">0.32</td><td class="num">0.55</td><td class="num">0.81</td><td class="num">0.90</td></tr>
+    <tr><td>Wilson</td><td class="num">0.94</td><td class="num">0.96</td><td class="num">0.98</td><td class="num">0.93</td></tr>
+    <tr><td>Jeffreys</td><td class="num">0.94</td><td class="num">0.96</td><td class="num">0.98</td><td class="num">0.96</td></tr>
+    <tr><td>Clopper-Pearson</td><td class="num">0.99</td><td class="num">0.99</td><td class="num">0.98</td><td class="num">0.96</td></tr>
+  </table>
+  <aside class="notes"><p>Simulated with 4,000 draws per cell in Lab 3.1 (seed 403). Even at 200 items Wald is at 90% for a rate of 0.98. At p = 0.5 all four are near 95%: the problem is the edges, not only small n.</p></aside>
+</section>
+
+<section class="slide" id="why-wald-fails" data-lo="LO1" data-n="9" data-session="1">
+  <div class="kicker">Why</div>
+  <h2>Near 1, Wald's estimated variance collapses exactly where it is least reliable</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>At 40 of 40, √(p(1 − p) / n) = 0: the interval is the single point 1.</li>
+      <li>At 39 of 40 it is narrow and centred too high.</li>
+      <li>The rate's distribution is skewed near the edge; Wald assumes symmetry.</li>
+    </ul>
+    <div class="stat center"><div class="big">87%</div><div class="lbl">Wald's exact coverage at n = 40, p = 0.95</div></div>
+  </div>
+  <aside class="notes"><p>The 87% is the exact coverage from the lab's stretch (0.868), matching the simulation (86.5%). Ask: how many safety reports have you seen with a "±0" next to 100%?</p></aside>
+</section>
+
+<section class="slide" id="interval-rule" data-lo="LO1 LO6" data-n="10" data-session="1">
+  <div class="kicker">A rule for the standard</div>
+  <h2>Small or extreme: Wilson or Jeffreys; a safety claim: Clopper-Pearson</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal flat"><h4>Hundreds of items, rate mid-range</h4><p class="small mb0">Any interval; the clustered one for documents.</p></div>
+    <div class="card c-cyan flat"><h4>Fewer items, or within 0.1 of an edge</h4><p class="small mb0">Wilson or Jeffreys: near 95% on average.</p></div>
+    <div class="card c-coral flat"><h4>A claim that must not under-cover</h4><p class="small mb0">Clopper-Pearson: at least 95%, wider.</p></div>
+  </div>
+  <aside class="notes"><p>This sentence goes into the reporting standard on Day 4. Lowest coverage across the lab's grid: Wald 0.32, Wilson 0.92, Jeffreys 0.94, Clopper-Pearson 0.95.</p></aside>
+</section>
+
+<section class="slide" id="check-coverage" data-lo="LO1" data-n="11" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>Choosing an interval for a small set</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="check-coverage-q1">
+    <p class="lead">A new circular yields 25 questions; configuration D passes 24. The report needs a 95% interval for D's pass rate. Which choice is sound?</p>
+    <div class="opts">
+      <div class="opt" data-why="Applies the large-sample formula where the lab showed it under-covers badly" data-k="A">p ± 1.96 √(p(1 − p) / n), the standard formula</div>
+      <div class="opt" data-why="Thinks a bootstrap fixes small samples; with 24 of 25 it inherits the same collapse" data-k="B">A bootstrap over the 25 questions</div>
+      <div class="opt" data-ok data-k="C">A Wilson or Jeffreys interval, or Clopper-Pearson if it supports a safety claim</div>
+      <div class="opt" data-why="Believes small sets cannot be reported at all, when an honest wide interval is informative" data-k="D">No interval: 25 items are too few to say anything</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> With few items near 1, Wald and the percentile bootstrap are too narrow; Wilson and Jeffreys keep close to 95%, Clopper-Pearson at least 95%.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. The bootstrap option is a common belief: resampling 24 passes and 1 failure gives intervals that often exclude the true rate, for the same reason Wald does.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-1" data-auto="lab" data-lab="3.1" data-label="Lab 3.1" data-n="12" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.1 · 25 min</div><h2>Coverage by simulation</h2><p class="lead small">Simulate the coverage of the Wald, Wilson, Clopper-Pearson and Jeffreys intervals for 20 to 200 items at rates near 0, 0.5 and 1.</p><a class="nb" href="../labs/D3_1_simulate_interval_coverage.ipynb">D3_1_simulate_interval_coverage.ipynb</a></div><ul class="checklist"><li>Four interval functions <span class="min">6 min</span></li><li>One coverage estimate by simulation <span class="min">5 min</span></li><li>The grid: 20 to 200 items, five rates <span class="min">7 min</span></li><li>Read the table: where Wald fails <span class="min">4 min</span></li><li>A rule for the authority <span class="min">3 min</span></li><li class="stretch">✱ Stretch: Compute the exact coverage by summing the binomial and compare</li></ul></div>
+  <aside class="notes"><p>Fast lab, almost no data. Typical problems: building the interval inside the simulation loop (slow; compute once per outcome k), testing coverage with strict inequalities (lo &lt; p &lt; hi), which matters at the edges. Quick mode uses 800 draws per cell: expect noise of about ±0.015.</p></aside>
+</section>
+
+<!-- Session 2 -->
+
+<section class="slide section" id="s2" data-auto="section" data-session="2" data-n="13">
+  <div class="kicker">Session 2</div>
+  <h1>Exact and Bayesian intervals</h1>
+  <ul class="bullets outcomes"><li>Compute a Clopper-Pearson interval for a small set</li><li>Compute a Beta posterior interval and state its prior</li><li>Report 40 out of 40 without claiming perfection</li></ul>
+  <div class="sess-no">02</div>
+</section>
+
+<section class="slide" id="safety-set" data-lo="LO1" data-n="14" data-session="2">
+  <div class="kicker">Bunyan's safety set</div>
+  <h2>Forty questions where a wrong answer could hurt someone</h2>
+  <div class="cols cols-2 mid">
+    <div class="bars">
+      <div class="row"><span>A</span><div class="bar c-coral" style="--w:90%"></div><span class="val">36 / 40</span></div>
+      <div class="row"><span>B</span><div class="bar c-amber" style="--w:95%"></div><span class="val">38 / 40</span></div>
+      <div class="row"><span>C</span><div class="bar c-purple" style="--w:97.5%"></div><span class="val">39 / 40</span></div>
+      <div class="row"><span>D</span><div class="bar c-teal" style="--w:100%"></div><span class="val">40 / 40</span></div>
+    </div>
+    <p class="small">One greedy answer per question per configuration; each marked safe or unsafe by Sereen's panel. Topics: exits blocked during works, load-bearing walls, fuel in basements, floors added without a structural report, steep ramps.</p>
+  </div>
+  <aside class="notes"><p>The safety set is labelled by people, not the grader, so grader error is not in play here: the only uncertainty is the small sample. The leaderboard's claim C4, "D never gives an unsafe answer", is built on the 40 out of 40.</p></aside>
+</section>
+
+<section class="slide" id="forty-of-forty" data-lo="LO1" data-n="15" data-session="2">
+  <div class="kicker">The edge case</div>
+  <h2>Forty out of forty does not mean never</h2>
+  <div class="cols cols-3">
+    <div class="stat center"><div class="big">[1, 1]</div><div class="lbl">Wald: certainty from 40 questions</div></div>
+    <div class="stat center"><div class="big">0.928</div><div class="lbl">one-sided 95% lower bound, 0.05<sup>1/40</sup></div></div>
+    <div class="stat center"><div class="big">7.2%</div><div class="lbl">the unsafe rate the data cannot rule out</div></div>
+  </div>
+  <p class="small mt">The rule of three gives nearly the same: 3 / 40 = 7.5%.</p>
+  <aside class="notes"><p>The one-sided Clopper-Pearson bound at k = n has a closed form: the lower bound L solves L to the power n equals 0.05. To support "below 1%" with zero failures you need about 300 safety questions.</p></aside>
+</section>
+
+<section class="slide" id="clopper-pearson-code" data-lo="LO1" data-n="16" data-session="2">
+  <div class="kicker">Exact intervals</div>
+  <h2>Clopper-Pearson comes from two Beta quantiles</h2>
+  <pre class="code" data-file="Lab 3.2"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clopper_pearson</span>(<span class="hljs-params">k, n, level=<span class="hljs-number">0.95</span></span>):
+    a = <span class="hljs-number">1</span> - level
+    lo = <span class="hljs-number">0.0</span> <span class="hljs-keyword">if</span> k == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> stats.beta.ppf(a / <span class="hljs-number">2</span>, k, n - k + <span class="hljs-number">1</span>)
+    hi = <span class="hljs-number">1.0</span> <span class="hljs-keyword">if</span> k == n <span class="hljs-keyword">else</span> stats.beta.ppf(<span class="hljs-number">1</span> - a / <span class="hljs-number">2</span>, k + <span class="hljs-number">1</span>, n - k)
+    <span class="hljs-keyword">return</span> lo, hi</code></pre>
+  <p class="small">D, 40 of 40: 0.912 to 1. C, 39 of 40: 0.868 to 0.999. A, 36 of 40: 0.763 to 0.972.</p>
+  <aside class="notes"><p>SciPy's binomtest(k, n).proportion_ci(method="exact") gives the same numbers; participants write it by hand once so they see where it comes from. The two-sided lower end at 40 of 40 (0.912) is lower than the one-sided bound (0.928) because it spends 2.5% instead of 5% on that side.</p></aside>
+</section>
+
+<section class="slide" id="beta-posterior" data-lo="LO1" data-n="17" data-session="2">
+  <div class="kicker">Bayesian intervals</div>
+  <h2>A Beta prior and k of n give a Beta posterior, and its interval</h2>
+  <div class="cols cols-2">
+    <div>
+      <p><code>prior Beta(a, b)  →  posterior Beta(a + k, b + n − k)</code></p>
+      <ul class="bullets small">
+        <li>Uniform prior, Beta(1, 1): D 0.914 to 0.999.</li>
+        <li>Jeffreys prior, Beta(0.5, 0.5): D 0.940 to 1.000.</li>
+      </ul>
+    </div>
+    <div class="card c-purple tint"><h4>State the prior</h4><p class="small mb0">At 40 of 40 the prior moves the lower end by 2.6 points. In a safety claim the uniform prior is the more cautious of the two.</p></div>
+  </div>
+  <aside class="notes"><p>Bowyer and colleagues recommend Beta-posterior intervals for small evaluations and publish a small library; PyMC is overkill for a single proportion but is the tool when the model grows (several configurations, a hierarchy by category).</p><p>Sources: arXiv 2503.01747.</p></aside>
+</section>
+
+<section class="slide" id="compare-small" data-lo="LO1 LO2" data-n="18" data-session="2">
+  <div class="kicker">Comparing on a small set</div>
+  <h2>Is C safer than A? Probably, but 40 questions cannot settle it</h2>
+  <div class="cols cols-2 mid">
+    <div class="stat center"><div class="big">0.90</div><div class="lbl">posterior probability that C's safe rate exceeds A's (39/40 against 36/40)</div></div>
+    <ul class="bullets small">
+      <li>Draw from both uniform posteriors, count how often C is ahead.</li>
+      <li>A one-in-ten chance that A is in fact at least as safe.</li>
+      <li>For a release gate, set the threshold before looking.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>Lab 3.2's stretch (100,000 draws). The posterior probability is a natural statement for a decision owner, but it is not a p-value: do not mix the two vocabularies in one report.</p></aside>
+</section>
+
+<section class="slide" id="safety-line" data-lo="LO1 LO6" data-n="19" data-session="2">
+  <div class="kicker">The release note</div>
+  <h2>Write what the 40 questions show, and stop there</h2>
+  <div class="prompt" data-tool="Safety line">Safety set (40 questions, one greedy answer each): D was safe on 40 of 40; with 95% confidence its unsafe-answer rate on such questions is below 7.2% (one-sided Clopper-Pearson). C 39/40, B 38/40, A 36/40.</div>
+  <aside class="notes"><p>"On such questions" matters: the safety set covers five topics. A question type outside them is not covered by this bound. The SDAIA AI Ethics Principles and the National AI Risk Management Framework both ask for honest communication of a system's limits; this line is that, for one property.</p></aside>
+</section>
+
+<section class="slide" id="check-safety" data-lo="LO1" data-n="20" data-session="2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Zero failures</h2>
+  <div class="quiz" data-type="single" data-lo="LO1" data-id="check-safety-q1">
+    <p class="lead">A configuration answers 60 safety questions with no unsafe answer. Which statement can the report make at 95% confidence?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">Its unsafe rate on such questions is below about 5%</div>
+      <div class="opt" data-why="Turns zero observed failures into a claim of zero failures" data-k="B">It never gives unsafe answers on such questions</div>
+      <div class="opt" data-why="Uses the Wald interval, which collapses to a point at 60 of 60" data-k="C">Its unsafe rate is 0% ± 0</div>
+      <div class="opt" data-why="Confuses the bound for the rate with a bound on a count of future failures" data-k="D">At most 3 of the next 60 answers will be unsafe</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> With zero failures in n, the one-sided 95% upper bound on the failure rate is 1 − 0.05<sup>1/n</sup>, about 3 / n: 4.9% for n = 60.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. Option D is tempting because 3 / 60 is 5%: but the bound is on the long-run rate, not a guarantee about the next 60 answers.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-2" data-auto="lab" data-lab="3.2" data-label="Lab 3.2" data-n="21" data-session="2">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.2 · 25 min</div><h2>Forty safety questions</h2><p class="lead small">Compute exact and Beta-posterior intervals for the four configurations on the 40-item safety set, including 40 out of 40, and compare them with the normal approximation.</p><a class="nb" href="../labs/D3_2_compute_exact_beta.ipynb">D3_2_compute_exact_beta.ipynb</a></div><ul class="checklist"><li>Safe answers per configuration <span class="min">3 min</span></li><li>The normal-approximation interval and its failure <span class="min">4 min</span></li><li>Clopper-Pearson intervals <span class="min">6 min</span></li><li>Beta posteriors under two priors <span class="min">7 min</span></li><li>The safety line for the release note <span class="min">5 min</span></li><li class="stretch">✱ Stretch: The posterior probability that C is safer than A</li></ul></div>
+  <aside class="notes"><p>Typical problems: Beta parameters swapped (lower end from Beta(k, n − k + 1), upper from Beta(k + 1, n − k)); forgetting the k = 0 and k = n special cases, which make SciPy return NaN.</p></aside>
+</section>
+
+<!-- Session 3 -->
+
+<section class="slide section" id="s3" data-auto="section" data-session="3" data-n="22">
+  <div class="kicker">Session 3</div>
+  <h1>Graders against people</h1>
+  <ul class="bullets outcomes"><li>Estimate a grader's sensitivity and specificity from human labels</li><li>Compare the grader's errors by language with intervals</li><li>Decide which logs may go to a hosted grader under the data classification</li></ul>
+  <div class="sess-no">03</div>
+</section>
+
+<section class="slide" id="grader-instrument" data-lo="LO4" data-n="23" data-session="3">
+  <div class="kicker">The grader is a measuring instrument</div>
+  <h2>Every pass rate so far was a model's verdict, and a model makes errors</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>Sensitivity</h4><p class="small mb0">Of answers people pass, the share the grader passes.</p></div>
+    <div class="card c-coral"><h4>Specificity</h4><p class="small mb0">Of answers people fail, the share the grader fails.</p></div>
+  </div>
+  <div class="callout note small mt"><b>Graders are built in AE-303.</b> Here the grader is given; the question is what its errors do to the statistics.</div>
+  <aside class="notes"><p>AE-303 is not a prerequisite: participants who took it wrote a grader prompt there and measured true-positive and true-negative rates on a held-out set. DS-403 takes those two rates as measurements with their own uncertainty, by language.</p><p>Sources: arXiv 2511.21140.</p></aside>
+</section>
+
+<section class="slide" id="calibration-set" data-lo="LO4" data-n="24" data-session="3">
+  <div class="kicker">The calibration set</div>
+  <h2>Sereen's panel labelled 300 answers, 150 in each language</h2>
+  <div class="cols cols-2">
+    <table class="t small">
+      <tr><th>Arabic</th><th class="num">grader fails</th><th class="num">grader passes</th></tr>
+      <tr><td>people fail</td><td class="num">36</td><td class="num">13</td></tr>
+      <tr><td>people pass</td><td class="num">8</td><td class="num">93</td></tr>
+    </table>
+    <table class="t small">
+      <tr><th>English</th><th class="num">grader fails</th><th class="num">grader passes</th></tr>
+      <tr><td>people fail</td><td class="num">41</td><td class="num">4</td></tr>
+      <tr><td>people pass</td><td class="num">2</td><td class="num">103</td></tr>
+    </table>
+  </div>
+  <aside class="notes"><p>From data/grader_calibration.csv. Ask the room to read the two numbers that matter most: 13 bad Arabic answers passed, against 4 in English. The data protection officer's question from the pre-work comes back here: the answers sent to a hosted grader were synthetic and Public; real applicants' messages would need the grader to run inside the authority.</p></aside>
+</section>
+
+<section class="slide" id="rates-by-language" data-lo="LO4" data-n="25" data-session="3">
+  <div class="kicker">Lab 3.3 result</div>
+  <h2>The grader passes a quarter of the bad Arabic answers</h2>
+  <table class="t">
+    <tr><th></th><th class="num">Sensitivity</th><th class="num">Specificity</th></tr>
+    <tr class="hl"><td>Arabic</td><td class="num">0.921 (0.851 to 0.959)</td><td class="num">0.735 (0.597 to 0.838)</td></tr>
+    <tr><td>English</td><td class="num">0.981 (0.933 to 0.995)</td><td class="num">0.911 (0.793 to 0.965)</td></tr>
+  </table>
+  <p class="small mt">Wilson intervals. Specificity rests on 49 failed answers in Arabic and 45 in English.</p>
+  <aside class="notes"><p>The specificity intervals are wide: only 94 of the 300 calibration answers are ones people failed. That width will travel into the corrected pass rates in session 4.</p></aside>
+</section>
+
+<section class="slide" id="agreement-hides" data-lo="LO4" data-n="26" data-session="3">
+  <div class="kicker">What agreement hides</div>
+  <h2>Ninety-one per cent agreement, and an Arabic error that inflates every Arabic score</h2>
+  <div class="bars">
+    <div class="row"><span>Agreement, overall</span><div class="bar c-navy" style="--w:91%"></div><span class="val">91%</span></div>
+    <div class="row"><span>Agreement, English</span><div class="bar c-teal" style="--w:96%"></div><span class="val">96%</span></div>
+    <div class="row"><span>Agreement, Arabic</span><div class="bar c-amber" style="--w:86%"></div><span class="val">86%</span></div>
+    <div class="row"><span>Bad Arabic answers passed</span><div class="bar c-coral" style="--w:26.5%"></div><span class="val">26.5%</span></div>
+  </div>
+  <aside class="notes"><p>Agreement is dominated by the common class, answers people pass. Kappa, the lab's stretch: 0.67 in Arabic, 0.90 in English. The leaderboard's claim C5 ("agrees on most verdicts, so no correction is needed") is about to fail.</p></aside>
+</section>
+
+<section class="slide" id="unequal-error" data-lo="LO4" data-n="27" data-session="3">
+  <div class="kicker">Unequal error by language</div>
+  <h2>The specificity gap between languages is real</h2>
+  <div class="cols cols-2 mid">
+    <div class="stat center"><div class="big">0.18</div><div class="lbl">English minus Arabic specificity, 95% CI 0.03 to 0.33</div></div>
+    <ul class="bullets small">
+      <li>Arabic pass rates are inflated more than English ones.</li>
+      <li>A configuration weak in Arabic looks less weak than it is.</li>
+      <li>The SDAIA AI Bias Reference Guide names measurement and evaluation bias: this is both.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>The course's responsible-use line: graders are checked for unequal error by language. The bias guide describes evaluation bias as an evaluation that does not reflect the full user base; a grader that is lenient in one language produces exactly that.</p><p>Sources: SDAIA AI Bias Reference Guide.</p></aside>
+</section>
+
+<section class="slide" id="more-labels" data-lo="LO3 LO4" data-n="28" data-session="3">
+  <div class="kicker">More labels, of the right kind</div>
+  <h2>To pin specificity down, find more failed answers, not more answers</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral flat"><h4>At random</h4><p class="small mb0">Specificity within ±0.05 needs 300 failed Arabic answers: about 919 labels, SAR 3,676.</p></div>
+    <div class="card c-teal flat"><h4>Targeted</h4><p class="small mb0">Label answers the grader passed and those it is unsure of: false passes appear far more often.</p></div>
+  </div>
+  <aside class="notes"><p>The plug-in correction paper describes an adaptive allocation of calibration labels for tighter intervals; the idea here is the same. If labels are drawn by stratum, weight them back when estimating rates.</p><p>Sources: arXiv 2511.21140.</p></aside>
+</section>
+
+<section class="slide" id="check-grader" data-lo="LO4" data-n="29" data-session="3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Reading a grader report</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="check-grader-q1">
+    <p class="lead">A grader agrees with people on 92% of 400 verdicts. In Arabic its specificity is 0.70; in English 0.92. What does that do to the pass rates it reports?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks high overall agreement makes the error rates irrelevant" data-k="A">Nothing: 92% agreement is good enough</div>
+      <div class="opt" data-why="Confuses specificity with sensitivity: low specificity passes bad answers, it does not fail good ones" data-k="B">Arabic pass rates are understated</div>
+      <div class="opt" data-why="Assumes errors in both directions cancel, which needs equal rates in both languages" data-k="C">Both languages are biased equally, so comparisons are safe</div>
+      <div class="opt" data-ok data-k="D">Arabic pass rates are inflated more than English ones, shrinking any language gap</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Low specificity means bad answers are passed; more of them pass in Arabic, so Arabic rates rise more and a real Arabic weakness looks smaller.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. Return to the confusion tables if the room picks B.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-3" data-auto="lab" data-lab="3.3" data-label="Lab 3.3" data-n="30" data-session="3">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.3 · 25 min</div><h2>The grader against people</h2><p class="lead small">Estimate the model grader's sensitivity and specificity in Arabic and English from 300 human-labelled verdicts, with intervals, and test whether its errors differ by language.</p><a class="nb" href="../labs/D3_3_estimate_grader_sensitivity.ipynb">D3_3_estimate_grader_sensitivity.ipynb</a></div><ul class="checklist"><li>The 300 verdicts: a confusion table per language <span class="min">5 min</span></li><li>Sensitivity and specificity with Wilson intervals <span class="min">7 min</span></li><li>Overall agreement and what it hides <span class="min">4 min</span></li><li>The difference between languages <span class="min">5 min</span></li><li>How many more labels, and of which kind <span class="min">4 min</span></li><li class="stretch">✱ Stretch: Cohen's kappa per language next to agreement</li></ul></div>
+  <aside class="notes"><p>Typical problems: computing specificity as the share of grader fails among all answers; Wilson intervals on the wrong denominator (all 150 instead of the 49 failed). The specificity gap uses two independent proportions, so the variances add.</p></aside>
+</section>
+
+<!-- Session 4 -->
+
+<section class="slide section" id="s4" data-auto="section" data-session="4" data-n="31">
+  <div class="kicker">Session 4</div>
+  <h1>Correcting for grader error</h1>
+  <ul class="bullets outcomes"><li>Correct an observed pass rate with sensitivity and specificity</li><li>Carry calibration uncertainty into the interval by bootstrap</li><li>Report corrected and uncorrected rates by language</li></ul>
+  <div class="sess-no">04</div>
+</section>
+
+<section class="slide" id="correction-formula" data-lo="LO4" data-n="32" data-session="4">
+  <div class="kicker">The correction</div>
+  <h2>Solve the grader's mixing for the true pass rate</h2>
+  <div class="cols cols-2 mid">
+    <div>
+      <p><code>observed = θ × sens + (1 − θ) × (1 − spec)</code></p>
+      <p><code>θ = (observed + spec − 1) / (sens + spec − 1)</code></p>
+    </div>
+    <div class="card c-navy tint"><h4>Example</h4><p class="small mb0">C in Arabic: observed 0.692, sens 0.921, spec 0.735, corrected 0.652.</p></div>
+  </div>
+  <div class="callout warn small mt"><b>It needs sens + spec above 1,</b> and it leaves 0 to 1 when the observed rate is below 1 − spec or above sens.</div>
+  <aside class="notes"><p>Rogan and Gladen's estimator from epidemiology (1978), described for model judges in the plug-in correction paper. Participants who took AE-303 computed the point estimate there; today adds the interval. In Arabic the valid range of observed rates is 0.265 to 0.921.</p><p>Sources: arXiv 2511.21140.</p></aside>
+</section>
+
+<section class="slide" id="correction-point" data-lo="LO4" data-n="33" data-session="4">
+  <div class="kicker">Lab 3.4 result</div>
+  <h2>The correction lowers Arabic rates four times as much as English ones for C</h2>
+  <table class="t">
+    <tr><th></th><th class="num">Observed</th><th class="num">Corrected</th><th class="num">Change</th></tr>
+    <tr class="hl"><td>C, Arabic</td><td class="num">69.2%</td><td class="num">65.2%</td><td class="num">−4.1</td></tr>
+    <tr><td>C, English</td><td class="num">75.0%</td><td class="num">74.1%</td><td class="num">−0.9</td></tr>
+    <tr><td>D, Arabic</td><td class="num">74.2%</td><td class="num">72.7%</td><td class="num">−1.5</td></tr>
+    <tr><td>D, English</td><td class="num">74.3%</td><td class="num">73.4%</td><td class="num">−1.0</td></tr>
+  </table>
+  <aside class="notes"><p>Mean of five samples at temperature 0.2. C's correction is larger in Arabic because C fails more Arabic answers, and the grader passes a quarter of those. Point estimates only: the intervals are next.</p></aside>
+</section>
+
+<section class="slide" id="two-uncertainties" data-lo="LO4" data-n="34" data-session="4">
+  <div class="kicker">Two sources of uncertainty</div>
+  <h2>The corrected rate is uncertain because of the test set and because of the calibration set</h2>
+  <div class="cols cols-2">
+    <div class="card c-coral flat"><h4>Test set only</h4><p class="small mb0">Clustered SE of the observed rate divided by (sens + spec − 1): ±8.3 points for C in Arabic. Too narrow.</p></div>
+    <div class="card c-teal flat"><h4>Both</h4><p class="small mb0">Resample documents of the test set and, independently, the calibration verdicts; recompute sens, spec and the correction each time.</p></div>
+  </div>
+  <aside class="notes"><p>The test-only SE treats sens and spec as exact. They come from 101 and 49 labelled Arabic answers. Prediction-powered inference is an alternative framework for combining a few human labels with many model labels; mention it for those who know it, but the bootstrap is enough for the capstone.</p><p>Sources: arXiv 2511.21140; arXiv 2301.09633.</p></aside>
+</section>
+
+<section class="slide" id="bootstrap-both-code" data-lo="LO4" data-n="35" data-session="4">
+  <div class="kicker">One replicate</div>
+  <h2>Resample both sets, then correct</h2>
+  <pre class="code s" data-file="Lab 3.4"><code class="language-python">pick = rng.integers(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(sums), size=<span class="hljs-built_in">len</span>(sums))      <span class="hljs-comment"># documents</span>
+p = sums[pick].<span class="hljs-built_in">sum</span>() / cnts[pick].<span class="hljs-built_in">sum</span>()
+j = rng.integers(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(h), size=<span class="hljs-built_in">len</span>(h))               <span class="hljs-comment"># calibration verdicts</span>
+sens = v[j][h[j] == <span class="hljs-number">1</span>].mean()
+spec = <span class="hljs-number">1</span> - v[j][h[j] == <span class="hljs-number">0</span>].mean()
+draw = (p + spec - <span class="hljs-number">1</span>) / (sens + spec - <span class="hljs-number">1</span>)</code></pre>
+  <aside class="notes"><p>4,000 replicates per configuration and language in full mode. The calibration resample is within one language; resampling the two languages together would let English labels stand in for Arabic ones.</p></aside>
+</section>
+
+<section class="slide" id="corrected-table" data-lo="LO4" data-n="36" data-session="4">
+  <div class="kicker">The evidence for LO4</div>
+  <h2>Corrected rates are lower and their intervals much wider, most of all in Arabic</h2>
+  <table class="t">
+    <tr><th></th><th class="num">Observed (95% CI)</th><th class="num">Corrected (95% CI)</th></tr>
+    <tr class="hl"><td>C, Arabic</td><td class="num">69.2 (63.8 to 74.6)</td><td class="num">65.2 (52.1 to 76.4)</td></tr>
+    <tr><td>C, English</td><td class="num">75.0 (69.3 to 80.8)</td><td class="num">74.1 (66.8 to 80.9)</td></tr>
+    <tr><td>D, Arabic</td><td class="num">74.2 (69.0 to 79.4)</td><td class="num">72.7 (60.5 to 83.6)</td></tr>
+    <tr><td>D, English</td><td class="num">74.3 (68.7 to 80.0)</td><td class="num">73.4 (65.6 to 80.3)</td></tr>
+  </table>
+  <aside class="notes"><p>From Lab 3.4. The Arabic corrected intervals are about 24 points wide: the 49 failed Arabic answers in the calibration set are the bottleneck. The cheapest way to narrow them is more targeted human labels, not more test questions.</p></aside>
+</section>
+
+<section class="slide" id="correction-assumption" data-lo="LO4" data-n="37" data-session="4">
+  <div class="kicker">The assumption</div>
+  <h2>The correction holds only if the grader errs on test answers as it did on calibration answers</h2>
+  <ul class="bullets">
+    <li>Calibrate per language, and per configuration if their answers differ in style.</li>
+    <li>Draw calibration answers from the same population as the test answers.</li>
+    <li>Re-calibrate when the grader, its prompt or the configurations change.</li>
+  </ul>
+  <aside class="notes"><p>Here the 300 verdicts were drawn across all four configurations at temperature 0.2, first sample: the same population as the test answers. The plug-in paper discusses robustness to shift between calibration and test sets; the safe practice is to calibrate on the same kind of answers.</p></aside>
+</section>
+
+<section class="slide" id="check-correction" data-lo="LO4" data-n="38" data-session="4">
+  <div class="kicker">Checkpoint</div>
+  <h2>An interval for a corrected rate</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="check-correction-q1">
+    <p class="lead">You corrected an Arabic pass rate with sensitivity and specificity from 150 labelled answers, and built the interval from the test set's clustered standard error only. What is wrong?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks correction removes uncertainty instead of adding it" data-k="A">Nothing: the correction removes the grader's error</div>
+      <div class="opt" data-ok data-k="B">The interval ignores the uncertainty of sensitivity and specificity, so it is too narrow</div>
+      <div class="opt" data-why="Confuses which set needs clustering: the calibration verdicts are separate answers" data-k="C">The calibration set should have been clustered by document too</div>
+      <div class="opt" data-why="Believes a corrected rate cannot have an interval at all" data-k="D">Corrected rates should be reported without intervals</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Sensitivity and specificity are estimates from a small labelled set; resampling it with the test set carries that uncertainty into the corrected rate's interval.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. For C in Arabic the test-only half-width is about 8 points; the full bootstrap gives about 12.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-3-4" data-auto="lab" data-lab="3.4" data-label="Lab 3.4" data-n="39" data-session="4">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 3.4 · 25 min</div><h2>Correcting the pass rate</h2><p class="lead small">Correct configuration C's and D's pass rates for grader error in each language, and build intervals that resample both the test questions and the 300 human-labelled verdicts.</p><a class="nb" href="../labs/D3_4_correct_pass_rate.ipynb">D3_4_correct_pass_rate.ipynb</a></div><ul class="checklist"><li>The correction formula as a function <span class="min">5 min</span></li><li>Corrected rates by language <span class="min">5 min</span></li><li>An interval from the test set only <span class="min">4 min</span></li><li>A bootstrap over test questions and calibration verdicts <span class="min">7 min</span></li><li>The table: uncorrected and corrected, by language <span class="min">4 min</span></li><li class="stretch">✱ Stretch: Find the observed rates at which the correction leaves 0 to 1</li></ul></div>
+  <aside class="notes"><p>Typical problems: resampling questions instead of documents for the test set; recomputing sens and spec from the original calibration set inside the loop (gives the test-only width). The bootstrap takes about 30 seconds per configuration and language in full mode.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="40" data-session="4">
+  <div class="kicker">Day 3 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Small or extreme: not Wald</h4><p class="small mb0">Wilson or Jeffreys; Clopper-Pearson for safety.</p></div>
+    <div class="card c-coral"><h4>Forty of forty is a bound</h4><p class="small mb0">Below 7.2% unsafe at 95%, not "never".</p></div>
+    <div class="card c-purple"><h4>Correct for the grader, by language</h4><p class="small mb0">And carry the calibration's uncertainty into the interval.</p></div>
+  </div>
+  <aside class="notes"><p>Ask: in your own evaluations, who measured the grader's specificity by language? Collect the corrected-rate tables: Lab 4.3 builds on them.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="41" data-session="4">
+  <div class="kicker">Next</div>
+  <h2>Day 4: Auditing claims and setting standards</h2>
+  <p class="lead">Read Khattab's leaderboard (labs/data/leaderboard_report.md) tonight: eight claims, and you will class each one tomorrow.</p>
+  <aside class="notes"><p>Ask them not to compute anything tonight, only to write a first guess per claim: supported, unsupported or untestable. Tomorrow's lab compares their guess with the evidence.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T20:52:11Z","version":"2027.1.0","commit":"d0b0715"},"course":{"id":"ds-403","code":"DS-403","title":"Statistical Evaluation of AI Systems","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-403/","repo":"SDAIAAcademy/ds-403","home":"../index.html"},"deck":{"id":"day3","kind":"day","day":3,"label":"Day 3","title":"Small sets and imperfect graders","prev":"day2.html","next":"day4.html","md":"day3.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Where large-sample intervals fail","slide":"s1","outcomes":["Define the coverage of an interval","Measure the coverage of four intervals by simulation","Choose an interval for a small set near 0 or 1"],"minutes":50,"lab":{"id":"3.1","title":"Coverage by simulation","minutes":25,"href":"../labs/D3_1_simulate_interval_coverage.ipynb"}},{"n":2,"label":"Session 2","title":"Exact and Bayesian intervals","slide":"s2","outcomes":["Compute a Clopper-Pearson interval for a small set","Compute a Beta posterior interval and state its prior","Report 40 out of 40 without claiming perfection"],"minutes":50,"lab":{"id":"3.2","title":"Forty safety questions","minutes":25,"href":"../labs/D3_2_compute_exact_beta.ipynb"}},{"n":3,"label":"Session 3","title":"Graders against people","slide":"s3","outcomes":["Estimate a grader's sensitivity and specificity from human labels","Compare the grader's errors by language with intervals","Decide which logs may go to a hosted grader under the data classification"],"minutes":50,"lab":{"id":"3.3","title":"The grader against people","minutes":25,"href":"../labs/D3_3_estimate_grader_sensitivity.ipynb"}},{"n":4,"label":"Session 4","title":"Correcting for grader error","slide":"s4","outcomes":["Correct an observed pass rate with sensitivity and specificity","Carry calibration uncertainty into the interval by bootstrap","Report corrected and uncorrected rates by language"],"minutes":50,"lab":{"id":"3.4","title":"Correcting the pass rate","minutes":25,"href":"../labs/D3_4_correct_pass_rate.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Small sets and imperfect graders","kind":"title","session":0,"hash":"86ce7199","md":"#### [day3#title] Small sets and imperfect graders\n\n*SDAIA Academy · Statistical Evaluation of AI Systems*\n\nDay 3: Intervals that keep their promise on small sets, and pass rates corrected for an imperfect grader\n\nData Science Track · 4 teaching days + capstone day · 4 sessions · 4 labs · DS-403","notes":"Today has two halves. The morning is about small sets: 40 safety questions, where the formula of Day 1 breaks. The afternoon is about the grader: every pass rate so far was measured by a model, and today we check the instrument.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Small sets and imperfect graders","kind":"content","session":0,"hash":"30bd8439","md":"#### [day3#agenda] Small sets and imperfect graders\n\n*Today*\n\n- **Session 1 · Where large-sample intervals fail**: The normal-approximation interval fails when items are few or the rate is near 0 or 1: coverage measured by simulation\n- **Session 2 · Exact and Bayesian intervals**: Exact and Bayesian intervals for a 40-item safety set where one configuration passes every item\n- **Session 3 · Graders against people**: A model grader is a measuring instrument: sensitivity and specificity against people, by language\n- **Session 4 · Correcting for grader error**: Correct a pass rate for the grader's error and carry the uncertainty of the calibration into the interval, by language","notes":"Sessions 1 and 2 serve LO1 (small-sample intervals); sessions 3 and 4 serve LO4 (grader error by language).","minutes":null,"lo":[]},{"id":"review-day2","n":3,"title":"What the paired interval allows you to say","kind":"quiz","session":0,"hash":"0a834da4","md":"#### [day3#review-day2] What the paired interval allows you to say\n\n*Review of Day 2*\n\n**Question:** D minus C is 2.2 points, paired and clustered 95% interval 0.5 to 3.9, minimum effect 3 points. Dr. Nadeen asks for one sentence. Which is right?\n\n- A. D is three points better; switch\n- B. D is better, but not shown to be better by three points\n- C. D is better, but by less than three points\n- D. No difference can be shown","notes":"Answer: B. Option C is the subtle one: the data cannot rule out 3.9 points, so \"less than three\" is not shown either.","minutes":null,"lo":["LO2","LO3"]},{"id":"s1","n":4,"title":"Where large-sample intervals fail","kind":"section","session":1,"hash":"43fdf8ff","md":"#### [day3#s1] Where large-sample intervals fail\n\n*Session 1*\n\n- Define the coverage of an interval\n- Measure the coverage of four intervals by simulation\n- Choose an interval for a small set near 0 or 1","notes":"","minutes":null,"lo":["LO1"]},{"id":"small-sets-common","n":5,"title":"Many evaluations that matter have tens of items, not thousands","kind":"content","session":1,"hash":"cd2ebe2f","md":"#### [day3#small-sets-common] Many evaluations that matter have tens of items, not thousands\n\n*Small, specialised sets*\n\n- **Safety sets.** 40 questions on exits, walls and fuel.\n- **New regulations.** A circular issued last week, 25 questions.\n- **Slices.** Heritage-area questions in Arabic: 38.\n\n> **And the rates sit near 0 or 1,** which is exactly where the normal approximation breaks.","notes":"Bowyer, Aitchison and Ivanova argue that intervals based on the central limit theorem are fine for thousands of items and badly too narrow for the small specialised benchmarks that are now common. Today's lab measures it.\n\nSources: arXiv 2503.01747.","minutes":null,"lo":["LO1"]},{"id":"coverage-defined","n":6,"title":"A 95% interval should contain the true rate in 95% of evaluations","kind":"content","session":1,"hash":"52d2ab67","md":"#### [day3#coverage-defined] A 95% interval should contain the true rate in 95% of evaluations\n\n*Coverage*\n\n1. **1 · Fix** a true rate p and a size n\n2. **2 · Draw** thousands of evaluations\n3. **3 · Build** an interval for each\n4. **4 · Count** how many contain p\n\nOnly n + 1 outcomes are possible, so the coverage can also be computed exactly by summing binomial probabilities.","notes":"Coverage is a property of a method, not of one interval. A method that covers 87% when it says 95% makes every claim built on it overconfident.","minutes":null,"lo":["LO1"]},{"id":"four-intervals","n":7,"title":"Wald is the formula of Day 1; three others behave better near the edges","kind":"content","session":1,"hash":"48ecfd92","md":"#### [day3#four-intervals] Wald is the formula of Day 1; three others behave better near the edges\n\n*Four intervals for a proportion*\n\n| Interval | Idea | 38 of 40 |\n| --- | --- | --- |\n| Wald | p ± 1.96 √(p(1 − p) / n) | 0.883 to 1.018 |\n| Wilson | inverts the score test; centre pulled toward 0.5 | 0.835 to 0.986 |\n| Clopper-Pearson | exact, from Beta quantiles; never under-covers | 0.831 to 0.994 |\n| Jeffreys | Beta(0.5, 0.5) prior, posterior interval | 0.849 to 0.989 |","notes":"Wald's upper end of 1.018 is an impossible pass rate: the first sign that something is wrong. In code: statsmodels' proportion_confint offers all of these by name; SciPy's binomtest gives Clopper-Pearson and Wilson.\n\nSources: Brown, Cai and DasGupta (2001); statsmodels and SciPy documentation.","minutes":null,"lo":["LO1"]},{"id":"coverage-table","n":8,"title":"With 20 items at 98%, Wald covers the truth one time in three","kind":"content","session":1,"hash":"b4e48f72","md":"#### [day3#coverage-table] With 20 items at 98%, Wald covers the truth one time in three\n\n*Lab 3.1 result*\n\n| Coverage at p = 0.98 | n = 20 | 40 | 80 | 200 |\n| --- | --- | --- | --- | --- |\n| Wald | 0.32 | 0.55 | 0.81 | 0.90 |\n| Wilson | 0.94 | 0.96 | 0.98 | 0.93 |\n| Jeffreys | 0.94 | 0.96 | 0.98 | 0.96 |\n| Clopper-Pearson | 0.99 | 0.99 | 0.98 | 0.96 |","notes":"Simulated with 4,000 draws per cell in Lab 3.1 (seed 403). Even at 200 items Wald is at 90% for a rate of 0.98. At p = 0.5 all four are near 95%: the problem is the edges, not only small n.","minutes":null,"lo":["LO1"]},{"id":"why-wald-fails","n":9,"title":"Near 1, Wald's estimated variance collapses exactly where it is least reliable","kind":"content","session":1,"hash":"cd05d1bf","md":"#### [day3#why-wald-fails] Near 1, Wald's estimated variance collapses exactly where it is least reliable\n\n*Why*\n\n- At 40 of 40, √(p(1 − p) / n) = 0: the interval is the single point 1.\n- At 39 of 40 it is narrow and centred too high.\n- The rate's distribution is skewed near the edge; Wald assumes symmetry.\n\n**87%** Wald's exact coverage at n = 40, p = 0.95","notes":"The 87% is the exact coverage from the lab's stretch (0.868), matching the simulation (86.5%). Ask: how many safety reports have you seen with a \"±0\" next to 100%?","minutes":null,"lo":["LO1"]},{"id":"interval-rule","n":10,"title":"Small or extreme: Wilson or Jeffreys; a safety claim: Clopper-Pearson","kind":"content","session":1,"hash":"f36dd87c","md":"#### [day3#interval-rule] Small or extreme: Wilson or Jeffreys; a safety claim: Clopper-Pearson\n\n*A rule for the standard*\n\n- **Hundreds of items, rate mid-range.** Any interval; the clustered one for documents.\n- **Fewer items, or within 0.1 of an edge.** Wilson or Jeffreys: near 95% on average.\n- **A claim that must not under-cover.** Clopper-Pearson: at least 95%, wider.","notes":"This sentence goes into the reporting standard on Day 4. Lowest coverage across the lab's grid: Wald 0.32, Wilson 0.92, Jeffreys 0.94, Clopper-Pearson 0.95.","minutes":null,"lo":["LO1","LO6"]},{"id":"check-coverage","n":11,"title":"Choosing an interval for a small set","kind":"quiz","session":1,"hash":"9fd7d6a3","md":"#### [day3#check-coverage] Choosing an interval for a small set\n\n*Checkpoint*\n\n**Question:** A new circular yields 25 questions; configuration D passes 24. The report needs a 95% interval for D's pass rate. Which choice is sound?\n\n- A. p ± 1.96 √(p(1 − p) / n), the standard formula\n- B. A bootstrap over the 25 questions\n- C. A Wilson or Jeffreys interval, or Clopper-Pearson if it supports a safety claim\n- D. No interval: 25 items are too few to say anything","notes":"Answer: C. The bootstrap option is a common belief: resampling 24 passes and 1 failure gives intervals that often exclude the true rate, for the same reason Wald does.","minutes":null,"lo":["LO1"]},{"id":"lab-3-1","n":12,"title":"Coverage by simulation","kind":"lab","session":1,"hash":"b74be189","md":"#### [day3#lab-3-1] Coverage by simulation\n\nLab 3.1 · 25 min\n\nSimulate the coverage of the Wald, Wilson, Clopper-Pearson and Jeffreys intervals for 20 to 200 items at rates near 0, 0.5 and 1.\n\n[D3_1_simulate_interval_coverage.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D3_1_simulate_interval_coverage.ipynb)\n\n- [ ] Four interval functions (6 min)\n- [ ] One coverage estimate by simulation (5 min)\n- [ ] The grid: 20 to 200 items, five rates (7 min)\n- [ ] Read the table: where Wald fails (4 min)\n- [ ] A rule for the authority (3 min)\n- [ ] ✱ Stretch: Compute the exact coverage by summing the binomial and compare","notes":"Fast lab, almost no data. Typical problems: building the interval inside the simulation loop (slow; compute once per outcome k), testing coverage with strict inequalities (lo \u003c p \u003c hi), which matters at the edges. Quick mode uses 800 draws per cell: expect noise of about ±0.015.","minutes":null,"lo":[]},{"id":"s2","n":13,"title":"Exact and Bayesian intervals","kind":"section","session":2,"hash":"991e3437","md":"#### [day3#s2] Exact and Bayesian intervals\n\n*Session 2*\n\n- Compute a Clopper-Pearson interval for a small set\n- Compute a Beta posterior interval and state its prior\n- Report 40 out of 40 without claiming perfection","notes":"","minutes":null,"lo":["LO1"]},{"id":"safety-set","n":14,"title":"Forty questions where a wrong answer could hurt someone","kind":"content","session":2,"hash":"3a490bad","md":"#### [day3#safety-set] Forty questions where a wrong answer could hurt someone\n\n*Bunyan's safety set*\n\n| Item | Value |\n| --- | --- |\n| A | 36 / 40 |\n| B | 38 / 40 |\n| C | 39 / 40 |\n| D | 40 / 40 |\n\nOne greedy answer per question per configuration; each marked safe or unsafe by Sereen's panel. Topics: exits blocked during works, load-bearing walls, fuel in basements, floors added without a structural report, steep ramps.","notes":"The safety set is labelled by people, not the grader, so grader error is not in play here: the only uncertainty is the small sample. The leaderboard's claim C4, \"D never gives an unsafe answer\", is built on the 40 out of 40.","minutes":null,"lo":["LO1"]},{"id":"forty-of-forty","n":15,"title":"Forty out of forty does not mean never","kind":"content","session":2,"hash":"45518824","md":"#### [day3#forty-of-forty] Forty out of forty does not mean never\n\n*The edge case*\n\n- **[1, 1]** Wald: certainty from 40 questions\n- **0.928** one-sided 95% lower bound, 0.051/40\n- **7.2%** the unsafe rate the data cannot rule out\n\nThe rule of three gives nearly the same: 3 / 40 = 7.5%.","notes":"The one-sided Clopper-Pearson bound at k = n has a closed form: the lower bound L solves L to the power n equals 0.05. To support \"below 1%\" with zero failures you need about 300 safety questions.","minutes":null,"lo":["LO1"]},{"id":"clopper-pearson-code","n":16,"title":"Clopper-Pearson comes from two Beta quantiles","kind":"content","session":2,"hash":"71dce141","md":"#### [day3#clopper-pearson-code] Clopper-Pearson comes from two Beta quantiles\n\n*Exact intervals*\n\n```python\n# file: Lab 3.2\ndef clopper_pearson(k, n, level=0.95):\n    a = 1 - level\n    lo = 0.0 if k == 0 else stats.beta.ppf(a / 2, k, n - k + 1)\n    hi = 1.0 if k == n else stats.beta.ppf(1 - a / 2, k + 1, n - k)\n    return lo, hi\n```\n\nD, 40 of 40: 0.912 to 1. C, 39 of 40: 0.868 to 0.999. A, 36 of 40: 0.763 to 0.972.","notes":"SciPy's binomtest(k, n).proportion_ci(method=\"exact\") gives the same numbers; participants write it by hand once so they see where it comes from. The two-sided lower end at 40 of 40 (0.912) is lower than the one-sided bound (0.928) because it spends 2.5% instead of 5% on that side.","minutes":null,"lo":["LO1"]},{"id":"beta-posterior","n":17,"title":"A Beta prior and k of n give a Beta posterior, and its interval","kind":"content","session":2,"hash":"0ae895b4","md":"#### [day3#beta-posterior] A Beta prior and k of n give a Beta posterior, and its interval\n\n*Bayesian intervals*\n\n`prior Beta(a, b) → posterior Beta(a + k, b + n − k)`\n\n- Uniform prior, Beta(1, 1): D 0.914 to 0.999.\n- Jeffreys prior, Beta(0.5, 0.5): D 0.940 to 1.000.\n\n- **State the prior.** At 40 of 40 the prior moves the lower end by 2.6 points. In a safety claim the uniform prior is the more cautious of the two.","notes":"Bowyer and colleagues recommend Beta-posterior intervals for small evaluations and publish a small library; PyMC is overkill for a single proportion but is the tool when the model grows (several configurations, a hierarchy by category).\n\nSources: arXiv 2503.01747.","minutes":null,"lo":["LO1"]},{"id":"compare-small","n":18,"title":"Is C safer than A? Probably, but 40 questions cannot settle it","kind":"content","session":2,"hash":"0f5ae857","md":"#### [day3#compare-small] Is C safer than A? Probably, but 40 questions cannot settle it\n\n*Comparing on a small set*\n\n**0.90** posterior probability that C's safe rate exceeds A's (39/40 against 36/40)\n\n- Draw from both uniform posteriors, count how often C is ahead.\n- A one-in-ten chance that A is in fact at least as safe.\n- For a release gate, set the threshold before looking.","notes":"Lab 3.2's stretch (100,000 draws). The posterior probability is a natural statement for a decision owner, but it is not a p-value: do not mix the two vocabularies in one report.","minutes":null,"lo":["LO1","LO2"]},{"id":"safety-line","n":19,"title":"Write what the 40 questions show, and stop there","kind":"content","session":2,"hash":"275a1f5c","md":"#### [day3#safety-line] Write what the 40 questions show, and stop there\n\n*The release note*\n\nPrompt for Safety line:\n\n```text\nSafety set (40 questions, one greedy answer each): D was safe on 40 of 40; with 95% confidence its unsafe-answer rate on such questions is below 7.2% (one-sided Clopper-Pearson). C 39/40, B 38/40, A 36/40.\n```","notes":"\"On such questions\" matters: the safety set covers five topics. A question type outside them is not covered by this bound. The SDAIA AI Ethics Principles and the National AI Risk Management Framework both ask for honest communication of a system's limits; this line is that, for one property.","minutes":null,"lo":["LO1","LO6"]},{"id":"check-safety","n":20,"title":"Zero failures","kind":"quiz","session":2,"hash":"159b6347","md":"#### [day3#check-safety] Zero failures\n\n*Checkpoint*\n\n**Question:** A configuration answers 60 safety questions with no unsafe answer. Which statement can the report make at 95% confidence?\n\n- A. Its unsafe rate on such questions is below about 5%\n- B. It never gives unsafe answers on such questions\n- C. Its unsafe rate is 0% ± 0\n- D. At most 3 of the next 60 answers will be unsafe","notes":"Answer: A. Option D is tempting because 3 / 60 is 5%: but the bound is on the long-run rate, not a guarantee about the next 60 answers.","minutes":null,"lo":["LO1"]},{"id":"lab-3-2","n":21,"title":"Forty safety questions","kind":"lab","session":2,"hash":"d66c987b","md":"#### [day3#lab-3-2] Forty safety questions\n\nLab 3.2 · 25 min\n\nCompute exact and Beta-posterior intervals for the four configurations on the 40-item safety set, including 40 out of 40, and compare them with the normal approximation.\n\n[D3_2_compute_exact_beta.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D3_2_compute_exact_beta.ipynb)\n\n- [ ] Safe answers per configuration (3 min)\n- [ ] The normal-approximation interval and its failure (4 min)\n- [ ] Clopper-Pearson intervals (6 min)\n- [ ] Beta posteriors under two priors (7 min)\n- [ ] The safety line for the release note (5 min)\n- [ ] ✱ Stretch: The posterior probability that C is safer than A","notes":"Typical problems: Beta parameters swapped (lower end from Beta(k, n − k + 1), upper from Beta(k + 1, n − k)); forgetting the k = 0 and k = n special cases, which make SciPy return NaN.","minutes":null,"lo":[]},{"id":"s3","n":22,"title":"Graders against people","kind":"section","session":3,"hash":"0a91d16c","md":"#### [day3#s3] Graders against people\n\n*Session 3*\n\n- Estimate a grader's sensitivity and specificity from human labels\n- Compare the grader's errors by language with intervals\n- Decide which logs may go to a hosted grader under the data classification","notes":"","minutes":null,"lo":["LO4"]},{"id":"grader-instrument","n":23,"title":"Every pass rate so far was a model's verdict, and a model makes errors","kind":"content","session":3,"hash":"7329a230","md":"#### [day3#grader-instrument] Every pass rate so far was a model's verdict, and a model makes errors\n\n*The grader is a measuring instrument*\n\n- **Sensitivity.** Of answers people pass, the share the grader passes.\n- **Specificity.** Of answers people fail, the share the grader fails.\n\n> **Graders are built in AE-303.** Here the grader is given; the question is what its errors do to the statistics.","notes":"AE-303 is not a prerequisite: participants who took it wrote a grader prompt there and measured true-positive and true-negative rates on a held-out set. DS-403 takes those two rates as measurements with their own uncertainty, by language.\n\nSources: arXiv 2511.21140.","minutes":null,"lo":["LO4"]},{"id":"calibration-set","n":24,"title":"Sereen's panel labelled 300 answers, 150 in each language","kind":"content","session":3,"hash":"17e1eee7","md":"#### [day3#calibration-set] Sereen's panel labelled 300 answers, 150 in each language\n\n*The calibration set*\n\n| Arabic | grader fails | grader passes |\n| --- | --- | --- |\n| people fail | 36 | 13 |\n| people pass | 8 | 93 |\n\n| English | grader fails | grader passes |\n| --- | --- | --- |\n| people fail | 41 | 4 |\n| people pass | 2 | 103 |","notes":"From data/grader_calibration.csv. Ask the room to read the two numbers that matter most: 13 bad Arabic answers passed, against 4 in English. The data protection officer's question from the pre-work comes back here: the answers sent to a hosted grader were synthetic and Public; real applicants' messages would need the grader to run inside the authority.","minutes":null,"lo":["LO4"]},{"id":"rates-by-language","n":25,"title":"The grader passes a quarter of the bad Arabic answers","kind":"content","session":3,"hash":"0543802f","md":"#### [day3#rates-by-language] The grader passes a quarter of the bad Arabic answers\n\n*Lab 3.3 result*\n\n|  | Sensitivity | Specificity |\n| --- | --- | --- |\n| Arabic | 0.921 (0.851 to 0.959) | 0.735 (0.597 to 0.838) |\n| English | 0.981 (0.933 to 0.995) | 0.911 (0.793 to 0.965) |\n\nWilson intervals. Specificity rests on 49 failed answers in Arabic and 45 in English.","notes":"The specificity intervals are wide: only 94 of the 300 calibration answers are ones people failed. That width will travel into the corrected pass rates in session 4.","minutes":null,"lo":["LO4"]},{"id":"agreement-hides","n":26,"title":"Ninety-one per cent agreement, and an Arabic error that inflates every Arabic score","kind":"content","session":3,"hash":"ebc07aca","md":"#### [day3#agreement-hides] Ninety-one per cent agreement, and an Arabic error that inflates every Arabic score\n\n*What agreement hides*\n\n| Item | Value |\n| --- | --- |\n| Agreement, overall | 91% |\n| Agreement, English | 96% |\n| Agreement, Arabic | 86% |\n| Bad Arabic answers passed | 26.5% |","notes":"Agreement is dominated by the common class, answers people pass. Kappa, the lab's stretch: 0.67 in Arabic, 0.90 in English. The leaderboard's claim C5 (\"agrees on most verdicts, so no correction is needed\") is about to fail.","minutes":null,"lo":["LO4"]},{"id":"unequal-error","n":27,"title":"The specificity gap between languages is real","kind":"content","session":3,"hash":"b628ce32","md":"#### [day3#unequal-error] The specificity gap between languages is real\n\n*Unequal error by language*\n\n**0.18** English minus Arabic specificity, 95% CI 0.03 to 0.33\n\n- Arabic pass rates are inflated more than English ones.\n- A configuration weak in Arabic looks less weak than it is.\n- The SDAIA AI Bias Reference Guide names measurement and evaluation bias: this is both.","notes":"The course's responsible-use line: graders are checked for unequal error by language. The bias guide describes evaluation bias as an evaluation that does not reflect the full user base; a grader that is lenient in one language produces exactly that.\n\nSources: SDAIA AI Bias Reference Guide.","minutes":null,"lo":["LO4"]},{"id":"more-labels","n":28,"title":"To pin specificity down, find more failed answers, not more answers","kind":"content","session":3,"hash":"f3c8f172","md":"#### [day3#more-labels] To pin specificity down, find more failed answers, not more answers\n\n*More labels, of the right kind*\n\n- **At random.** Specificity within ±0.05 needs 300 failed Arabic answers: about 919 labels, SAR 3,676.\n- **Targeted.** Label answers the grader passed and those it is unsure of: false passes appear far more often.","notes":"The plug-in correction paper describes an adaptive allocation of calibration labels for tighter intervals; the idea here is the same. If labels are drawn by stratum, weight them back when estimating rates.\n\nSources: arXiv 2511.21140.","minutes":null,"lo":["LO3","LO4"]},{"id":"check-grader","n":29,"title":"Reading a grader report","kind":"quiz","session":3,"hash":"be20075b","md":"#### [day3#check-grader] Reading a grader report\n\n*Checkpoint*\n\n**Question:** A grader agrees with people on 92% of 400 verdicts. In Arabic its specificity is 0.70; in English 0.92. What does that do to the pass rates it reports?\n\n- A. Nothing: 92% agreement is good enough\n- B. Arabic pass rates are understated\n- C. Both languages are biased equally, so comparisons are safe\n- D. Arabic pass rates are inflated more than English ones, shrinking any language gap","notes":"Answer: D. Return to the confusion tables if the room picks B.","minutes":null,"lo":["LO4"]},{"id":"lab-3-3","n":30,"title":"The grader against people","kind":"lab","session":3,"hash":"3379d67a","md":"#### [day3#lab-3-3] The grader against people\n\nLab 3.3 · 25 min\n\nEstimate the model grader's sensitivity and specificity in Arabic and English from 300 human-labelled verdicts, with intervals, and test whether its errors differ by language.\n\n[D3_3_estimate_grader_sensitivity.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D3_3_estimate_grader_sensitivity.ipynb)\n\n- [ ] The 300 verdicts: a confusion table per language (5 min)\n- [ ] Sensitivity and specificity with Wilson intervals (7 min)\n- [ ] Overall agreement and what it hides (4 min)\n- [ ] The difference between languages (5 min)\n- [ ] How many more labels, and of which kind (4 min)\n- [ ] ✱ Stretch: Cohen's kappa per language next to agreement","notes":"Typical problems: computing specificity as the share of grader fails among all answers; Wilson intervals on the wrong denominator (all 150 instead of the 49 failed). The specificity gap uses two independent proportions, so the variances add.","minutes":null,"lo":[]},{"id":"s4","n":31,"title":"Correcting for grader error","kind":"section","session":4,"hash":"c39b1dd5","md":"#### [day3#s4] Correcting for grader error\n\n*Session 4*\n\n- Correct an observed pass rate with sensitivity and specificity\n- Carry calibration uncertainty into the interval by bootstrap\n- Report corrected and uncorrected rates by language","notes":"","minutes":null,"lo":["LO4"]},{"id":"correction-formula","n":32,"title":"Solve the grader's mixing for the true pass rate","kind":"content","session":4,"hash":"92e4b5ed","md":"#### [day3#correction-formula] Solve the grader's mixing for the true pass rate\n\n*The correction*\n\n`observed = θ × sens + (1 − θ) × (1 − spec)`\n\n`θ = (observed + spec − 1) / (sens + spec − 1)`\n\n- **Example.** C in Arabic: observed 0.692, sens 0.921, spec 0.735, corrected 0.652.\n\n> **It needs sens + spec above 1,** and it leaves 0 to 1 when the observed rate is below 1 − spec or above sens.","notes":"Rogan and Gladen's estimator from epidemiology (1978), described for model judges in the plug-in correction paper. Participants who took AE-303 computed the point estimate there; today adds the interval. In Arabic the valid range of observed rates is 0.265 to 0.921.\n\nSources: arXiv 2511.21140.","minutes":null,"lo":["LO4"]},{"id":"correction-point","n":33,"title":"The correction lowers Arabic rates four times as much as English ones for C","kind":"content","session":4,"hash":"86154fd5","md":"#### [day3#correction-point] The correction lowers Arabic rates four times as much as English ones for C\n\n*Lab 3.4 result*\n\n|  | Observed | Corrected | Change |\n| --- | --- | --- | --- |\n| C, Arabic | 69.2% | 65.2% | −4.1 |\n| C, English | 75.0% | 74.1% | −0.9 |\n| D, Arabic | 74.2% | 72.7% | −1.5 |\n| D, English | 74.3% | 73.4% | −1.0 |","notes":"Mean of five samples at temperature 0.2. C's correction is larger in Arabic because C fails more Arabic answers, and the grader passes a quarter of those. Point estimates only: the intervals are next.","minutes":null,"lo":["LO4"]},{"id":"two-uncertainties","n":34,"title":"The corrected rate is uncertain because of the test set and because of the calibration set","kind":"content","session":4,"hash":"b67c9a49","md":"#### [day3#two-uncertainties] The corrected rate is uncertain because of the test set and because of the calibration set\n\n*Two sources of uncertainty*\n\n- **Test set only.** Clustered SE of the observed rate divided by (sens + spec − 1): ±8.3 points for C in Arabic. Too narrow.\n- **Both.** Resample documents of the test set and, independently, the calibration verdicts; recompute sens, spec and the correction each time.","notes":"The test-only SE treats sens and spec as exact. They come from 101 and 49 labelled Arabic answers. Prediction-powered inference is an alternative framework for combining a few human labels with many model labels; mention it for those who know it, but the bootstrap is enough for the capstone.\n\nSources: arXiv 2511.21140; arXiv 2301.09633.","minutes":null,"lo":["LO4"]},{"id":"bootstrap-both-code","n":35,"title":"Resample both sets, then correct","kind":"content","session":4,"hash":"79890d45","md":"#### [day3#bootstrap-both-code] Resample both sets, then correct\n\n*One replicate*\n\n```python\n# file: Lab 3.4\npick = rng.integers(0, len(sums), size=len(sums))      # documents\np = sums[pick].sum() / cnts[pick].sum()\nj = rng.integers(0, len(h), size=len(h))               # calibration verdicts\nsens = v[j][h[j] == 1].mean()\nspec = 1 - v[j][h[j] == 0].mean()\ndraw = (p + spec - 1) / (sens + spec - 1)\n```","notes":"4,000 replicates per configuration and language in full mode. The calibration resample is within one language; resampling the two languages together would let English labels stand in for Arabic ones.","minutes":null,"lo":["LO4"]},{"id":"corrected-table","n":36,"title":"Corrected rates are lower and their intervals much wider, most of all in Arabic","kind":"content","session":4,"hash":"bda18929","md":"#### [day3#corrected-table] Corrected rates are lower and their intervals much wider, most of all in Arabic\n\n*The evidence for LO4*\n\n|  | Observed (95% CI) | Corrected (95% CI) |\n| --- | --- | --- |\n| C, Arabic | 69.2 (63.8 to 74.6) | 65.2 (52.1 to 76.4) |\n| C, English | 75.0 (69.3 to 80.8) | 74.1 (66.8 to 80.9) |\n| D, Arabic | 74.2 (69.0 to 79.4) | 72.7 (60.5 to 83.6) |\n| D, English | 74.3 (68.7 to 80.0) | 73.4 (65.6 to 80.3) |","notes":"From Lab 3.4. The Arabic corrected intervals are about 24 points wide: the 49 failed Arabic answers in the calibration set are the bottleneck. The cheapest way to narrow them is more targeted human labels, not more test questions.","minutes":null,"lo":["LO4"]},{"id":"correction-assumption","n":37,"title":"The correction holds only if the grader errs on test answers as it did on calibration answers","kind":"content","session":4,"hash":"b63fdc80","md":"#### [day3#correction-assumption] The correction holds only if the grader errs on test answers as it did on calibration answers\n\n*The assumption*\n\n- Calibrate per language, and per configuration if their answers differ in style.\n- Draw calibration answers from the same population as the test answers.\n- Re-calibrate when the grader, its prompt or the configurations change.","notes":"Here the 300 verdicts were drawn across all four configurations at temperature 0.2, first sample: the same population as the test answers. The plug-in paper discusses robustness to shift between calibration and test sets; the safe practice is to calibrate on the same kind of answers.","minutes":null,"lo":["LO4"]},{"id":"check-correction","n":38,"title":"An interval for a corrected rate","kind":"quiz","session":4,"hash":"f1a9de88","md":"#### [day3#check-correction] An interval for a corrected rate\n\n*Checkpoint*\n\n**Question:** You corrected an Arabic pass rate with sensitivity and specificity from 150 labelled answers, and built the interval from the test set's clustered standard error only. What is wrong?\n\n- A. Nothing: the correction removes the grader's error\n- B. The interval ignores the uncertainty of sensitivity and specificity, so it is too narrow\n- C. The calibration set should have been clustered by document too\n- D. Corrected rates should be reported without intervals","notes":"Answer: B. For C in Arabic the test-only half-width is about 8 points; the full bootstrap gives about 12.","minutes":null,"lo":["LO4"]},{"id":"lab-3-4","n":39,"title":"Correcting the pass rate","kind":"lab","session":4,"hash":"6b0f6979","md":"#### [day3#lab-3-4] Correcting the pass rate\n\nLab 3.4 · 25 min\n\nCorrect configuration C's and D's pass rates for grader error in each language, and build intervals that resample both the test questions and the 300 human-labelled verdicts.\n\n[D3_4_correct_pass_rate.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D3_4_correct_pass_rate.ipynb)\n\n- [ ] The correction formula as a function (5 min)\n- [ ] Corrected rates by language (5 min)\n- [ ] An interval from the test set only (4 min)\n- [ ] A bootstrap over test questions and calibration verdicts (7 min)\n- [ ] The table: uncorrected and corrected, by language (4 min)\n- [ ] ✱ Stretch: Find the observed rates at which the correction leaves 0 to 1","notes":"Typical problems: resampling questions instead of documents for the test set; recomputing sens and spec from the original calibration set inside the loop (gives the test-only width). The bootstrap takes about 30 seconds per configuration and language in full mode.","minutes":null,"lo":[]},{"id":"wrap-up","n":40,"title":"Three things to keep","kind":"content","session":4,"hash":"3ca1959b","md":"#### [day3#wrap-up] Three things to keep\n\n*Day 3 · wrap-up*\n\n- **Small or extreme: not Wald.** Wilson or Jeffreys; Clopper-Pearson for safety.\n- **Forty of forty is a bound.** Below 7.2% unsafe at 95%, not \"never\".\n- **Correct for the grader, by language.** And carry the calibration's uncertainty into the interval.","notes":"Ask: in your own evaluations, who measured the grader's specificity by language? Collect the corrected-rate tables: Lab 4.3 builds on them.","minutes":null,"lo":[]},{"id":"next","n":41,"title":"Day 4: Auditing claims and setting standards","kind":"content","session":4,"hash":"270e3d06","md":"#### [day3#next] Day 4: Auditing claims and setting standards\n\n*Next*\n\nRead Khattab's leaderboard (labs/data/leaderboard_report.md) tonight: eight claims, and you will class each one tomorrow.","notes":"Ask them not to compute anything tonight, only to write a first guess per claim: supported, unsupported or untestable. Tomorrow's lab compares their guess with the evidence.","minutes":null,"lo":[]}],"activities":[{"id":"review-day2-q1","slide":"review-day2","type":"single","prompt":"D minus C is 2.2 points, paired and clustered 95% interval 0.5 to 3.9, minimum effect 3 points. Dr. Nadeen asks for one sentence. Which is right?","options":[{"key":"A","text":"D is three points better; switch"},{"key":"B","text":"D is better, but not shown to be better by three points"},{"key":"C","text":"D is better, but by less than three points"},{"key":"D","text":"No difference can be shown"}],"correct":[1],"explanation":"The interval excludes zero, so D is better; it includes values both below and above 3, so whether the gain reaches the minimum effect is not shown.","misconceptions":["Reads significance as importance: the interval includes values below the threshold","","Reads an interval that includes 3 as proof of an effect below 3","Uses the unpaired interval, which ignores that the questions are shared"],"lo":["LO2"]},{"id":"check-coverage-q1","slide":"check-coverage","type":"single","prompt":"A new circular yields 25 questions; configuration D passes 24. The report needs a 95% interval for D's pass rate. Which choice is sound?","options":[{"key":"A","text":"p ± 1.96 √(p(1 − p) / n), the standard formula"},{"key":"B","text":"A bootstrap over the 25 questions"},{"key":"C","text":"A Wilson or Jeffreys interval, or Clopper-Pearson if it supports a safety claim"},{"key":"D","text":"No interval: 25 items are too few to say anything"}],"correct":[2],"explanation":"With few items near 1, Wald and the percentile bootstrap are too narrow; Wilson and Jeffreys keep close to 95%, Clopper-Pearson at least 95%.","misconceptions":["Applies the large-sample formula where the lab showed it under-covers badly","Thinks a bootstrap fixes small samples; with 24 of 25 it inherits the same collapse","","Believes small sets cannot be reported at all, when an honest wide interval is informative"],"lo":["LO1"]},{"id":"check-safety-q1","slide":"check-safety","type":"single","prompt":"A configuration answers 60 safety questions with no unsafe answer. Which statement can the report make at 95% confidence?","options":[{"key":"A","text":"Its unsafe rate on such questions is below about 5%"},{"key":"B","text":"It never gives unsafe answers on such questions"},{"key":"C","text":"Its unsafe rate is 0% ± 0"},{"key":"D","text":"At most 3 of the next 60 answers will be unsafe"}],"correct":[0],"explanation":"With zero failures in n, the one-sided 95% upper bound on the failure rate is 1 − 0.051/n, about 3 / n: 4.9% for n = 60.","misconceptions":["","Turns zero observed failures into a claim of zero failures","Uses the Wald interval, which collapses to a point at 60 of 60","Confuses the bound for the rate with a bound on a count of future failures"],"lo":["LO1"]},{"id":"check-grader-q1","slide":"check-grader","type":"single","prompt":"A grader agrees with people on 92% of 400 verdicts. In Arabic its specificity is 0.70; in English 0.92. What does that do to the pass rates it reports?","options":[{"key":"A","text":"Nothing: 92% agreement is good enough"},{"key":"B","text":"Arabic pass rates are understated"},{"key":"C","text":"Both languages are biased equally, so comparisons are safe"},{"key":"D","text":"Arabic pass rates are inflated more than English ones, shrinking any language gap"}],"correct":[3],"explanation":"Low specificity means bad answers are passed; more of them pass in Arabic, so Arabic rates rise more and a real Arabic weakness looks smaller.","misconceptions":["Thinks high overall agreement makes the error rates irrelevant","Confuses specificity with sensitivity: low specificity passes bad answers, it does not fail good ones","Assumes errors in both directions cancel, which needs equal rates in both languages",""],"lo":["LO4"]},{"id":"check-correction-q1","slide":"check-correction","type":"single","prompt":"You corrected an Arabic pass rate with sensitivity and specificity from 150 labelled answers, and built the interval from the test set's clustered standard error only. What is wrong?","options":[{"key":"A","text":"Nothing: the correction removes the grader's error"},{"key":"B","text":"The interval ignores the uncertainty of sensitivity and specificity, so it is too narrow"},{"key":"C","text":"The calibration set should have been clustered by document too"},{"key":"D","text":"Corrected rates should be reported without intervals"}],"correct":[1],"explanation":"Sensitivity and specificity are estimates from a small labelled set; resampling it with the test set carries that uncertainty into the corrected rate's interval.","misconceptions":["Thinks correction removes uncertainty instead of adding it","","Confuses which set needs clustering: the calibration verdicts are separate answers","Believes a corrected rate cannot have an interval at all"],"lo":["LO4"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"day3.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="page" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistical Evaluation of AI Systems · SDAIA Academy</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<meta name="description" content="Treat every evaluation of an AI system as an experiment: report scores with honest intervals, compare systems with paired designs, size evaluations within budget, correct for grader error and audit the claims">
+<link rel="icon" href="_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="index.md">
+<link rel="describedby" href="llms.txt">
+<link rel="stylesheet" href="_engine/academy.css">
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top"><div class="logo" id="logo"></div><nav><a href="slides/day1.html">Slides</a><a href="practice.html">Practice</a><a href="index.md" type="text/markdown">Markdown</a></nav></div>
+<div class="kicker">Data Science Track · SDAIA Academy · DS-403</div>
+<h1>Statistical Evaluation of AI Systems<span class="sub ar" lang="ar" dir="rtl">التقييم الإحصائي لأنظمة الذكاء الاصطناعي</span></h1>
+<p>Treat every evaluation of an AI system as an experiment: report scores with honest intervals, compare systems with paired designs, size evaluations within budget, correct for grader error and audit the claims</p>
+<div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>26 hours</span><span>Level 400</span><span>Data Science · Expert badge</span></div>
+</div>
+</header>
+<main class="wrap">
+<h2>About the course</h2>
+<p>Participants treat every evaluation of an AI system as an experiment with a sampling design. On item-level results from small open-weight models on a fictional permits authority's synthetic bilingual task set, they compute clustered standard errors, compare systems with paired designs, size evaluations within a budget, use exact or Bayesian intervals for small sets, correct for grader error and audit benchmark claims. Graders and harnesses are built in AE-303, not here.</p>
+<p><b>Who it is for:</b> Specialists. Data scientists who have completed the level 300 core or can show equivalent work: a defended analysis with a validated model or a causal estimate that they can explain.</p>
+<p><b>Format:</b> Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task</p>
+<h2>The case study</h2>
+<div class="note info"><b>Bunyan Building Permits Authority.</b> Bunyan Building Permits Authority is a fictional regional authority that issues building and construction permits. Its question assistant, Watad, answers applicants in Arabic and English from 80 regulation documents, and four configurations of it (a small and a mid-size open-weight model, each with and without the retrieved regulation) are candidates for release. Participants work on synthetic item-level logs: 600 bilingual questions from 80 documents, five samples per question at two temperatures for four configurations, six configurations for ranking, a 40-item safety set, 300 human-labelled grader verdicts, the configuration leaderboard written by the evaluation lead, and the examples used to tune one configuration. They compute clustered and small-sample intervals, compare configurations with paired designs, size the next evaluation within budget, correct pass rates for the grader's error by language, audit the leaderboard's claims and write a reporting standard. All data is synthetic and generated with a fixed seed; no model produced the logs.</div>
+<h2>The course</h2>
+<div class="day">
+<div class="day-head c-teal"><div><div class="t">Day 1 · 4 sessions · 4 labs</div><h3>Scores have standard errors</h3></div><a class="btn" href="slides/day1.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>An evaluation is a sample</b><br>The 600 questions are a sample from a population of questions: the formula standard error and the bootstrap of a pass rate<ul><li>Explain what population an evaluation score estimates</li><li>Compute the formula standard error of a pass rate</li><li>Bootstrap a pass rate and compare the two intervals</li></ul></td><td><a href="labs/D1_1_bootstrap_pass_rate.ipynb">Lab 1.1 · A pass rate with two intervals</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D1_1_bootstrap_pass_rate.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Clustered items</b><br>Questions written from the same document succeed and fail together: clustered standard errors and the design effect<ul><li>Explain why items from one source document are not independent</li><li>Compute a standard error clustered by document</li><li>Report the design effect and the effective number of items</li></ul></td><td><a href="labs/D1_2_compute_standard_errors.ipynb">Lab 1.2 · Clustered by document</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D1_2_compute_standard_errors.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Repeated samples</b><br>Five samples per question at two temperatures: variance from items and from sampling, and what averaging samples buys<ul><li>Split the variance of a score into item and sampling parts</li><li>Predict the standard error for K samples per item</li><li>Distinguish the mean pass rate, pass@k and pass^k</li></ul></td><td><a href="labs/D1_3_split_variance_into.ipynb">Lab 1.3 · Item and sampling variance</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D1_3_split_variance_into.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Plan before results</b><br>An analysis plan committed before the results: hypothesis, metric, unit, minimum effect and decision rule<ul><li>Explain how choices made after the results inflate false wins</li><li>Write an analysis plan for a comparison of two configurations</li><li>State a minimum effect and a decision rule in advance</li></ul></td><td><a href="labs/D1_4_draft_pre_registered.ipynb">Lab 1.4 · A plan before the results</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D1_4_draft_pre_registered.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-cyan"><div><div class="t">Day 2 · 4 sessions · 4 labs</div><h3>Comparing systems</h3></div><a class="btn" href="slides/day2.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Paired designs</b><br>The same questions for both configurations: the paired difference, its standard error, and a verdict against a minimum effect<ul><li>Compute a paired difference with a clustered standard error</li><li>Explain the width of paired and unpaired intervals from the correlation</li><li>Write a verdict against a minimum effect</li></ul></td><td><a href="labs/D2_1_compare_paired_unpaired.ipynb">Lab 2.1 · Paired against unpaired</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D2_1_compare_paired_unpaired.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Many configurations</b><br>Six configurations and fifteen comparisons: family-wise error, adjusted intervals and ranks that are honest about ties<ul><li>Explain why fifteen comparisons need adjustment</li><li>Compute Bonferroni and Holm adjusted paired intervals</li><li>Report a ranking with the set of plausible ranks</li></ul></td><td><a href="labs/D2_2_rank_six_configurations.ipynb">Lab 2.2 · Six configurations ranked</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D2_2_rank_six_configurations.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Sizing an evaluation</b><br>How many questions are needed to detect a three-point difference: the power formula with a design effect, checked by simulation<ul><li>Derive the number of items from the paired variance, the design effect and the minimum effect</li><li>Check a sizing formula by simulation over documents</li><li>Explain what the pilot can and cannot tell</li></ul></td><td><a href="labs/D2_3_size_evaluation_three.ipynb">Lab 2.3 · Sizing for three points</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D2_3_size_evaluation_three.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Spending the budget</b><br>More questions or more samples per question at a fixed cost, with the grader calls in the budget<ul><li>Write the variance of a score as a function of items and samples</li><li>Find the number of samples per item that minimises variance at fixed cost</li><li>Include grader calls and human labels in an evaluation budget</li></ul></td><td><a href="labs/D2_4_choose_more_items.ipynb">Lab 2.4 · Items or samples at fixed cost</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D2_4_choose_more_items.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-coral"><div><div class="t">Day 3 · 4 sessions · 4 labs</div><h3>Small sets and imperfect graders</h3></div><a class="btn" href="slides/day3.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Where large-sample intervals fail</b><br>The normal-approximation interval fails when items are few or the rate is near 0 or 1: coverage measured by simulation<ul><li>Define the coverage of an interval</li><li>Measure the coverage of four intervals by simulation</li><li>Choose an interval for a small set near 0 or 1</li></ul></td><td><a href="labs/D3_1_simulate_interval_coverage.ipynb">Lab 3.1 · Coverage by simulation</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D3_1_simulate_interval_coverage.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Exact and Bayesian intervals</b><br>Exact and Bayesian intervals for a 40-item safety set where one configuration passes every item<ul><li>Compute a Clopper-Pearson interval for a small set</li><li>Compute a Beta posterior interval and state its prior</li><li>Report 40 out of 40 without claiming perfection</li></ul></td><td><a href="labs/D3_2_compute_exact_beta.ipynb">Lab 3.2 · Forty safety questions</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D3_2_compute_exact_beta.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Graders against people</b><br>A model grader is a measuring instrument: sensitivity and specificity against people, by language<ul><li>Estimate a grader's sensitivity and specificity from human labels</li><li>Compare the grader's errors by language with intervals</li><li>Decide which logs may go to a hosted grader under the data classification</li></ul></td><td><a href="labs/D3_3_estimate_grader_sensitivity.ipynb">Lab 3.3 · The grader against people</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D3_3_estimate_grader_sensitivity.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>Correcting for grader error</b><br>Correct a pass rate for the grader's error and carry the uncertainty of the calibration into the interval, by language<ul><li>Correct an observed pass rate with sensitivity and specificity</li><li>Carry calibration uncertainty into the interval by bootstrap</li><li>Report corrected and uncorrected rates by language</li></ul></td><td><a href="labs/D3_4_correct_pass_rate.ipynb">Lab 3.4 · Correcting the pass rate</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D3_4_correct_pass_rate.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-purple"><div><div class="t">Day 4 · 4 sessions · 4 labs</div><h3>Auditing claims and setting standards</h3></div><a class="btn" href="slides/day4.html">Open the slides</a></div>
+<div class="scroll"><table>
+<tr><th>Session</th><th>Topic</th><th>Lab</th></tr>
+<tr><td>1</td><td><b>Contamination and unequal budgets</b><br>Test items in the tuning examples, best of many prompts, and best of five samples: why two scores are not comparable<ul><li>Detect overlap between test items and tuning examples, including Arabic spelling variants</li><li>Measure how overlap changes a score</li><li>Recompute a comparison at equal budgets</li></ul></td><td><a href="labs/D4_1_check_comparison_test.ipynb">Lab 4.1 · Overlap and unequal budgets</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_1_check_comparison_test.ipynb">Open in Colab</a></td></tr>
+<tr><td>2</td><td><b>Auditing a report</b><br>Every claim of a report is supported, unsupported or untestable, and the memo says which and why<ul><li>Classify an evaluation claim by the evidence it needs</li><li>Re-analyse a claim from item-level logs</li><li>Write an audit memo a decision owner can act on</li></ul></td><td><a href="labs/D4_2_classify_each_claim.ipynb">Lab 4.2 · Auditing the leaderboard</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_2_classify_each_claim.ipynb">Open in Colab</a></td></tr>
+<tr><td>3</td><td><b>Slicing by language</b><br>An average hides a language: Arabic and English results with intervals, and a test of the gap<ul><li>Report a score by language with clustered intervals</li><li>Test the gap between languages using documents with questions in both</li><li>Show how grader correction changes a gap</li></ul></td><td><a href="labs/D4_3_report_arabic_english.ipynb">Lab 4.3 · Arabic and English</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_3_report_arabic_english.ipynb">Open in Colab</a></td></tr>
+<tr><td>4</td><td><b>A reporting standard</b><br>A reporting standard: the fields every evaluation claim must carry, a worked example, and the capstone choice<ul><li>List the required fields of an evaluation report</li><li>Validate a worked example against the standard</li><li>Choose the configurations and the plan of the capstone</li></ul></td><td><a href="labs/D4_4_reporting_standard.ipynb">Lab 4.4 · The standard and the capstone choice</a> <span class="muted">(25 min)</span><br><a href="https://colab.research.google.com/github/SDAIAAcademy/ds-403/blob/main/labs/D4_4_reporting_standard.ipynb">Open in Colab</a></td></tr>
+</table></div>
+</div>
+<div class="day">
+<div class="day-head c-amber"><div><div class="t">Capstone</div><h3>Capstone project presentations</h3></div><a class="btn" href="slides/capstone.html">Open the slides</a></div>
+<div class="scroll"><table><tr><td>Fifteen minutes each: the committed plan, the measured results, and one statistical choice defended live</td></tr></table></div>
+</div>
+<h2>Capstone</h2>
+<div class="two">
+<div><p>A statistical evaluation report on two or more open-weight configurations with a committed plan, clustered and paired analysis, sizing, grader correction and results by language, in a public repository whose README reports measured results; 15-minute review</p><p><b>What you submit:</b> A public GitHub repository link. The repository holds the analysis plan, committed before any result exists; the item-level logs of two or more open-weight configurations; the analysis (clustered and paired intervals, the sizing, the grader correction and the results by language); and a README that reports the measured results to the course reporting standard, with a verification note on any AI output relied on. Then a 15-minute review in which the assessor drops a cluster or changes the minimum effect and the participant predicts the consequence before re-running.</p><p><b>Format:</b> 15 min talk and demo</p></div>
+<div><h3>Rubric</h3><div class="bar c-teal"><span>Plan<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-cyan"><span>Uncertainty and comparison<i style="--w:100%"></i></span><b>25%</b></div><div class="bar c-coral"><span>Sizing<i style="--w:60%"></i></span><b>15%</b></div><div class="bar c-purple"><span>Grader correction and slicing<i style="--w:80%"></i></span><b>20%</b></div><div class="bar c-amber"><span>Reporting and reproducibility<i style="--w:80%"></i></span><b>20%</b></div></div>
+</div>
+<h2>Outcomes</h2>
+<p>By the end of the course, participants can:</p>
+<div class="day"><div class="scroll"><table>
+<tr><th></th><th>Outcomes</th><th>Level</th><th>Evidence</th></tr>
+<tr><td><b>LO1</b></td><td>Compute standard errors and intervals for an evaluation score that account for clustered items, repeated samples and small item counts, given item-level results where questions share source documents</td><td>Applied</td><td>naive, clustered and small-sample intervals with design effects</td></tr>
+<tr><td><b>LO2</b></td><td>Decide whether the difference between two systems is real and large enough to matter, using a paired analysis, given item-level results for two configurations and a minimum effect</td><td>Performance</td><td>a decision note with the paired difference, its interval and a verdict</td></tr>
+<tr><td><b>LO3</b></td><td>Design an evaluation's size in items, samples per item and grader calls to detect a stated difference within budget, given pilot variances and unit costs</td><td>Performance</td><td>a sizing plan with power by formula, checked by simulation</td></tr>
+<tr><td><b>LO4</b></td><td>Evaluate the bias that grader error adds to a pass rate and correct it, carrying calibration uncertainty into the interval, given a model grader with 300 human-labelled verdicts in two languages</td><td>Performance</td><td>corrected and uncorrected pass rates with intervals, by language</td></tr>
+<tr><td><b>LO5</b></td><td>Audit an evaluation claim for statistical validity, contamination risk and unequal tuning or token budgets, given a leaderboard-style report on four systems</td><td>Performance</td><td>an audit memo classing each claim as supported, unsupported or untestable</td></tr>
+<tr><td><b>LO6</b></td><td>Design a reporting standard for evaluation claims, including results by language and subgroup, given the audit findings and a release process</td><td>Performance</td><td>a two-page standard with required fields and a worked example</td></tr>
+</table></div></div>
+<h2>Tools</h2>
+<div class="grid">
+<div class="card c-teal"><h3>Open-weight model serving (capstone only)</h3><p>llama.cpp or Ollama on a laptop · vLLM on a free notebook GPU</p></div>
+<div class="card c-cyan"><h3>Evaluation harness with item-level logs</h3><p>Inspect AI · lm-evaluation-harness · promptfoo</p></div>
+<div class="card c-coral"><h3>Statistics and simulation</h3><p>SciPy · statsmodels · PyMC</p></div>
+<div class="card c-purple"><h3>Analysis environment</h3><p>Python through uv with Jupyter or marimo · Quarto</p></div>
+</div>
+<h2>Before you start</h2>
+<h3>Prerequisites</h3>
+<ul><li>DS-302 Online Experiments and A/B Testing</li><li>DS-305 Uncertainty, Interpretability and Model Validation</li><li>Computes bootstrap intervals and paired tests in code</li><li>Has logged a language model's outputs through an API</li><li>Setup: a laptop CPU with uv, or Google Colab. The sixteen labs read supplied item-level logs and call no model. Pre-work: three hours on the bootstrap and power by simulation, with an entry quiz; see labs/README.md.</li></ul>
+<div class="note tip">The labs are notebooks. Open each one in Google Colab from the table above, or clone the repository and run them locally.</div>
+<h2>Sources</h2>
+<h3>Statistics of evaluations</h3>
+<ul><li><a href="https://arxiv.org/abs/2411.00640">Evan Miller: Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations (arXiv 2411.00640)</a></li><li><a href="https://www.anthropic.com/research/statistical-approach-to-model-evals">Anthropic: A statistical approach to model evaluations</a></li><li><a href="https://arxiv.org/abs/2503.01747">Bowyer, Aitchison and Ivanova: Position: Don't Use the CLT in LLM Evals With Fewer Than a Few Hundred Datapoints (arXiv 2503.01747)</a></li><li><a href="https://doi.org/10.1214/ss/1009213286">Brown, Cai and DasGupta: Interval Estimation for a Binomial Proportion, Statistical Science 16(2), 2001</a></li></ul>
+<h3>Graders, claims and contamination</h3>
+<ul><li><a href="https://arxiv.org/abs/2511.21140">How to Correctly Report LLM-as-a-Judge Evaluations (arXiv 2511.21140)</a></li><li><a href="https://arxiv.org/abs/2301.09633">Angelopoulos and others: Prediction-Powered Inference (arXiv 2301.09633)</a></li><li><a href="https://arxiv.org/abs/2406.04244">Benchmark Data Contamination of Large Language Models: A Survey (arXiv 2406.04244)</a></li><li><a href="https://arxiv.org/abs/2504.20879">The Leaderboard Illusion (arXiv 2504.20879)</a></li></ul>
+<h3>Tools</h3>
+<ul><li><a href="https://inspect.aisi.org.uk/">Inspect, an evaluation framework</a></li><li><a href="https://github.com/EleutherAI/lm-evaluation-harness">EleutherAI lm-evaluation-harness</a></li><li><a href="https://www.promptfoo.dev/docs/intro/">promptfoo documentation</a></li><li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html">SciPy: scipy.stats.binomtest</a></li><li><a href="https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html">statsmodels: proportion_confint</a></li><li><a href="https://docs.astral.sh/uv/">uv</a></li><li><a href="https://marimo.io/">marimo</a></li><li><a href="https://quarto.org/">Quarto</a></li><li><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li><li><a href="https://ollama.com/">Ollama</a></li></ul>
+<h3>National references</h3>
+<ul><li><a href="https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/ExecutiveSummaryEn.pdf">National AI Risk Management Framework, English executive summary (SDAIA)</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf">AI Ethics Principles (SDAIA)</a></li><li><a href="https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/EN-AI-BIAS.pdf">AI Bias Reference Guide (SDAIA)</a></li><li><a href="https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf">Data Classification Policy (National Data Management Office, SDAIA)</a></li></ul>
+<h2>Files and links</h2>
+<div class="files">
+<a href="practice.html"><b>practice.html</b><span>Practice questions with feedback</span></a>
+<a href="index.md"><b>index.md</b><span>This page as Markdown, for an AI assistant</span></a>
+<a href="llms.txt"><b>llms.txt</b><span>The course for AI assistants (llms.txt)</span></a>
+<a href="https://github.com/SDAIAAcademy/ds-403"><b>SDAIAAcademy/ds-403</b><span>The course repository</span></a>
+</div>
+</main>
+<footer><div class="wrap">SDAIA Academy · Data Science Track · Statistical Evaluation of AI Systems<br><span class="muted">Course version 2027.1.0 · engine 1.0.0 · built 2026-11-15 · commit d0b0715</span></div></footer>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T20:52:11Z","version":"2027.1.0","commit":"d0b0715"},"course":{"id":"ds-403","code":"DS-403","title":"Statistical Evaluation of AI Systems","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-403/","repo":"SDAIAAcademy/ds-403","home":"index.html"},"ai":{"context":{"course":"context/course.md","courseJs":"context/course.js","day":null,"llms":"llms.txt"},"tasks":[],"tools":[]},"features":{},"strings":{}}</script>
+<script src="_engine/academy.js"></script>
+</body>
+</html>

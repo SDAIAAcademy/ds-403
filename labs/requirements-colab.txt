@@ -1,0 +1,6 @@
+# Colab already ships numpy, pandas, scipy, statsmodels and matplotlib; this pins nothing new.
+numpy>=2.0
+pandas>=2.2
+scipy>=1.14
+statsmodels>=0.14
+matplotlib>=3.9

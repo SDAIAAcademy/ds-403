@@ -1,0 +1,9 @@
+{
+ "diff": 0.0216666667,
+ "unpaired_se": 0.0338116005,
+ "paired_se": 0.0086309959,
+ "corr": 0.8274719236,
+ "lo": 0.0047499148,
+ "hi": 0.0385834185,
+ "verdict": "better, not shown to matter"
+}

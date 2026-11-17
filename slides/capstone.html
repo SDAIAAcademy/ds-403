@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capstone · Capstone project presentations · Statistical Evaluation of AI Systems</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="capstone.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistical Evaluation of AI Systems" data-track="data-science" data-day="Capstone">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistical Evaluation of AI Systems</div>
+  <h1>Capstone project presentations</h1>
+  <p class="lead mt">Capstone: Fifteen minutes each: the committed plan, the measured results, and one statistical choice defended live</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>15 min talk and demo</span><span>DS-403</span></div>
+  <aside class="notes">Today is theirs: keep your own talking to the opening and the closing. Confirm the running order and the demo setup (screen sharing, accounts, a recorded backup) first.</aside>
+</section>
+
+<section class="slide" id="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">Capstone</div>
+  <h2>How the capstone day runs</h2>
+  <div class="agenda">
+    <div class="item now"><div><b>Supervised check and final prep</b><small>AI-off on paper, then the rubric and a last rehearsal</small></div></div>
+    <div class="item"><div><b>Reviews</b><small>each one timed, the assessor's challenge inside</small></div></div>
+    <div class="item"><div><b>Review and closing</b><small>peer feedback, the trainer's review, what next</small></div></div>
+  </div>
+  <aside class="notes">The repositories were submitted before today: check every link, and the date of the plan.json commit against the first commit of logs, before the room fills. The supervised check comes first, while no laptop is open.</aside>
+</section>
+
+<section class="slide" id="rubric" data-label="The rubric" data-n="3">
+  <div class="kicker">How presentations are scored</div>
+  <h2>The rubric</h2>
+  <div class="bars">
+    <div class="row"><span>Plan</span><div class="bar c-teal" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Uncertainty and comparison</span><div class="bar c-cyan" style="--w:100%"></div><span class="val">25%</span></div>
+    <div class="row"><span>Sizing</span><div class="bar c-coral" style="--w:60%"></div><span class="val">15%</span></div>
+    <div class="row"><span>Grader correction and slicing</span><div class="bar c-purple" style="--w:80%"></div><span class="val">20%</span></div>
+    <div class="row"><span>Reporting and reproducibility</span><div class="bar c-amber" style="--w:80%"></div><span class="val">20%</span></div>
+  </div>
+  <div class="callout tip mt"><b>Two or more open-weight configurations, each measured.</b> A claim without an interval is a plan, not a result.</div>
+  <aside class="notes"><p>Full marks, criterion by criterion. Plan: plan.json committed before the first log, with the metric, the minimum effect, the clustering unit and the test, amendments dated. Uncertainty and comparison: clustered intervals with design effects, a paired difference against the minimum effect, and an adjusted family when there are more than two configurations. Sizing: formula and simulation agree, and the README says what the next evaluation should change. Grader correction and slicing: sensitivity and specificity per language from the participant's own labels, corrected scores with intervals that carry the calibration's uncertainty. Reporting and reproducibility: the README fills the standard's fields and one command rebuilds every number.</p><p>The rubric is 60% of the grade; the supervised check and the review are 20% each. Passing needs 70% overall and at least 60% on the rubric and on the check.</p></aside>
+</section>
+
+<section class="slide" id="format" data-label="Format" data-n="4">
+  <div class="kicker">Format</div>
+  <h2>Fifteen minutes each: ten to present, five for the challenge</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>1 · The plan</h4><p class="small mb0">The claim, the minimum effect, the clustering unit; the plan.json commit and its date.</p></div>
+    <div class="card c-cyan"><h4>2 · The results</h4><p class="small mb0">Scores with clustered intervals, the paired verdict, Arabic and English after the grader correction.</p></div>
+    <div class="card c-coral"><h4>3 · One choice</h4><p class="small mb0">One statistical choice you made, and what the other choice would have cost.</p></div>
+  </div>
+  <div class="callout note mt"><b>Peer feedback.</b> After each review, everyone writes one strength, one question and one suggestion.</div>
+  <aside class="notes"><p>Keep time strictly: ten minutes, then the challenge. No live model calls during the talk: the logs are the evidence, and re-running the analysis takes seconds. A participant who used a task set of their own instead of Bunyan's shows its licence and its cluster column first.</p></aside>
+</section>
+
+<section class="slide" id="challenge" data-label="The challenge" data-lo="LO2" data-n="5">
+  <div class="kicker">Inside the fifteen minutes</div>
+  <h2>The assessor changes one choice; you predict the consequence before re-running</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>Change</b>drop a cluster of documents, or raise the minimum effect</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>Prediction</b>which interval moves, whether the verdict changes, and why</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>Re-run</b>analyze.py on the changed input, on screen</div>
+  </div>
+  <div class="callout tip mt"><b>What earns the marks.</b> A prediction with a reason, then an honest reading of the re-run, whichever way it went.</div>
+  <aside class="notes"><p>Pick the change from the repository: drop the document with the most questions, or the one where the configurations differ most; or move the minimum effect just above the lower bound of the paired interval, so the verdict should move from "worth the switch" to "better, not shown to matter". Score the reasoning (fewer clusters, a wider interval; a stricter threshold, the same interval, another verdict), not whether the guess was exact. This is the 20% live review.</p></aside>
+</section>
+
+<section class="slide order" id="running-order" data-label="Running order" data-n="6">
+  <div class="kicker">Running order</div>
+  <h2>Who presents when</h2>
+  <table class="t small">
+    <tr><th>#</th><th>Presenter</th><th>Project</th></tr>
+    <tr><td>1</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>2</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>3</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>4</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>5</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>6</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>7</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+    <tr><td>8</td><td><input placeholder="name"></td><td><input placeholder="Project"></td></tr>
+  </table>
+  <aside class="notes">Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your notes too.</aside>
+</section>
+
+<section class="slide" id="supervised-check" data-label="The supervised check" data-lo="LO1" data-n="7">
+  <div class="kicker">First, AI-off · 30 minutes · 20%</div>
+  <h2>The supervised check: three tasks on paper</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>A clustered standard error</h4><p class="small mb0">From a short table of per-document sums, by hand, with the design effect it implies.</p></div>
+    <div class="card c-cyan"><h4>Paired or unpaired</h4><p class="small mb0">Two designs described in words: choose the analysis and say which interval is narrower.</p></div>
+    <div class="card c-coral"><h4>Read a sizing plan</h4><p class="small mb0">Are the questions enough for the stated minimum effect, and what is missing.</p></div>
+  </div>
+  <div class="callout note mt"><b>Calculators allowed; laptops and phones closed.</b> At least 60% here is needed to pass.</div>
+  <aside class="notes"><p>Use a paper from the private exam set, not the practice bank: the bank is published with the course. Collect the papers before any laptop opens. Mark them during the reviews and return the scores with the rubric.</p></aside>
+</section>
+
+<section class="slide dark" id="final-prep" data-label="Before the first presentation" data-n="8">
+  <div class="kicker">Before the first presentation</div>
+  <h1>Final prep · 20 minutes</h1>
+  <div class="timer" data-minutes="20"></div>
+  <p class="lead">Rehearse once; open the repository and the re-run command on this screen.</p>
+  <aside class="notes">Press T to start the timer. Breaks are not slides: press B when the room needs one.</aside>
+</section>
+
+<section class="slide dark presenting" id="now-presenting" data-label="Now presenting" data-n="9">
+  <div class="kicker center">Now presenting</div>
+  <div class="center"><input placeholder="Presenter · project"></div>
+  <div class="timers mt">
+    <div><h3>Review, challenge included</h3><div class="timer" data-minutes="15"></div></div>
+  </div>
+  <aside class="notes">Type the presenter's name and press T to start the timer. Reuse this slide for every presenter.</aside>
+</section>
+
+<section class="slide" id="review" data-label="Trainer review" data-n="10">
+  <div class="kicker">Trainer review</div>
+  <h2>What the presentations showed</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Strongest patterns</h4><p class="small mb0">What several projects got right.</p></div>
+    <div class="card c-coral"><h4>Common gaps</h4><p class="small mb0">What most projects would fix next.</p></div>
+    <div class="card c-purple"><h4>One surprise</h4><p class="small mb0">Something nobody expected.</p></div>
+  </div>
+  <aside class="notes">Fill these in from your scoring notes during the last break. Name projects for strengths; keep gaps anonymous.</aside>
+</section>
+
+<section class="slide" id="what-next" data-label="After the course" data-n="11">
+  <div class="kicker">After the course</div>
+  <h2>Keep going</h2>
+  <ul class="bullets">
+    <li><b>Your repository stays yours:</b> keep the plan, the logs and the one command that rebuilds every number</li>
+    <li><b>The follow-up task, within three weeks:</b> apply the reporting standard to one workplace or public evaluation, and send the trainer the filled fields and the gaps you found</li>
+    <li><b>Next in the Academy:</b> no catalog course follows DS-403; AE-303 builds the graders and harnesses that this course measures</li>
+  </ul>
+  <aside class="notes">The follow-up is tracked: note each participant's chosen evaluation before they leave. A public leaderboard or a vendor's model card is a fine choice; the Day 4 leaderboard report shows the shape of the answer.</aside>
+</section>
+
+<section class="slide dark" id="thanks" data-label="Thank you" data-n="12">
+  <div class="kicker">SDAIA Academy</div>
+  <h1>Thank you</h1>
+  <p class="lead">Statistical Evaluation of AI Systems</p>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T20:52:11Z","version":"2027.1.0","commit":"d0b0715"},"course":{"id":"ds-403","code":"DS-403","title":"Statistical Evaluation of AI Systems","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-403/","repo":"SDAIAAcademy/ds-403","home":"../index.html"},"deck":{"id":"capstone","kind":"capstone","day":5,"label":"Capstone","title":"Capstone project presentations","prev":"day4.html","next":null,"md":"capstone.md","alt":{}},"sessions":[],"slides":[{"id":"title","n":1,"title":"Capstone project presentations","kind":"title","session":0,"hash":"2d928752","md":"#### [capstone#title] Capstone project presentations\n\n*SDAIA Academy · Statistical Evaluation of AI Systems*\n\nCapstone: Fifteen minutes each: the committed plan, the measured results, and one statistical choice defended live\n\nData Science Track · 4 teaching days + capstone day · 15 min talk and demo · DS-403","notes":"Today is theirs: keep your own talking to the opening and the closing. Confirm the running order and the demo setup (screen sharing, accounts, a recorded backup) first.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"How the capstone day runs","kind":"content","session":0,"hash":"5ad54333","md":"#### [capstone#agenda] How the capstone day runs\n\n*Capstone*\n\n- **Supervised check and final prep**: AI-off on paper, then the rubric and a last rehearsal\n- **Reviews**: each one timed, the assessor's challenge inside\n- **Review and closing**: peer feedback, the trainer's review, what next","notes":"The repositories were submitted before today: check every link, and the date of the plan.json commit against the first commit of logs, before the room fills. The supervised check comes first, while no laptop is open.","minutes":null,"lo":[]},{"id":"rubric","n":3,"title":"The rubric","kind":"content","session":0,"hash":"32ca3a84","md":"#### [capstone#rubric] The rubric\n\n*How presentations are scored*\n\n| Item | Value |\n| --- | --- |\n| Plan | 20% |\n| Uncertainty and comparison | 25% |\n| Sizing | 15% |\n| Grader correction and slicing | 20% |\n| Reporting and reproducibility | 20% |\n\n> **Two or more open-weight configurations, each measured.** A claim without an interval is a plan, not a result.","notes":"Full marks, criterion by criterion. Plan: plan.json committed before the first log, with the metric, the minimum effect, the clustering unit and the test, amendments dated. Uncertainty and comparison: clustered intervals with design effects, a paired difference against the minimum effect, and an adjusted family when there are more than two configurations. Sizing: formula and simulation agree, and the README says what the next evaluation should change. Grader correction and slicing: sensitivity and specificity per language from the participant's own labels, corrected scores with intervals that carry the calibration's uncertainty. Reporting and reproducibility: the README fills the standard's fields and one command rebuilds every number.\n\nThe rubric is 60% of the grade; the supervised check and the review are 20% each. Passing needs 70% overall and at least 60% on the rubric and on the check.","minutes":null,"lo":[]},{"id":"format","n":4,"title":"Fifteen minutes each: ten to present, five for the challenge","kind":"content","session":0,"hash":"df11b985","md":"#### [capstone#format] Fifteen minutes each: ten to present, five for the challenge\n\n*Format*\n\n- **1 · The plan.** The claim, the minimum effect, the clustering unit; the plan.json commit and its date.\n- **2 · The results.** Scores with clustered intervals, the paired verdict, Arabic and English after the grader correction.\n- **3 · One choice.** One statistical choice you made, and what the other choice would have cost.\n\n> **Peer feedback.** After each review, everyone writes one strength, one question and one suggestion.","notes":"Keep time strictly: ten minutes, then the challenge. No live model calls during the talk: the logs are the evidence, and re-running the analysis takes seconds. A participant who used a task set of their own instead of Bunyan's shows its licence and its cluster column first.","minutes":null,"lo":[]},{"id":"challenge","n":5,"title":"The assessor changes one choice; you predict the consequence before re-running","kind":"content","session":0,"hash":"2e787396","md":"#### [capstone#challenge] The assessor changes one choice; you predict the consequence before re-running\n\n*Inside the fifteen minutes*\n\n1. **Change** drop a cluster of documents, or raise the minimum effect\n2. **Prediction** which interval moves, whether the verdict changes, and why\n3. **Re-run** analyze.py on the changed input, on screen\n\n> **What earns the marks.** A prediction with a reason, then an honest reading of the re-run, whichever way it went.","notes":"Pick the change from the repository: drop the document with the most questions, or the one where the configurations differ most; or move the minimum effect just above the lower bound of the paired interval, so the verdict should move from \"worth the switch\" to \"better, not shown to matter\". Score the reasoning (fewer clusters, a wider interval; a stricter threshold, the same interval, another verdict), not whether the guess was exact. This is the 20% live review.","minutes":null,"lo":["LO2"]},{"id":"running-order","n":6,"title":"Who presents when","kind":"order","session":0,"hash":"20432938","md":"#### [capstone#running-order] Who presents when\n\n*Running order*\n\n| # | Presenter | Project |\n| --- | --- | --- |\n| 1 |  |  |\n| 2 |  |  |\n| 3 |  |  |\n| 4 |  |  |\n| 5 |  |  |\n| 6 |  |  |\n| 7 |  |  |\n| 8 |  |  |","notes":"Type the names in at the start; the fields can be edited live and are not saved, so keep the list in your notes too.","minutes":null,"lo":[]},{"id":"supervised-check","n":7,"title":"The supervised check: three tasks on paper","kind":"content","session":0,"hash":"9ebcefb8","md":"#### [capstone#supervised-check] The supervised check: three tasks on paper\n\n*First, AI-off · 30 minutes · 20%*\n\n- **A clustered standard error.** From a short table of per-document sums, by hand, with the design effect it implies.\n- **Paired or unpaired.** Two designs described in words: choose the analysis and say which interval is narrower.\n- **Read a sizing plan.** Are the questions enough for the stated minimum effect, and what is missing.\n\n> **Calculators allowed; laptops and phones closed.** At least 60% here is needed to pass.","notes":"Use a paper from the private exam set, not the practice bank: the bank is published with the course. Collect the papers before any laptop opens. Mark them during the reviews and return the scores with the rubric.","minutes":null,"lo":["LO1"]},{"id":"final-prep","n":8,"title":"Final prep · 20 minutes","kind":"content","session":0,"hash":"ab1a4455","md":"#### [capstone#final-prep] Final prep · 20 minutes\n\n*Before the first presentation*\n\nRehearse once; open the repository and the re-run command on this screen.","notes":"Press T to start the timer. Breaks are not slides: press B when the room needs one.","minutes":null,"lo":[]},{"id":"now-presenting","n":9,"title":"Review, challenge included","kind":"presenting","session":0,"hash":"f6b66c7b","md":"#### [capstone#now-presenting] Review, challenge included\n\n*Now presenting*","notes":"Type the presenter's name and press T to start the timer. Reuse this slide for every presenter.","minutes":null,"lo":[]},{"id":"review","n":10,"title":"What the presentations showed","kind":"content","session":0,"hash":"c8c581b8","md":"#### [capstone#review] What the presentations showed\n\n*Trainer review*\n\n- **Strongest patterns.** What several projects got right.\n- **Common gaps.** What most projects would fix next.\n- **One surprise.** Something nobody expected.","notes":"Fill these in from your scoring notes during the last break. Name projects for strengths; keep gaps anonymous.","minutes":null,"lo":[]},{"id":"what-next","n":11,"title":"Keep going","kind":"content","session":0,"hash":"f94c11f6","md":"#### [capstone#what-next] Keep going\n\n*After the course*\n\n- **Your repository stays yours:** keep the plan, the logs and the one command that rebuilds every number\n- **The follow-up task, within three weeks:** apply the reporting standard to one workplace or public evaluation, and send the trainer the filled fields and the gaps you found\n- **Next in the Academy:** no catalog course follows DS-403; AE-303 builds the graders and harnesses that this course measures","notes":"The follow-up is tracked: note each participant's chosen evaluation before they leave. A public leaderboard or a vendor's model card is a fine choice; the Day 4 leaderboard report shows the shape of the answer.","minutes":null,"lo":[]},{"id":"thanks","n":12,"title":"Thank you","kind":"content","session":0,"hash":"44468aae","md":"#### [capstone#thanks] Thank you\n\n*SDAIA Academy*\n\nStatistical Evaluation of AI Systems","notes":"","minutes":null,"lo":[]}],"activities":[],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"capstone.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

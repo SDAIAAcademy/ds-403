@@ -1,0 +1,8 @@
+{
+  "A": "small open-weight model, plain prompt",
+  "B": "small open-weight model, retrieved regulation in the prompt",
+  "C": "mid-size open-weight model, plain prompt",
+  "D": "mid-size open-weight model, retrieved regulation in the prompt",
+  "E": "D with a long instruction prompt",
+  "F": "D with an Arabic system prompt"
+}

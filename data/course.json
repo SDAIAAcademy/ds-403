@@ -1,0 +1,1067 @@
+{
+  "v": 1,
+  "engine": "1.0.0",
+  "build": {
+    "at": "2026-11-15T20:52:11Z",
+    "version": "2027.1.0",
+    "commit": "d0b0715"
+  },
+  "lang": "en",
+  "dir": "ltr",
+  "langs": [
+    "en"
+  ],
+  "alt": {},
+  "course": {
+    "id": "ds-403",
+    "code": "DS-403",
+    "version": "2027.1.0",
+    "title": "Statistical Evaluation of AI Systems",
+    "tagline": "Treat every evaluation of an AI system as an experiment: report scores with honest intervals, compare systems with paired designs, size evaluations within budget, correct for grader error and audit the claims",
+    "description": "Participants treat every evaluation of an AI system as an experiment with a sampling design. On item-level results from small open-weight models on a fictional permits authority's synthetic bilingual task set, they compute clustered standard errors, compare systems with paired designs, size evaluations within a budget, use exact or Bayesian intervals for small sets, correct for grader error and audit benchmark claims. Graders and harnesses are built in AE-303, not here.",
+    "track": "data-science",
+    "track_name": "Data Science Track",
+    "level": 400,
+    "badge": {
+      "name": "Data Science",
+      "level": "Expert"
+    },
+    "audience": "Specialists. Data scientists who have completed the level 300 core or can show equivalent work: a defended analysis with a validated model or a causal estimate that they can explain.",
+    "prerequisites": [
+      "DS-302 Online Experiments and A/B Testing",
+      "DS-305 Uncertainty, Interpretability and Model Validation",
+      "Computes bootstrap intervals and paired tests in code",
+      "Has logged a language model's outputs through an API",
+      "Setup: a laptop CPU with uv, or Google Colab. The sixteen labs read supplied item-level logs and call no model. Pre-work: three hours on the bootstrap and power by simulation, with an entry quiz; see labs/README.md."
+    ],
+    "url": "https://sdaiaacademy.github.io/ds-403/",
+    "repo": "SDAIAAcademy/ds-403",
+    "home": "../index.html",
+    "format": "intensive",
+    "format_note": "Intensive: 4 teaching days of four sessions and a capstone day, with guided pre-work and a tracked follow-up task",
+    "shape": "4 teaching days + capstone day",
+    "hours": {
+      "instruction": 6,
+      "lab": 7,
+      "guided_self_study": 6,
+      "assessment": 1,
+      "capstone": 6,
+      "total": 26
+    },
+    "unit": "day",
+    "outcomes": [
+      {
+        "id": "LO1",
+        "text": "Compute standard errors and intervals for an evaluation score that account for clustered items, repeated samples and small item counts, given item-level results where questions share source documents",
+        "level": "Applied",
+        "evidence": "naive, clustered and small-sample intervals with design effects"
+      },
+      {
+        "id": "LO2",
+        "text": "Decide whether the difference between two systems is real and large enough to matter, using a paired analysis, given item-level results for two configurations and a minimum effect",
+        "level": "Performance",
+        "evidence": "a decision note with the paired difference, its interval and a verdict"
+      },
+      {
+        "id": "LO3",
+        "text": "Design an evaluation's size in items, samples per item and grader calls to detect a stated difference within budget, given pilot variances and unit costs",
+        "level": "Performance",
+        "evidence": "a sizing plan with power by formula, checked by simulation"
+      },
+      {
+        "id": "LO4",
+        "text": "Evaluate the bias that grader error adds to a pass rate and correct it, carrying calibration uncertainty into the interval, given a model grader with 300 human-labelled verdicts in two languages",
+        "level": "Performance",
+        "evidence": "corrected and uncorrected pass rates with intervals, by language"
+      },
+      {
+        "id": "LO5",
+        "text": "Audit an evaluation claim for statistical validity, contamination risk and unequal tuning or token budgets, given a leaderboard-style report on four systems",
+        "level": "Performance",
+        "evidence": "an audit memo classing each claim as supported, unsupported or untestable"
+      },
+      {
+        "id": "LO6",
+        "text": "Design a reporting standard for evaluation claims, including results by language and subgroup, given the audit findings and a release process",
+        "level": "Performance",
+        "evidence": "a two-page standard with required fields and a worked example"
+      }
+    ],
+    "case_study": {
+      "name": "Bunyan Building Permits Authority",
+      "summary": "Bunyan Building Permits Authority is a fictional regional authority that issues building and construction permits. Its question assistant, Watad, answers applicants in Arabic and English from 80 regulation documents, and four configurations of it (a small and a mid-size open-weight model, each with and without the retrieved regulation) are candidates for release. Participants work on synthetic item-level logs: 600 bilingual questions from 80 documents, five samples per question at two temperatures for four configurations, six configurations for ranking, a 40-item safety set, 300 human-labelled grader verdicts, the configuration leaderboard written by the evaluation lead, and the examples used to tune one configuration. They compute clustered and small-sample intervals, compare configurations with paired designs, size the next evaluation within budget, correct pass rates for the grader's error by language, audit the leaderboard's claims and write a reporting standard. All data is synthetic and generated with a fixed seed; no model produced the logs."
+    },
+    "days": [
+      {
+        "id": "day1",
+        "kind": "day",
+        "n": 1,
+        "number": 1,
+        "label": "Day 1",
+        "title": "Scores have standard errors",
+        "subtitle": "An evaluation score is an estimate: give it a standard error that respects how the items were drawn",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day1.html",
+        "md": "../slides/day1.md",
+        "url": "https://sdaiaacademy.github.io/ds-403/slides/day1.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "An evaluation is a sample",
+            "summary": "The 600 questions are a sample from a population of questions: the formula standard error and the bootstrap of a pass rate",
+            "outcomes": [
+              "Explain what population an evaluation score estimates",
+              "Compute the formula standard error of a pass rate",
+              "Bootstrap a pass rate and compare the two intervals"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.1",
+              "title": "A pass rate with two intervals",
+              "summary": "Bootstrap configuration D's pass rate on the 600 questions and compare the interval with the one from the formula standard error.",
+              "minutes": 25,
+              "href": "../labs/D1_1_bootstrap_pass_rate.ipynb",
+              "steps": [
+                {
+                  "text": "Load the logs and compute the pass rate of one sample",
+                  "minutes": 4
+                },
+                {
+                  "text": "The formula standard error and a 95% interval",
+                  "minutes": 5
+                },
+                {
+                  "text": "A bootstrap over questions",
+                  "minutes": 8
+                },
+                {
+                  "text": "Compare the two intervals and the two distributions",
+                  "minutes": 5
+                },
+                {
+                  "text": "Write the score as a reader should see it",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "Bootstrap over documents and say why the interval widens"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Clustered items",
+            "summary": "Questions written from the same document succeed and fail together: clustered standard errors and the design effect",
+            "outcomes": [
+              "Explain why items from one source document are not independent",
+              "Compute a standard error clustered by document",
+              "Report the design effect and the effective number of items"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.2",
+              "title": "Clustered by document",
+              "summary": "Compute standard errors clustered by source document for four configurations, the design effect and the effective number of items, and check the formula with a cluster bootstrap and statsmodels.",
+              "minutes": 25,
+              "href": "../labs/D1_2_compute_standard_errors.ipynb",
+              "steps": [
+                {
+                  "text": "Questions per document and pass rate per document",
+                  "minutes": 4
+                },
+                {
+                  "text": "The clustered standard error by formula",
+                  "minutes": 7
+                },
+                {
+                  "text": "Design effect and effective number of items",
+                  "minutes": 5
+                },
+                {
+                  "text": "A cluster bootstrap as a check",
+                  "minutes": 5
+                },
+                {
+                  "text": "statsmodels with cluster covariance as a second check",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Cluster by category instead and explain why eight clusters are too few"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Repeated samples",
+            "summary": "Five samples per question at two temperatures: variance from items and from sampling, and what averaging samples buys",
+            "outcomes": [
+              "Split the variance of a score into item and sampling parts",
+              "Predict the standard error for K samples per item",
+              "Distinguish the mean pass rate, pass@k and pass^k"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.3",
+              "title": "Item and sampling variance",
+              "summary": "Split the variance of the pass rate into item and sampling parts at temperatures 0.2 and 0.8, and predict how the standard error falls with more samples per question.",
+              "minutes": 25,
+              "href": "../labs/D1_3_split_variance_into.ipynb",
+              "steps": [
+                {
+                  "text": "One row per question: the mean of five samples",
+                  "minutes": 4
+                },
+                {
+                  "text": "Within-item variance at each temperature",
+                  "minutes": 6
+                },
+                {
+                  "text": "Between-item variance, corrected for sampling",
+                  "minutes": 6
+                },
+                {
+                  "text": "The standard error for 1, 5 and 20 samples",
+                  "minutes": 5
+                },
+                {
+                  "text": "pass@5 and pass^5 next to the mean",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Check the predicted standard error for K = 2 by subsampling the logs"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Plan before results",
+            "summary": "An analysis plan committed before the results: hypothesis, metric, unit, minimum effect and decision rule",
+            "outcomes": [
+              "Explain how choices made after the results inflate false wins",
+              "Write an analysis plan for a comparison of two configurations",
+              "State a minimum effect and a decision rule in advance"
+            ],
+            "lo": [
+              "LO2",
+              "LO6"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "1.4",
+              "title": "A plan before the results",
+              "summary": "Draft a pre-registered plan comparing configurations C and D, validate it against the required fields, and simulate how choosing among four metrics after the results inflates false wins.",
+              "minutes": 25,
+              "href": "../labs/D1_4_draft_pre_registered.ipynb",
+              "steps": [
+                {
+                  "text": "Read the plan template and the required fields",
+                  "minutes": 3
+                },
+                {
+                  "text": "Fill the plan for C against D",
+                  "minutes": 8
+                },
+                {
+                  "text": "Validate it: missing or vague fields",
+                  "minutes": 4
+                },
+                {
+                  "text": "Simulate four metrics chosen after the fact",
+                  "minutes": 7
+                },
+                {
+                  "text": "Commit the plan to a file with its date",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "Add a second, secondary comparison and decide how it is adjusted"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day2",
+        "kind": "day",
+        "n": 2,
+        "number": 2,
+        "label": "Day 2",
+        "title": "Comparing systems",
+        "subtitle": "Decide whether one configuration beats another, and plan an evaluation big enough to tell",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day2.html",
+        "md": "../slides/day2.md",
+        "url": "https://sdaiaacademy.github.io/ds-403/slides/day2.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Paired designs",
+            "summary": "The same questions for both configurations: the paired difference, its standard error, and a verdict against a minimum effect",
+            "outcomes": [
+              "Compute a paired difference with a clustered standard error",
+              "Explain the width of paired and unpaired intervals from the correlation",
+              "Write a verdict against a minimum effect"
+            ],
+            "lo": [
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.1",
+              "title": "Paired against unpaired",
+              "summary": "Compare configurations C and D with paired and unpaired analyses, explain the two widths from the correlation between them, and write a decision note against a minimum effect of three points.",
+              "minutes": 25,
+              "href": "../labs/D2_1_compare_paired_unpaired.ipynb",
+              "steps": [
+                {
+                  "text": "One row per question with both configurations",
+                  "minutes": 3
+                },
+                {
+                  "text": "The unpaired interval",
+                  "minutes": 4
+                },
+                {
+                  "text": "The paired interval, clustered by document",
+                  "minutes": 7
+                },
+                {
+                  "text": "The correlation explains the widths",
+                  "minutes": 5
+                },
+                {
+                  "text": "A decision note with a verdict",
+                  "minutes": 6
+                }
+              ],
+              "stretch": "Repeat at temperature 0.8 and say whether the verdict holds"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Many configurations",
+            "summary": "Six configurations and fifteen comparisons: family-wise error, adjusted intervals and ranks that are honest about ties",
+            "outcomes": [
+              "Explain why fifteen comparisons need adjustment",
+              "Compute Bonferroni and Holm adjusted paired intervals",
+              "Report a ranking with the set of plausible ranks"
+            ],
+            "lo": [
+              "LO2"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.2",
+              "title": "Six configurations ranked",
+              "summary": "Rank six configurations on the same 600 questions with paired intervals adjusted for fifteen comparisons, and report which configurations cannot be told apart.",
+              "minutes": 25,
+              "href": "../labs/D2_2_rank_six_configurations.ipynb",
+              "steps": [
+                {
+                  "text": "Six pass rates and the naive ranking",
+                  "minutes": 3
+                },
+                {
+                  "text": "Fifteen paired differences, clustered",
+                  "minutes": 6
+                },
+                {
+                  "text": "Bonferroni and Holm adjustments",
+                  "minutes": 6
+                },
+                {
+                  "text": "Which pairs are separated",
+                  "minutes": 5
+                },
+                {
+                  "text": "A rank table with plausible ranks",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Bootstrap the rank of each configuration over documents"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Sizing an evaluation",
+            "summary": "How many questions are needed to detect a three-point difference: the power formula with a design effect, checked by simulation",
+            "outcomes": [
+              "Derive the number of items from the paired variance, the design effect and the minimum effect",
+              "Check a sizing formula by simulation over documents",
+              "Explain what the pilot can and cannot tell"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.3",
+              "title": "Sizing for three points",
+              "summary": "Size an evaluation to detect a three-point difference between two configurations with 80% power, using the pilot variance and the design effect, and check the power by simulation.",
+              "minutes": 25,
+              "href": "../labs/D2_3_size_evaluation_three.ipynb",
+              "steps": [
+                {
+                  "text": "Pilot variance of the paired difference",
+                  "minutes": 4
+                },
+                {
+                  "text": "The formula: items for 80% power",
+                  "minutes": 6
+                },
+                {
+                  "text": "The design effect in the formula",
+                  "minutes": 4
+                },
+                {
+                  "text": "Power by simulation over documents",
+                  "minutes": 8
+                },
+                {
+                  "text": "The sizing plan in three lines",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "Size the unpaired design and compare the cost"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Spending the budget",
+            "summary": "More questions or more samples per question at a fixed cost, with the grader calls in the budget",
+            "outcomes": [
+              "Write the variance of a score as a function of items and samples",
+              "Find the number of samples per item that minimises variance at fixed cost",
+              "Include grader calls and human labels in an evaluation budget"
+            ],
+            "lo": [
+              "LO3"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "2.4",
+              "title": "Items or samples at fixed cost",
+              "summary": "Choose between more questions and more samples per question for the next evaluation at a fixed budget, from the variance components and the unit costs, at two temperatures.",
+              "minutes": 25,
+              "href": "../labs/D2_4_choose_more_items.ipynb",
+              "steps": [
+                {
+                  "text": "Unit costs and the budget",
+                  "minutes": 3
+                },
+                {
+                  "text": "Variance for n items and K samples",
+                  "minutes": 5
+                },
+                {
+                  "text": "Every affordable design and its standard error",
+                  "minutes": 7
+                },
+                {
+                  "text": "The optimal K by formula",
+                  "minutes": 5
+                },
+                {
+                  "text": "The choice at each temperature, with the grader in the cost",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Reserve part of the budget for human labels of the grader and redo the choice"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day3",
+        "kind": "day",
+        "n": 3,
+        "number": 3,
+        "label": "Day 3",
+        "title": "Small sets and imperfect graders",
+        "subtitle": "Intervals that keep their promise on small sets, and pass rates corrected for an imperfect grader",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day3.html",
+        "md": "../slides/day3.md",
+        "url": "https://sdaiaacademy.github.io/ds-403/slides/day3.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Where large-sample intervals fail",
+            "summary": "The normal-approximation interval fails when items are few or the rate is near 0 or 1: coverage measured by simulation",
+            "outcomes": [
+              "Define the coverage of an interval",
+              "Measure the coverage of four intervals by simulation",
+              "Choose an interval for a small set near 0 or 1"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.1",
+              "title": "Coverage by simulation",
+              "summary": "Simulate the coverage of the Wald, Wilson, Clopper-Pearson and Jeffreys intervals for 20 to 200 items at rates near 0, 0.5 and 1.",
+              "minutes": 25,
+              "href": "../labs/D3_1_simulate_interval_coverage.ipynb",
+              "steps": [
+                {
+                  "text": "Four interval functions",
+                  "minutes": 6
+                },
+                {
+                  "text": "One coverage estimate by simulation",
+                  "minutes": 5
+                },
+                {
+                  "text": "The grid: 20 to 200 items, five rates",
+                  "minutes": 7
+                },
+                {
+                  "text": "Read the table: where Wald fails",
+                  "minutes": 4
+                },
+                {
+                  "text": "A rule for the authority",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "Compute the exact coverage by summing the binomial and compare"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Exact and Bayesian intervals",
+            "summary": "Exact and Bayesian intervals for a 40-item safety set where one configuration passes every item",
+            "outcomes": [
+              "Compute a Clopper-Pearson interval for a small set",
+              "Compute a Beta posterior interval and state its prior",
+              "Report 40 out of 40 without claiming perfection"
+            ],
+            "lo": [
+              "LO1"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.2",
+              "title": "Forty safety questions",
+              "summary": "Compute exact and Beta-posterior intervals for the four configurations on the 40-item safety set, including 40 out of 40, and compare them with the normal approximation.",
+              "minutes": 25,
+              "href": "../labs/D3_2_compute_exact_beta.ipynb",
+              "steps": [
+                {
+                  "text": "Safe answers per configuration",
+                  "minutes": 3
+                },
+                {
+                  "text": "The normal-approximation interval and its failure",
+                  "minutes": 4
+                },
+                {
+                  "text": "Clopper-Pearson intervals",
+                  "minutes": 6
+                },
+                {
+                  "text": "Beta posteriors under two priors",
+                  "minutes": 7
+                },
+                {
+                  "text": "The safety line for the release note",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "The posterior probability that C is safer than A"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Graders against people",
+            "summary": "A model grader is a measuring instrument: sensitivity and specificity against people, by language",
+            "outcomes": [
+              "Estimate a grader's sensitivity and specificity from human labels",
+              "Compare the grader's errors by language with intervals",
+              "Decide which logs may go to a hosted grader under the data classification"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.3",
+              "title": "The grader against people",
+              "summary": "Estimate the model grader's sensitivity and specificity in Arabic and English from 300 human-labelled verdicts, with intervals, and test whether its errors differ by language.",
+              "minutes": 25,
+              "href": "../labs/D3_3_estimate_grader_sensitivity.ipynb",
+              "steps": [
+                {
+                  "text": "The 300 verdicts: a confusion table per language",
+                  "minutes": 5
+                },
+                {
+                  "text": "Sensitivity and specificity with Wilson intervals",
+                  "minutes": 7
+                },
+                {
+                  "text": "Overall agreement and what it hides",
+                  "minutes": 4
+                },
+                {
+                  "text": "The difference between languages",
+                  "minutes": 5
+                },
+                {
+                  "text": "How many more labels, and of which kind",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Cohen's kappa per language next to agreement"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "Correcting for grader error",
+            "summary": "Correct a pass rate for the grader's error and carry the uncertainty of the calibration into the interval, by language",
+            "outcomes": [
+              "Correct an observed pass rate with sensitivity and specificity",
+              "Carry calibration uncertainty into the interval by bootstrap",
+              "Report corrected and uncorrected rates by language"
+            ],
+            "lo": [
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "3.4",
+              "title": "Correcting the pass rate",
+              "summary": "Correct configuration C's and D's pass rates for grader error in each language, and build intervals that resample both the test questions and the 300 human-labelled verdicts.",
+              "minutes": 25,
+              "href": "../labs/D3_4_correct_pass_rate.ipynb",
+              "steps": [
+                {
+                  "text": "The correction formula as a function",
+                  "minutes": 5
+                },
+                {
+                  "text": "Corrected rates by language",
+                  "minutes": 5
+                },
+                {
+                  "text": "An interval from the test set only",
+                  "minutes": 4
+                },
+                {
+                  "text": "A bootstrap over test questions and calibration verdicts",
+                  "minutes": 7
+                },
+                {
+                  "text": "The table: uncorrected and corrected, by language",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Find the observed rates at which the correction leaves 0 to 1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "day4",
+        "kind": "day",
+        "n": 4,
+        "number": 4,
+        "label": "Day 4",
+        "title": "Auditing claims and setting standards",
+        "subtitle": "Audit the claims an evaluation makes, slice by language, and write the standard every report must meet",
+        "shape": "4 sessions · 4 labs",
+        "deck": "../slides/day4.html",
+        "md": "../slides/day4.md",
+        "url": "https://sdaiaacademy.github.io/ds-403/slides/day4.html",
+        "sessions": [
+          {
+            "n": 1,
+            "label": "Session 1",
+            "title": "Contamination and unequal budgets",
+            "summary": "Test items in the tuning examples, best of many prompts, and best of five samples: why two scores are not comparable",
+            "outcomes": [
+              "Detect overlap between test items and tuning examples, including Arabic spelling variants",
+              "Measure how overlap changes a score",
+              "Recompute a comparison at equal budgets"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.1",
+              "title": "Overlap and unequal budgets",
+              "summary": "Check configuration D's comparison for test questions that appear in its tuning examples, after Arabic normalisation, measure the score on clean questions, and recompute the comparison at equal budgets.",
+              "minutes": 25,
+              "href": "../labs/D4_1_check_comparison_test.ipynb",
+              "steps": [
+                {
+                  "text": "Exact matches between tuning examples and test questions",
+                  "minutes": 4
+                },
+                {
+                  "text": "Arabic normalisation and the matches it adds",
+                  "minutes": 6
+                },
+                {
+                  "text": "D on clean and overlapping questions",
+                  "minutes": 5
+                },
+                {
+                  "text": "Best of five against mean of five",
+                  "minutes": 5
+                },
+                {
+                  "text": "The comparison at equal budgets, clean questions only",
+                  "minutes": 5
+                }
+              ],
+              "stretch": "Estimate the winner's curse of choosing the best of twelve prompts on the test set"
+            }
+          },
+          {
+            "n": 2,
+            "label": "Session 2",
+            "title": "Auditing a report",
+            "summary": "Every claim of a report is supported, unsupported or untestable, and the memo says which and why",
+            "outcomes": [
+              "Classify an evaluation claim by the evidence it needs",
+              "Re-analyse a claim from item-level logs",
+              "Write an audit memo a decision owner can act on"
+            ],
+            "lo": [
+              "LO5"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.2",
+              "title": "Auditing the leaderboard",
+              "summary": "Classify each of the eight claims of the configuration leaderboard as supported, unsupported or untestable, with the re-analysis that decides each, and write the audit memo.",
+              "minutes": 25,
+              "href": "../labs/D4_2_classify_each_claim.ipynb",
+              "steps": [
+                {
+                  "text": "Read the report and its eight claims",
+                  "minutes": 3
+                },
+                {
+                  "text": "The evidence each claim needs",
+                  "minutes": 4
+                },
+                {
+                  "text": "Re-analyse the testable claims",
+                  "minutes": 10
+                },
+                {
+                  "text": "Classify all eight",
+                  "minutes": 4
+                },
+                {
+                  "text": "The audit memo",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Rewrite one unsupported claim so that the data supports it"
+            }
+          },
+          {
+            "n": 3,
+            "label": "Session 3",
+            "title": "Slicing by language",
+            "summary": "An average hides a language: Arabic and English results with intervals, and a test of the gap",
+            "outcomes": [
+              "Report a score by language with clustered intervals",
+              "Test the gap between languages using documents with questions in both",
+              "Show how grader correction changes a gap"
+            ],
+            "lo": [
+              "LO6",
+              "LO4"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.3",
+              "title": "Arabic and English",
+              "summary": "Report each configuration's Arabic and English pass rates with clustered intervals, test the gap, and show how the grader correction changes it.",
+              "minutes": 25,
+              "href": "../labs/D4_3_report_arabic_english.ipynb",
+              "steps": [
+                {
+                  "text": "Pass rates by language for four configurations",
+                  "minutes": 4
+                },
+                {
+                  "text": "Clustered intervals per language",
+                  "minutes": 5
+                },
+                {
+                  "text": "The gap and its interval",
+                  "minutes": 7
+                },
+                {
+                  "text": "The gap after grader correction",
+                  "minutes": 5
+                },
+                {
+                  "text": "The slice table for the report",
+                  "minutes": 4
+                }
+              ],
+              "stretch": "Slice by category as well and adjust for eight comparisons"
+            }
+          },
+          {
+            "n": 4,
+            "label": "Session 4",
+            "title": "A reporting standard",
+            "summary": "A reporting standard: the fields every evaluation claim must carry, a worked example, and the capstone choice",
+            "outcomes": [
+              "List the required fields of an evaluation report",
+              "Validate a worked example against the standard",
+              "Choose the configurations and the plan of the capstone"
+            ],
+            "lo": [
+              "LO6"
+            ],
+            "minutes": 50,
+            "lab": {
+              "id": "4.4",
+              "title": "The standard and the capstone choice",
+              "summary": "Draft the reporting standard's required fields, test a worked example against them, and choose the configurations and the plan of the capstone.",
+              "minutes": 25,
+              "href": "../labs/D4_4_reporting_standard.ipynb",
+              "steps": [
+                {
+                  "text": "Fields from the week's findings",
+                  "minutes": 6
+                },
+                {
+                  "text": "A validator for a report",
+                  "minutes": 6
+                },
+                {
+                  "text": "The worked example: pass and fail",
+                  "minutes": 5
+                },
+                {
+                  "text": "Choose the capstone configurations",
+                  "minutes": 5
+                },
+                {
+                  "text": "Commit the capstone plan",
+                  "minutes": 3
+                }
+              ],
+              "stretch": "Turn the standard into a release gate that blocks a report with a missing field"
+            }
+          }
+        ]
+      },
+      {
+        "id": "capstone",
+        "kind": "capstone",
+        "n": 5,
+        "number": null,
+        "label": "Capstone",
+        "title": "Capstone project presentations",
+        "subtitle": "Fifteen minutes each: the committed plan, the measured results, and one statistical choice defended live",
+        "shape": "",
+        "deck": "../slides/capstone.html",
+        "md": "../slides/capstone.md",
+        "url": "https://sdaiaacademy.github.io/ds-403/slides/capstone.html",
+        "sessions": []
+      }
+    ],
+    "capstone": {
+      "summary": "A statistical evaluation report on two or more open-weight configurations with a committed plan, clustered and paired analysis, sizing, grader correction and results by language, in a public repository whose README reports measured results; 15-minute review",
+      "submission": "A public GitHub repository link. The repository holds the analysis plan, committed before any result exists; the item-level logs of two or more open-weight configurations; the analysis (clustered and paired intervals, the sizing, the grader correction and the results by language); and a README that reports the measured results to the course reporting standard, with a verification note on any AI output relied on. Then a 15-minute review in which the assessor drops a cluster or changes the minimum effect and the participant predicts the consequence before re-running.",
+      "talk_minutes": 15,
+      "qa_minutes": null,
+      "rubric": [
+        {
+          "criterion": "Plan",
+          "weight": 20
+        },
+        {
+          "criterion": "Uncertainty and comparison",
+          "weight": 25
+        },
+        {
+          "criterion": "Sizing",
+          "weight": 15
+        },
+        {
+          "criterion": "Grader correction and slicing",
+          "weight": 20
+        },
+        {
+          "criterion": "Reporting and reproducibility",
+          "weight": 20
+        }
+      ]
+    },
+    "labs": {
+      "kind": "notebooks",
+      "base": "labs/"
+    },
+    "tools": [
+      {
+        "slot": "Open-weight model serving (capstone only)",
+        "examples": [
+          "llama.cpp or Ollama on a laptop",
+          "vLLM on a free notebook GPU"
+        ]
+      },
+      {
+        "slot": "Evaluation harness with item-level logs",
+        "examples": [
+          "Inspect AI",
+          "lm-evaluation-harness",
+          "promptfoo"
+        ]
+      },
+      {
+        "slot": "Statistics and simulation",
+        "examples": [
+          "SciPy",
+          "statsmodels",
+          "PyMC"
+        ]
+      },
+      {
+        "slot": "Analysis environment",
+        "examples": [
+          "Python through uv with Jupyter or marimo",
+          "Quarto"
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "group": "Statistics of evaluations",
+        "items": [
+          {
+            "title": "Evan Miller: Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations (arXiv 2411.00640)",
+            "url": "https://arxiv.org/abs/2411.00640"
+          },
+          {
+            "title": "Anthropic: A statistical approach to model evaluations",
+            "url": "https://www.anthropic.com/research/statistical-approach-to-model-evals"
+          },
+          {
+            "title": "Bowyer, Aitchison and Ivanova: Position: Don't Use the CLT in LLM Evals With Fewer Than a Few Hundred Datapoints (arXiv 2503.01747)",
+            "url": "https://arxiv.org/abs/2503.01747"
+          },
+          {
+            "title": "Brown, Cai and DasGupta: Interval Estimation for a Binomial Proportion, Statistical Science 16(2), 2001",
+            "url": "https://doi.org/10.1214/ss/1009213286"
+          }
+        ]
+      },
+      {
+        "group": "Graders, claims and contamination",
+        "items": [
+          {
+            "title": "How to Correctly Report LLM-as-a-Judge Evaluations (arXiv 2511.21140)",
+            "url": "https://arxiv.org/abs/2511.21140"
+          },
+          {
+            "title": "Angelopoulos and others: Prediction-Powered Inference (arXiv 2301.09633)",
+            "url": "https://arxiv.org/abs/2301.09633"
+          },
+          {
+            "title": "Benchmark Data Contamination of Large Language Models: A Survey (arXiv 2406.04244)",
+            "url": "https://arxiv.org/abs/2406.04244"
+          },
+          {
+            "title": "The Leaderboard Illusion (arXiv 2504.20879)",
+            "url": "https://arxiv.org/abs/2504.20879"
+          }
+        ]
+      },
+      {
+        "group": "Tools",
+        "items": [
+          {
+            "title": "Inspect, an evaluation framework",
+            "url": "https://inspect.aisi.org.uk/"
+          },
+          {
+            "title": "EleutherAI lm-evaluation-harness",
+            "url": "https://github.com/EleutherAI/lm-evaluation-harness"
+          },
+          {
+            "title": "promptfoo documentation",
+            "url": "https://www.promptfoo.dev/docs/intro/"
+          },
+          {
+            "title": "SciPy: scipy.stats.binomtest",
+            "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html"
+          },
+          {
+            "title": "statsmodels: proportion_confint",
+            "url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html"
+          },
+          {
+            "title": "uv",
+            "url": "https://docs.astral.sh/uv/"
+          },
+          {
+            "title": "marimo",
+            "url": "https://marimo.io/"
+          },
+          {
+            "title": "Quarto",
+            "url": "https://quarto.org/"
+          },
+          {
+            "title": "llama.cpp",
+            "url": "https://github.com/ggml-org/llama.cpp"
+          },
+          {
+            "title": "Ollama",
+            "url": "https://ollama.com/"
+          }
+        ]
+      },
+      {
+        "group": "National references",
+        "items": [
+          {
+            "title": "National AI Risk Management Framework, English executive summary (SDAIA)",
+            "url": "https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/ExecutiveSummaryEn.pdf"
+          },
+          {
+            "title": "AI Ethics Principles (SDAIA)",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/ai-principles.pdf"
+          },
+          {
+            "title": "AI Bias Reference Guide (SDAIA)",
+            "url": "https://sdaia.gov.sa/en/MediaCenter/KnowledgeCenter/ResearchLibrary/EN-AI-BIAS.pdf"
+          },
+          {
+            "title": "Data Classification Policy (National Data Management Office, SDAIA)",
+            "url": "https://sdaia.gov.sa/en/SDAIA/about/Documents/DataClassificationPolicy.pdf"
+          }
+        ]
+      }
+    ]
+  }
+}

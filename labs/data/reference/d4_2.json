@@ -1,0 +1,12 @@
+{
+ "verdicts": {
+  "C1": "unsupported",
+  "C2": "supported",
+  "C3": "supported",
+  "C4": "unsupported",
+  "C5": "unsupported",
+  "C6": "unsupported",
+  "C7": "untestable",
+  "C8": "untestable"
+ }
+}

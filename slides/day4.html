@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-ax="deck" data-track="data-science">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 4 · Auditing claims and setting standards · Statistical Evaluation of AI Systems</title>
+<meta name="generator" content="SDAIA Academy engine 1.0.0">
+<link rel="icon" href="../_engine/icon.svg">
+<link rel="alternate" type="text/markdown" href="day4.md">
+<link rel="describedby" href="../llms.txt">
+<link rel="stylesheet" href="../_engine/academy.css">
+</head>
+<body>
+<div class="deck" data-course="Statistical Evaluation of AI Systems" data-track="data-science" data-day="Day 4">
+<section class="slide title" id="title" data-auto="title" data-label="Welcome" data-n="1">
+  <div class="kicker">SDAIA Academy · Statistical Evaluation of AI Systems</div>
+  <h1>Auditing claims and setting standards</h1>
+  <p class="lead mt">Day 4: Audit the claims an evaluation makes, slice by language, and write the standard every report must meet</p>
+  <div class="meta"><span class="track">Data Science Track</span><span>4 teaching days + capstone day</span><span>4 sessions · 4 labs</span><span>DS-403</span></div>
+  <aside class="notes"><p>Start by collecting last night's guesses: for each of the leaderboard's eight claims, a show of hands for supported, unsupported, untestable. Write the counts on the board; the lab of session 2 compares them with the evidence.</p></aside>
+</section>
+
+<section class="slide" id="agenda" data-auto="agenda" data-label="Agenda" data-n="2">
+  <div class="kicker">Today</div>
+  <h2>Auditing claims and setting standards</h2>
+  <div class="agenda"><div class="item"><div><b>Session 1 · Contamination and unequal budgets</b><small>Test items in the tuning examples, best of many prompts, and best of five samples: why two scores are not comparable</small></div></div><div class="item"><div><b>Session 2 · Auditing a report</b><small>Every claim of a report is supported, unsupported or untestable, and the memo says which and why</small></div></div><div class="item"><div><b>Session 3 · Slicing by language</b><small>An average hides a language: Arabic and English results with intervals, and a test of the gap</small></div></div><div class="item"><div><b>Session 4 · A reporting standard</b><small>A reporting standard: the fields every evaluation claim must carry, a worked example, and the capstone choice</small></div></div></div>
+  <aside class="notes"><p>The first two sessions serve LO5 (the audit), the last two LO6 (reporting by language and the standard). Session 4 ends with the capstone choice.</p></aside>
+</section>
+
+<section class="slide" id="review-day3" data-lo="LO1 LO4" data-n="3">
+  <div class="kicker">Review of Day 3</div>
+  <h2>A grader, a small set, and an interval</h2>
+  <div class="quiz" data-type="single" data-lo="LO4" data-id="review-day3-q1">
+    <p class="lead">A grader's Arabic specificity is 0.73, from 49 human-failed answers. A team corrects an Arabic pass rate and reports an interval from the test set alone. What should the reviewer ask for?</p>
+    <div class="opts">
+      <div class="opt" data-why="Thinks the correction makes the grader exact" data-k="A">Nothing: the corrected rate is unbiased</div>
+      <div class="opt" data-why="Applies the small-set rule to the wrong quantity: the test set has hundreds of items" data-k="B">A Clopper-Pearson interval on the test set</div>
+      <div class="opt" data-ok data-k="C">An interval that also resamples the calibration verdicts</div>
+      <div class="opt" data-why="Removes the correction instead of measuring its uncertainty" data-k="D">The uncorrected rate, which has a narrower interval</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Sensitivity and specificity are estimates from a small labelled set; their uncertainty belongs in the corrected rate's interval.</div>
+  </div>
+  <aside class="notes"><p>Answer: C. Option D is the tempting retreat: narrower, and biased.</p></aside>
+</section>
+
+<!-- Session 1 -->
+
+<section class="slide section" id="s1" data-auto="section" data-session="1" data-n="4">
+  <div class="kicker">Session 1</div>
+  <h1>Contamination and unequal budgets</h1>
+  <ul class="bullets outcomes"><li>Detect overlap between test items and tuning examples, including Arabic spelling variants</li><li>Measure how overlap changes a score</li><li>Recompute a comparison at equal budgets</li></ul>
+  <div class="sess-no">01</div>
+</section>
+
+<section class="slide" id="the-leaderboard" data-lo="LO5" data-n="5" data-session="1">
+  <div class="kicker">Khattab's leaderboard</div>
+  <h2>D at 86.7%, fifteen points ahead of C</h2>
+  <div class="cols cols-2 mid">
+    <div class="bars">
+      <div class="row"><span>D</span><div class="bar c-teal" style="--w:100%"></div><span class="val">86.7%</span></div>
+      <div class="row"><span>C</span><div class="bar c-purple" style="--w:83.2%"></div><span class="val">72.1%</span></div>
+      <div class="row"><span>B</span><div class="bar c-amber" style="--w:80.5%"></div><span class="val">69.8%</span></div>
+      <div class="row"><span>A</span><div class="bar c-coral" style="--w:72.9%"></div><span class="val">63.2%</span></div>
+    </div>
+    <ul class="bullets small">
+      <li>600 questions, temperature 0.2, five samples, model grader.</li>
+      <li>No intervals, no slices, no word on how D was tuned.</li>
+    </ul>
+  </div>
+  <aside class="notes"><p>From data/leaderboard_report.md (synthetic). Ask: before computing anything, what would you check first? Collect answers; the next slides cover three of them: how each configuration was scored, how D was tuned, and whether the test questions leaked.</p></aside>
+</section>
+
+<section class="slide" id="settings-differ" data-lo="LO5" data-n="6" data-session="1">
+  <div class="kicker">How each was scored</div>
+  <h2>D was scored differently and tuned on the test set</h2>
+  <table class="t">
+    <tr><th>Config</th><th>Scored as</th><th class="num">Prompt variants tried on the test set</th><th class="num">Max output tokens</th></tr>
+    <tr><td>A, B, C</td><td>mean of 5 samples</td><td class="num">1</td><td class="num">512</td></tr>
+    <tr class="hl"><td>D</td><td>best of 5 samples</td><td class="num">12</td><td class="num">2,048</td></tr>
+  </table>
+  <aside class="notes"><p>From data/report_settings.csv. Three asymmetries, each a budget: the scoring rule (best of five is pass@5, Day 1), the selection of the best of twelve prompts on the very questions it is scored on, and four times the output tokens. The Leaderboard Illusion paper documents the same pattern at scale: providers testing many private variants and publishing the best.</p><p>Sources: arXiv 2504.20879.</p></aside>
+</section>
+
+<section class="slide" id="contamination" data-lo="LO5" data-n="7" data-session="1">
+  <div class="kicker">Contamination</div>
+  <h2>Test questions inside the tuning examples inflate the score on exactly those questions</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li><b>Pre-training contamination:</b> a public benchmark in a model's training data.</li>
+      <li><b>Tuning contamination:</b> test items among the few-shot or prompt-tuning examples.</li>
+      <li>The model then recalls answers instead of reading the regulation.</li>
+    </ul>
+    <div class="card c-coral flat"><h4>The test</h4><p class="small mb0">Find the overlap, then compare each configuration's score on overlapping and clean questions.</p></div>
+  </div>
+  <aside class="notes"><p>The contamination survey reviews detection methods; for an in-house set the simplest check is exact and normalised matching against everything the configuration saw. AE-303 checked a golden set for overlap with prompt examples; here we measure what the overlap did to the score.</p><p>Sources: arXiv 2406.04244.</p></aside>
+</section>
+
+<section class="slide" id="arabic-normalisation" data-lo="LO5" data-n="8" data-session="1">
+  <div class="kicker">Arabic spelling variants</div>
+  <h2>An exact match finds 35 overlapping questions; normalising Arabic finds 48</h2>
+  <div class="cols cols-2">
+    <table class="t small">
+      <tr><th>Folded</th><th>Example</th></tr>
+      <tr><td>hamza on alef</td><td class="ar">الأدنى ← الادنى</td></tr>
+      <tr><td>ta marbuta</td><td class="ar">لائحة ← لائحه</td></tr>
+      <tr><td>alef maqsura</td><td class="ar">في ← فى</td></tr>
+      <tr><td>diacritics, tatweel, spaces</td><td>removed</td></tr>
+    </table>
+    <div class="stat center"><div class="big">13 of 21</div><div class="lbl">Arabic overlaps found only after normalisation</div></div>
+  </div>
+  <aside class="notes"><p>From Lab 4.1, with U.normalize in labs/bunyan.py. 27 English and 8 Arabic questions match verbatim; normalisation adds 13 Arabic ones. A check that skips this step misses most of the Arabic overlap and would declare the comparison clean.</p></aside>
+</section>
+
+<section class="slide" id="overlap-effect" data-lo="LO5" data-n="9" data-session="1">
+  <div class="kicker">Lab 4.1 result</div>
+  <h2>Only D scores higher on the overlapping questions: 90.4% against 72.9%</h2>
+  <table class="t">
+    <tr><th>Config</th><th class="num">Overlapping (48)</th><th class="num">Clean (552)</th><th class="num">Difference</th></tr>
+    <tr><td>A</td><td class="num">64.6%</td><td class="num">63.0%</td><td class="num">+1.5</td></tr>
+    <tr><td>B</td><td class="num">68.3%</td><td class="num">69.9%</td><td class="num">−1.6</td></tr>
+    <tr><td>C</td><td class="num">72.1%</td><td class="num">72.1%</td><td class="num">0.0</td></tr>
+    <tr class="hl"><td>D</td><td class="num">90.4%</td><td class="num">72.9%</td><td class="num">+17.6</td></tr>
+  </table>
+  <aside class="notes"><p>The other three configurations are the control: the overlapping questions are not easier in general. The gain is D's alone, on the questions its prompt was tuned on.</p></aside>
+</section>
+
+<section class="slide" id="equal-budgets" data-lo="LO5 LO2" data-n="10" data-session="1">
+  <div class="kicker">The comparison, made fair</div>
+  <h2>Fifteen points become two, then one, and the last one is not shown</h2>
+  <table class="t">
+    <tr><th>D minus C</th><th class="num">Points</th></tr>
+    <tr><td>As reported: D best of 5, C mean of 5</td><td class="num">14.6</td></tr>
+    <tr><td>Equal budget: both mean of 5, all questions</td><td class="num">2.2 (0.5 to 3.9)</td></tr>
+    <tr class="hl"><td>Equal budget, clean questions only</td><td class="num">0.8 (−0.8 to 2.3)</td></tr>
+  </table>
+  <p class="small mt">Choosing the best of 12 equally good prompts on the test set adds about 0.8 points by itself (Lab 4.1 stretch).</p>
+  <aside class="notes"><p>Go back to Day 2: the 2.2 points that were "better, not shown to matter" were themselves partly contamination. On clean questions no difference is shown. This is the most important slide of the course for the release decision.</p></aside>
+</section>
+
+<section class="slide" id="saturation" data-lo="LO5" data-n="11" data-session="1">
+  <div class="kicker">One more threat</div>
+  <h2>A saturated or public benchmark cannot separate strong systems</h2>
+  <ul class="bullets">
+    <li>When every system scores near the ceiling, differences sit inside the noise (Day 3).</li>
+    <li>A public set may be in some systems' training data and not others'.</li>
+    <li>Keep a private, versioned set, refreshed as regulations change.</li>
+  </ul>
+  <aside class="notes"><p>The catalog lists benchmark sets and their saturation among the things that must be refreshed. Bunyan's set is private and built from its own regulations, which protects it from pre-training contamination but not from the tuning contamination we just found.</p></aside>
+</section>
+
+<section class="slide" id="check-budgets" data-lo="LO5" data-n="12" data-session="1">
+  <div class="kicker">Checkpoint</div>
+  <h2>A fair comparison</h2>
+  <div class="quiz" data-type="single" data-lo="LO5" data-id="check-budgets-q1">
+    <p class="lead">A report compares two configurations. One was scored as the best of five samples and tuned on 12 prompt variants using the test questions; the other as the mean of five, untuned. What must the audit do first?</p>
+    <div class="opts">
+      <div class="opt" data-ok data-k="A">Rescore both the same way and remove the test questions used in tuning before comparing</div>
+      <div class="opt" data-why="Thinks an interval fixes a biased comparison; it only measures noise" data-k="B">Add confidence intervals to the reported numbers</div>
+      <div class="opt" data-why="Thinks a larger test set dilutes a bias that comes from how it was scored" data-k="C">Ask for more test questions</div>
+      <div class="opt" data-why="Reads tuning on the test set as legitimate effort" data-k="D">Accept it: the tuned configuration earned its lead</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Unequal scoring and tuning on the test set are biases, not noise; only an equal-budget comparison on clean questions measures the configurations rather than the procedure.</div>
+  </div>
+  <aside class="notes"><p>Answer: A. Intervals come second: on a biased comparison they are precise about the wrong thing.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-4-1" data-auto="lab" data-lab="4.1" data-label="Lab 4.1" data-n="13" data-session="1">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 4.1 · 25 min</div><h2>Overlap and unequal budgets</h2><p class="lead small">Check configuration D's comparison for test questions that appear in its tuning examples, after Arabic normalisation, measure the score on clean questions, and recompute the comparison at equal budgets.</p><a class="nb" href="../labs/D4_1_check_comparison_test.ipynb">D4_1_check_comparison_test.ipynb</a></div><ul class="checklist"><li>Exact matches between tuning examples and test questions <span class="min">4 min</span></li><li>Arabic normalisation and the matches it adds <span class="min">6 min</span></li><li>D on clean and overlapping questions <span class="min">5 min</span></li><li>Best of five against mean of five <span class="min">5 min</span></li><li>The comparison at equal budgets, clean questions only <span class="min">5 min</span></li><li class="stretch">✱ Stretch: Estimate the winner's curse of choosing the best of twelve prompts on the test set</li></ul></div>
+  <aside class="notes"><p>Typical problems: normalising only one side of the match; comparing D's overlap score with D's average instead of with its clean score; forgetting that best of five must be recomputed for every configuration, not only D.</p></aside>
+</section>
+
+<!-- Session 2 -->
+
+<section class="slide section" id="s2" data-auto="section" data-session="2" data-n="14">
+  <div class="kicker">Session 2</div>
+  <h1>Auditing a report</h1>
+  <ul class="bullets outcomes"><li>Classify an evaluation claim by the evidence it needs</li><li>Re-analyse a claim from item-level logs</li><li>Write an audit memo a decision owner can act on</li></ul>
+  <div class="sess-no">02</div>
+</section>
+
+<section class="slide" id="three-classes" data-lo="LO5" data-n="15" data-session="2">
+  <div class="kicker">Auditing a claim</div>
+  <h2>Every claim is supported, unsupported or untestable</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Supported</h4><p class="small mb0">The data back it at the strength stated.</p></div>
+    <div class="card c-coral"><h4>Unsupported</h4><p class="small mb0">The available data contradict it, or do not back it as stated.</p></div>
+    <div class="card c-purple"><h4>Untestable</h4><p class="small mb0">No data the authority holds could decide it.</p></div>
+  </div>
+  <div class="callout note small mt"><b>From DS-305.</b> The same three classes were used for model-card claims; here the evidence is statistical.</div>
+  <aside class="notes"><p>Recap from DS-305 day 1. "Unsupported" is not "false": a claim of 15 points is unsupported even though D is not worse than C. The audit's job is to say what the evidence supports, so the memo always proposes the claim that would be supported.</p></aside>
+</section>
+
+<section class="slide" id="evidence-needed" data-lo="LO5" data-n="16" data-session="2">
+  <div class="kicker">Before re-analysing</div>
+  <h2>Write down what would decide each claim</h2>
+  <table class="t small">
+    <tr><th>Claim</th><th>Decided by</th></tr>
+    <tr><td>C1 D leads C by 15 points</td><td>equal budgets, clean questions, paired and clustered</td></tr>
+    <tr><td>C2, C3 B beats A (at 0.2, at 0.8)</td><td>paired clustered difference at each temperature</td></tr>
+    <tr><td>C4 D never unsafe</td><td>an upper bound from 40 of 40</td></tr>
+    <tr><td>C5 no grader correction needed</td><td>specificity by language</td></tr>
+    <tr><td>C6 C equal in both languages</td><td>clustered gap, observed and corrected</td></tr>
+    <tr><td>C7, C8 the 2027 lead; applicants' preference</td><td>data the authority does not have</td></tr>
+  </table>
+  <aside class="notes"><p>Writing the deciding evidence first is the audit's own pre-registration: it stops the auditor from shopping for an analysis that confirms a suspicion.</p></aside>
+</section>
+
+<section class="slide" id="audit-results" data-lo="LO5" data-n="17" data-session="2">
+  <div class="kicker">Lab 4.2 result</div>
+  <h2>Two claims supported, four unsupported, two untestable</h2>
+  <table class="t small">
+    <tr><th>Claim</th><th>Class</th><th>Deciding number</th></tr>
+    <tr><td>C1</td><td>unsupported</td><td>clean, equal budgets: 0.8 points (−0.8 to 2.3)</td></tr>
+    <tr><td>C2</td><td>supported</td><td>B minus A 6.6 points (4.5 to 8.8)</td></tr>
+    <tr><td>C3</td><td>supported</td><td>at 0.8: 2.1 points (0.2 to 4.1)</td></tr>
+    <tr><td>C4</td><td>unsupported</td><td>unsafe rate below 7.2%, not zero</td></tr>
+    <tr><td>C5</td><td>unsupported</td><td>Arabic specificity 0.73 against 0.91</td></tr>
+    <tr><td>C6</td><td>unsupported</td><td>Arabic minus English −5.8 points (−11.5 to just below 0)</td></tr>
+    <tr><td>C7, C8</td><td>untestable</td><td>no 2027 data; no preference data</td></tr>
+  </table>
+  <aside class="notes"><p>Compare with the room's guesses from the morning. C3 usually surprises: it is supported, though narrowly. C6 is the closest call: the observed interval's upper end is minus 0.02 points (p = 0.049); be honest that it is borderline, and point out that the observed gap is shrunk by the lenient Arabic grader (session 3). The class does not hang on that margin: a claim of equality needs an equivalence margin and an interval inside it (Day 2), and neither the observed interval nor the corrected one (−22.2 to +2.4) is inside any useful margin.</p></aside>
+</section>
+
+<section class="slide" id="untestable-is-information" data-lo="LO5" data-n="18" data-session="2">
+  <div class="kicker">Untestable claims</div>
+  <h2>An untestable claim tells the decision owner what evidence to commission</h2>
+  <div class="cols cols-2">
+    <div class="card c-purple flat"><h4>C7 · the 2027 regulations</h4><p class="small mb0">A new population: size a new set (Day 2: 417 questions for three points).</p></div>
+    <div class="card c-purple flat"><h4>C8 · applicants' preference</h4><p class="small mb0">Needs a preference study or an online experiment (DS-302), not grader verdicts.</p></div>
+  </div>
+  <aside class="notes"><p>Untestable is not a dismissal. In a memo it comes with the study that would test it and its rough cost; that turns the audit into a plan.</p></aside>
+</section>
+
+<section class="slide" id="memo-shape" data-lo="LO5" data-n="19" data-session="2">
+  <div class="kicker">The audit memo</div>
+  <h2>One line per claim: the class, the number, the claim that would be supported</h2>
+  <div class="prompt" data-tool="Audit memo, line C4">C4 unsupported: 40 of 40 bounds D's unsafe rate below 7.2% at 95%; it does not show "never". Supported version: "D gave no unsafe answer on the 40-question safety set; with 95% confidence its unsafe rate on such questions is below 7.2%."</div>
+  <aside class="notes"><p>The memo is the evidence for LO5. It goes to Dr. Nadeen, so it is written for a decision owner: no statistics vocabulary without its number, and every unsupported claim paired with the version the data support.</p></aside>
+</section>
+
+<section class="slide" id="audit-ethics" data-lo="LO5" data-n="20" data-session="2">
+  <div class="kicker">Auditing colleagues' work</div>
+  <h2>Audit the claims, not the person</h2>
+  <ul class="bullets">
+    <li>Khattab's numbers were computed correctly; the comparison was not fair.</li>
+    <li>Show every re-analysis with its code, so the author can rerun it.</li>
+    <li>A standard (session 4) prevents the next report from needing an audit.</li>
+  </ul>
+  <aside class="notes"><p>The SDAIA AI Ethics Principles ask for transparency and accountability in how AI systems are assessed; an audit that the author can rerun serves both. Keep the room's tone constructive: most of these faults are common practice, not misconduct.</p></aside>
+</section>
+
+<section class="slide" id="check-audit" data-lo="LO5" data-n="21" data-session="2">
+  <div class="kicker">Checkpoint</div>
+  <h2>Classing a claim</h2>
+  <div class="quiz" data-type="single" data-lo="LO5" data-id="check-audit-q1">
+    <p class="lead">A report claims "the assistant is equally accurate for all regions". The logs carry no region field. How should the audit class the claim?</p>
+    <div class="opts">
+      <div class="opt" data-why="Reads absence of evidence against the claim as evidence for it" data-k="A">Supported: no regional difference was found</div>
+      <div class="opt" data-why="Treats a claim the data cannot address as contradicted by them" data-k="B">Unsupported: equal accuracy is unlikely</div>
+      <div class="opt" data-why="Thinks a claim can be classed by the auditor's prior belief" data-k="C">Supported, because regions should not matter for regulations</div>
+      <div class="opt" data-ok data-k="D">Untestable with these logs; name the data that would test it</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Without a region field no analysis of these logs can decide the claim; the memo says what data would.</div>
+  </div>
+  <aside class="notes"><p>Answer: D. If the room is split between B and D, the distinction is: unsupported means the data in hand speak against or fail to back it; untestable means they cannot speak to it at all.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-4-2" data-auto="lab" data-lab="4.2" data-label="Lab 4.2" data-n="22" data-session="2">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 4.2 · 25 min</div><h2>Auditing the leaderboard</h2><p class="lead small">Classify each of the eight claims of the configuration leaderboard as supported, unsupported or untestable, with the re-analysis that decides each, and write the audit memo.</p><a class="nb" href="../labs/D4_2_classify_each_claim.ipynb">D4_2_classify_each_claim.ipynb</a></div><ul class="checklist"><li>Read the report and its eight claims <span class="min">3 min</span></li><li>The evidence each claim needs <span class="min">4 min</span></li><li>Re-analyse the testable claims <span class="min">10 min</span></li><li>Classify all eight <span class="min">4 min</span></li><li>The audit memo <span class="min">4 min</span></li><li class="stretch">✱ Stretch: Rewrite one unsupported claim so that the data supports it</li></ul></div>
+  <aside class="notes"><p>The re-analyses are short because the helpers from Days 1 to 3 do the work; the time goes into wording. Ask early finishers to rewrite C1 as a supported claim. Participants who did not finish Lab 4.1 have its results in data/reference/d4_1.json automatically.</p></aside>
+</section>
+
+<!-- Session 3 -->
+
+<section class="slide section" id="s3" data-auto="section" data-session="3" data-n="23">
+  <div class="kicker">Session 3</div>
+  <h1>Slicing by language</h1>
+  <ul class="bullets outcomes"><li>Report a score by language with clustered intervals</li><li>Test the gap between languages using documents with questions in both</li><li>Show how grader correction changes a gap</li></ul>
+  <div class="sess-no">03</div>
+</section>
+
+<section class="slide" id="averages-hide" data-lo="LO6" data-n="24" data-session="3">
+  <div class="kicker">Averages hide groups</div>
+  <h2>C and D have similar averages; one of them is weaker in Arabic</h2>
+  <div class="bars">
+    <div class="row"><span>C · Arabic</span><div class="bar c-coral" style="--w:69.2%"></div><span class="val">69.2%</span></div>
+    <div class="row"><span>C · English</span><div class="bar c-purple" style="--w:75%"></div><span class="val">75.0%</span></div>
+    <div class="row"><span>D · Arabic</span><div class="bar c-teal" style="--w:74.2%"></div><span class="val">74.2%</span></div>
+    <div class="row"><span>D · English</span><div class="bar c-cyan" style="--w:74.3%"></div><span class="val">74.3%</span></div>
+  </div>
+  <aside class="notes"><p>Observed grader pass rates, mean of five samples, temperature 0.2 (Lab 4.3). The course's responsible-use line: results by language and category with intervals, so a system weaker in Arabic cannot hide behind an average. The SDAIA AI Bias Reference Guide calls an evaluation that does not represent the whole user base evaluation bias.</p><p>Sources: SDAIA AI Bias Reference Guide.</p></aside>
+</section>
+
+<section class="slide" id="slice-intervals" data-lo="LO6" data-n="25" data-session="3">
+  <div class="kicker">Intervals per language</div>
+  <h2>Each slice keeps its clustering: about 300 questions over the same 80 documents</h2>
+  <table class="t small">
+    <tr><th>Config</th><th class="num">Arabic (95% CI)</th><th class="num">English (95% CI)</th></tr>
+    <tr><td>A</td><td class="num">63.0 (57.4 to 68.6)</td><td class="num">63.4 (56.7 to 70.1)</td></tr>
+    <tr><td>B</td><td class="num">70.6 (65.2 to 75.9)</td><td class="num">69.0 (62.9 to 75.1)</td></tr>
+    <tr class="hl"><td>C</td><td class="num">69.2 (63.8 to 74.6)</td><td class="num">75.0 (69.3 to 80.8)</td></tr>
+    <tr><td>D</td><td class="num">74.2 (69.0 to 79.4)</td><td class="num">74.3 (68.7 to 80.0)</td></tr>
+  </table>
+  <aside class="notes"><p>The slice intervals are wider than the overall ones (half the questions, same documents). The two intervals for C overlap, which is why the next slide tests the gap directly instead of eyeballing overlap (Day 2's lesson).</p></aside>
+</section>
+
+<section class="slide" id="gap-test" data-lo="LO6" data-n="26" data-session="3">
+  <div class="kicker">Testing the gap</div>
+  <h2>Test the gap itself, clustered by document, because most documents have questions in both languages</h2>
+  <div class="cols cols-2 mid">
+    <ul class="bullets small">
+      <li>Each Arabic question gets weight +1 / n<sub>ar</sub>, each English one −1 / n<sub>en</sub>.</li>
+      <li>Sum the weighted deviations within each document, then square.</li>
+      <li>A hard document lowers both languages; that part cancels.</li>
+    </ul>
+    <div class="stat center"><div class="big">−5.8</div><div class="lbl">C's Arabic minus English, 95% CI −11.5 to −0.02 points</div></div>
+  </div>
+  <aside class="notes"><p>Lab 4.3. For A, B and D the gap is within ±1.5 points and its interval wide around zero. For C the interval just excludes zero (p = 0.049): report it as a borderline gap and look at the corrected version before concluding.</p></aside>
+</section>
+
+<section class="slide" id="corrected-gap" data-lo="LO6 LO4" data-n="27" data-session="3">
+  <div class="kicker">With the grader corrected</div>
+  <h2>Correction widens C's gap to nine points, and its interval with it</h2>
+  <table class="t">
+    <tr><th>Config</th><th class="num">Observed gap</th><th class="num">Corrected gap (95% CI)</th></tr>
+    <tr class="hl"><td>C</td><td class="num">−5.8</td><td class="num">−9.0 (−22.2 to +2.4)</td></tr>
+    <tr><td>A</td><td class="num">−0.4</td><td class="num">−5.5 (−19.6 to +6.8)</td></tr>
+    <tr><td>D</td><td class="num">−0.2</td><td class="num">−0.7 (−12.4 to +10.8)</td></tr>
+  </table>
+  <p class="small mt">The lenient Arabic grader was shrinking the gap; the 49 failed Arabic answers in the calibration set make the corrected interval wide.</p>
+  <aside class="notes"><p>Both statements are true and both go into the report: the best estimate of C's gap is larger than observed, and the uncertainty about it is too large to settle without more Arabic labels. This is the moment to recall Day 3's "label failed answers, not answers": that is what narrows this interval.</p></aside>
+</section>
+
+<section class="slide" id="slice-table" data-lo="LO6" data-n="28" data-session="3">
+  <div class="kicker">What the report shows</div>
+  <h2>A slice table: rate and interval per language, the gap, observed and corrected</h2>
+  <ul class="bullets">
+    <li>Every configuration, both languages, with clustered intervals.</li>
+    <li>The gap with its own interval; corrected for the grader by language.</li>
+    <li>Categories as a second slice, adjusted for eight comparisons.</li>
+  </ul>
+  <aside class="notes"><p>The lab writes artifacts/D4_3/language_slices.csv. In the capstone the slice table is required (rubric: grader correction and slicing, 20 points). The category stretch uses Bonferroni over eight: no category of C is separated from its average at that strength.</p></aside>
+</section>
+
+<section class="slide" id="check-slices" data-lo="LO6" data-n="29" data-session="3">
+  <div class="kicker">Checkpoint</div>
+  <h2>Two overlapping intervals</h2>
+  <div class="quiz" data-type="single" data-lo="LO6" data-id="check-slices-q1">
+    <p class="lead">C's Arabic interval is 63.8 to 74.6 and its English interval 69.3 to 80.8. They overlap. Most documents have questions in both languages. What can you conclude about the gap?</p>
+    <div class="opts">
+      <div class="opt" data-why="Uses overlap as a test, which Day 2 showed ignores the shared structure" data-k="A">No gap: the intervals overlap</div>
+      <div class="opt" data-ok data-k="B">Nothing yet: test the gap itself with a standard error clustered by document</div>
+      <div class="opt" data-why="Treats the two slices as independent, when they share documents" data-k="C">Compute the gap's SE as the root sum of the two squared SEs</div>
+      <div class="opt" data-why="Thinks slices are only descriptive and never tested" data-k="D">Report both rates; gaps are never tested</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Two slices that share documents are correlated; only an interval for the gap itself, clustered by document, says whether the gap is real.</div>
+  </div>
+  <aside class="notes"><p>Answer: B. The independent-samples SE (option C) is close here, but it is the wrong method whenever slices share clusters.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-4-3" data-auto="lab" data-lab="4.3" data-label="Lab 4.3" data-n="30" data-session="3">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 4.3 · 25 min</div><h2>Arabic and English</h2><p class="lead small">Report each configuration's Arabic and English pass rates with clustered intervals, test the gap, and show how the grader correction changes it.</p><a class="nb" href="../labs/D4_3_report_arabic_english.ipynb">D4_3_report_arabic_english.ipynb</a></div><ul class="checklist"><li>Pass rates by language for four configurations <span class="min">4 min</span></li><li>Clustered intervals per language <span class="min">5 min</span></li><li>The gap and its interval <span class="min">7 min</span></li><li>The gap after grader correction <span class="min">5 min</span></li><li>The slice table for the report <span class="min">4 min</span></li><li class="stretch">✱ Stretch: Slice by category as well and adjust for eight comparisons</li></ul></div>
+  <aside class="notes"><p>The gap SE is the conceptual hurdle: walk one table through the weights on the whiteboard. The corrected-gap bootstrap must resample the same documents for both languages in each replicate, or the pairing is lost. Participants without Lab 3.4 have nothing to load: this lab recomputes the rates.</p></aside>
+</section>
+
+<!-- Session 4 -->
+
+<section class="slide section" id="s4" data-auto="section" data-session="4" data-n="31">
+  <div class="kicker">Session 4</div>
+  <h1>A reporting standard</h1>
+  <ul class="bullets outcomes"><li>List the required fields of an evaluation report</li><li>Validate a worked example against the standard</li><li>Choose the configurations and the plan of the capstone</li></ul>
+  <div class="sess-no">04</div>
+</section>
+
+<section class="slide" id="findings-to-fields" data-lo="LO6" data-n="32" data-session="4">
+  <div class="kicker">From findings to fields</div>
+  <h2>Every failure this week becomes a required field of the standard</h2>
+  <table class="t small">
+    <tr><th>Field</th><th>The failure it prevents</th></tr>
+    <tr><td>plan_commit</td><td>metric and slices chosen after the results</td></tr>
+    <tr><td>items_and_clusters</td><td>600 questions treated as independent</td></tr>
+    <tr><td>estimand, decoding</td><td>best of five compared with mean of five</td></tr>
+    <tr><td>comparison, multiplicity</td><td>unpaired comparisons; unadjusted rankings</td></tr>
+    <tr><td>grader_calibration</td><td>a lenient Arabic grader left uncorrected</td></tr>
+    <tr><td>budget_parity, overlap_check</td><td>tuning on the test set; unequal scoring</td></tr>
+    <tr><td>slices, small_sets</td><td>an Arabic gap hidden; 40 of 40 read as never</td></tr>
+  </table>
+  <aside class="notes"><p>Fifteen fields in the lab's reference version; this table groups them. A two-page standard: one line per field with its reason and an example on page one, the worked example on page two.</p></aside>
+</section>
+
+<section class="slide" id="validator" data-lo="LO6" data-n="33" data-session="4">
+  <div class="kicker">Make it checkable</div>
+  <h2>A validator turns the standard into a gate</h2>
+  <pre class="code" data-file="Lab 4.4"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">validate</span>(<span class="hljs-params">report</span>):
+    problems = [<span class="hljs-string">f&quot;missing: <span class="hljs-subst">{f}</span>&quot;</span> <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> STANDARD <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> report.get(f)]
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> {<span class="hljs-string">&quot;ar&quot;</span>, <span class="hljs-string">&quot;en&quot;</span>} &lt;= <span class="hljs-built_in">set</span>(report.get(<span class="hljs-string">&quot;slices&quot;</span>) <span class="hljs-keyword">or</span> {}):
+        problems.append(<span class="hljs-string">&quot;slices: Arabic and English required&quot;</span>)
+    <span class="hljs-keyword">if</span> report.get(<span class="hljs-string">&quot;shared_items&quot;</span>) <span class="hljs-keyword">and</span> <span class="hljs-string">&quot;paired&quot;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> report.get(<span class="hljs-string">&quot;comparison&quot;</span>, <span class="hljs-string">&quot;&quot;</span>):
+        problems.append(<span class="hljs-string">&quot;comparison must be paired&quot;</span>)
+    <span class="hljs-keyword">return</span> problems</code></pre>
+  <aside class="notes"><p>The lab's version also rejects naive or Wald intervals and a grader without per-language sensitivity and specificity. The stretch turns it into a release gate that raises an error: in the capstone it runs in the repository's tests.</p></aside>
+</section>
+
+<section class="slide" id="worked-example" data-lo="LO6" data-n="34" data-session="4">
+  <div class="kicker">The worked example</div>
+  <h2>The week's decision passes the standard; the leaderboard fails on fourteen counts</h2>
+  <div class="cols cols-2">
+    <div class="card c-teal"><h4>D against C, reported to the standard</h4><p class="small mb0">Plan committed; clustered and paired; 3-point minimum effect; grader by language; overlap checked; slices; safety bound. Passes.</p></div>
+    <div class="card c-coral"><h4>The leaderboard</h4><p class="small mb0">Ten fields missing; naive intervals; an unpaired ranking; no slices; no grader rates. Fourteen problems.</p></div>
+  </div>
+  <aside class="notes"><p>From Lab 4.4. The worked example is page two of the standard and the evidence for LO6 together with the fields. Ask: which single field would have stopped the headline claim? Budget parity.</p></aside>
+</section>
+
+<section class="slide" id="release-process" data-lo="LO6" data-n="35" data-session="4">
+  <div class="kicker">Where the standard sits</div>
+  <h2>The standard is checked before a report reaches the release decision</h2>
+  <div class="flow">
+    <div class="step c-navy"><b>1 · Plan</b>committed, dated</div>
+    <div class="arrow">→</div>
+    <div class="step c-teal"><b>2 · Run</b>logs kept per item</div>
+    <div class="arrow">→</div>
+    <div class="step c-cyan"><b>3 · Report</b>to the standard</div>
+    <div class="arrow">→</div>
+    <div class="step c-coral"><b>4 · Gate</b>validator, then review</div>
+    <div class="arrow">→</div>
+    <div class="step c-purple"><b>5 · Decide</b>Dr. Nadeen</div>
+  </div>
+  <aside class="notes"><p>The National AI Risk Management Framework expects risks of an AI system to be measured and documented before deployment decisions; the standard is how Bunyan makes the evaluation part of that measurable. Do not quote the framework's clauses; it is cited by name.</p></aside>
+</section>
+
+<section class="slide" id="capstone-choice" data-lo="LO3 LO6" data-n="36" data-session="4">
+  <div class="kicker">The capstone</div>
+  <h2>Choose two open-weight configurations, and commit the plan before anything runs</h2>
+  <div class="cols cols-2">
+    <ul class="bullets small">
+      <li>Two or more configurations you serve yourself: a laptop (llama.cpp, Ollama), a free notebook GPU (vLLM), or a free hosted endpoint.</li>
+      <li>Bunyan's 600 questions, or your own set with a licence that allows it.</li>
+      <li>Starter: <code>labs/capstone/</code>.</li>
+    </ul>
+    <div class="card c-navy tint"><h4>First commit</h4><p class="small mb0">capstone_plan.json from Lab 4.4: configurations, minimum effect, samples, temperature, primary comparison.</p></div>
+  </div>
+  <aside class="notes"><p>The catalog allows local model serving for the capstone only. A participant whose laptop cannot run a model uses a free notebook GPU or a free hosted endpoint; the starter's runner speaks the same API to all of them. Remind them: the plan's commit date is checked in the review.</p></aside>
+</section>
+
+<section class="slide" id="check-standard" data-lo="LO6" data-n="37" data-session="4">
+  <div class="kicker">Checkpoint</div>
+  <h2>The field that matters</h2>
+  <div class="quiz" data-type="single" data-lo="LO6" data-id="check-standard-q1">
+    <p class="lead">A team's report has intervals, a plan and slices, but scores its own configuration as the best of five samples and the vendor's as the mean of five. Which field of the standard catches it?</p>
+    <div class="opts">
+      <div class="opt" data-why="Multiplicity concerns how many comparisons, not how each was scored" data-k="A">multiplicity</div>
+      <div class="opt" data-why="Slices check groups of questions, not scoring rules" data-k="B">slices</div>
+      <div class="opt" data-ok data-k="C">budget_parity, with the estimand stated per configuration</div>
+      <div class="opt" data-why="The interval method governs uncertainty, not the comparability of the scores" data-k="D">interval_method</div>
+    </div>
+    <div class="callout tip why"><b>Why.</b> Budget parity requires every configuration to be scored and tuned the same way; a stated estimand makes the difference visible.</div>
+  </div>
+  <aside class="notes"><p>Answer: C.</p></aside>
+</section>
+
+<section class="slide lab top" id="lab-4-4" data-auto="lab" data-lab="4.4" data-label="Lab 4.4" data-n="38" data-session="4">
+  <div class="cols cols-2 mid"><div><div class="lab-tag">Lab 4.4 · 25 min</div><h2>The standard and the capstone choice</h2><p class="lead small">Draft the reporting standard's required fields, test a worked example against them, and choose the configurations and the plan of the capstone.</p><a class="nb" href="../labs/D4_4_reporting_standard.ipynb">D4_4_reporting_standard.ipynb</a></div><ul class="checklist"><li>Fields from the week's findings <span class="min">6 min</span></li><li>A validator for a report <span class="min">6 min</span></li><li>The worked example: pass and fail <span class="min">5 min</span></li><li>Choose the capstone configurations <span class="min">5 min</span></li><li>Commit the capstone plan <span class="min">3 min</span></li><li class="stretch">✱ Stretch: Turn the standard into a release gate that blocks a report with a missing field</li></ul></div>
+  <aside class="notes"><p>Most time goes into the fields; keep the validator short. End the lab by having each participant read their two configurations aloud, so the room hears the spread of capstone choices and nobody leaves without one.</p></aside>
+</section>
+
+<section class="slide" id="wrap-up" data-n="39" data-session="4">
+  <div class="kicker">Day 4 · wrap-up</div>
+  <h2>Three things to keep</h2>
+  <div class="cols cols-3">
+    <div class="card c-teal"><h4>Same budget, clean items</h4><p class="small mb0">Fifteen points became 0.8, not shown.</p></div>
+    <div class="card c-coral"><h4>Three classes, one number each</h4><p class="small mb0">Supported, unsupported, untestable, with the claim that would be supported.</p></div>
+    <div class="card c-purple"><h4>Slice, correct, standardise</h4><p class="small mb0">Arabic and English with intervals; fifteen required fields.</p></div>
+  </div>
+  <aside class="notes"><p>Close the teaching part of the course. The supervised check (AI-off) can run now or at the start of the capstone day: a clustered SE by hand, paired or unpaired, reading a sizing plan.</p></aside>
+</section>
+
+<section class="slide dark" id="next" data-label="Next" data-n="40" data-session="4">
+  <div class="kicker">Next</div>
+  <h2>Capstone: your statistical evaluation report</h2>
+  <p class="lead">Commit your plan before any result. Bring the repository link, results by language and one statistical choice you are ready to defend.</p>
+  <aside class="notes"><p>The capstone review is 15 minutes: the assessor will drop a cluster or change the minimum effect and ask for a prediction before re-running. Tell participants now, so they can practise on their own analysis.</p></aside>
+</section>
+</div>
+<script type="application/json" id="academy-data">{"v":1,"engine":"1.0.0","build":{"at":"2026-11-15T20:52:11Z","version":"2027.1.0","commit":"d0b0715"},"course":{"id":"ds-403","code":"DS-403","title":"Statistical Evaluation of AI Systems","track":"data-science","lang":"en","dir":"ltr","url":"https://sdaiaacademy.github.io/ds-403/","repo":"SDAIAAcademy/ds-403","home":"../index.html"},"deck":{"id":"day4","kind":"day","day":4,"label":"Day 4","title":"Auditing claims and setting standards","prev":"day3.html","next":"capstone.html","md":"day4.md","alt":{}},"sessions":[{"n":1,"label":"Session 1","title":"Contamination and unequal budgets","slide":"s1","outcomes":["Detect overlap between test items and tuning examples, including Arabic spelling variants","Measure how overlap changes a score","Recompute a comparison at equal budgets"],"minutes":50,"lab":{"id":"4.1","title":"Overlap and unequal budgets","minutes":25,"href":"../labs/D4_1_check_comparison_test.ipynb"}},{"n":2,"label":"Session 2","title":"Auditing a report","slide":"s2","outcomes":["Classify an evaluation claim by the evidence it needs","Re-analyse a claim from item-level logs","Write an audit memo a decision owner can act on"],"minutes":50,"lab":{"id":"4.2","title":"Auditing the leaderboard","minutes":25,"href":"../labs/D4_2_classify_each_claim.ipynb"}},{"n":3,"label":"Session 3","title":"Slicing by language","slide":"s3","outcomes":["Report a score by language with clustered intervals","Test the gap between languages using documents with questions in both","Show how grader correction changes a gap"],"minutes":50,"lab":{"id":"4.3","title":"Arabic and English","minutes":25,"href":"../labs/D4_3_report_arabic_english.ipynb"}},{"n":4,"label":"Session 4","title":"A reporting standard","slide":"s4","outcomes":["List the required fields of an evaluation report","Validate a worked example against the standard","Choose the configurations and the plan of the capstone"],"minutes":50,"lab":{"id":"4.4","title":"The standard and the capstone choice","minutes":25,"href":"../labs/D4_4_reporting_standard.ipynb"}}],"slides":[{"id":"title","n":1,"title":"Auditing claims and setting standards","kind":"title","session":0,"hash":"58ee3630","md":"#### [day4#title] Auditing claims and setting standards\n\n*SDAIA Academy · Statistical Evaluation of AI Systems*\n\nDay 4: Audit the claims an evaluation makes, slice by language, and write the standard every report must meet\n\nData Science Track · 4 teaching days + capstone day · 4 sessions · 4 labs · DS-403","notes":"Start by collecting last night's guesses: for each of the leaderboard's eight claims, a show of hands for supported, unsupported, untestable. Write the counts on the board; the lab of session 2 compares them with the evidence.","minutes":null,"lo":[]},{"id":"agenda","n":2,"title":"Auditing claims and setting standards","kind":"content","session":0,"hash":"3df02538","md":"#### [day4#agenda] Auditing claims and setting standards\n\n*Today*\n\n- **Session 1 · Contamination and unequal budgets**: Test items in the tuning examples, best of many prompts, and best of five samples: why two scores are not comparable\n- **Session 2 · Auditing a report**: Every claim of a report is supported, unsupported or untestable, and the memo says which and why\n- **Session 3 · Slicing by language**: An average hides a language: Arabic and English results with intervals, and a test of the gap\n- **Session 4 · A reporting standard**: A reporting standard: the fields every evaluation claim must carry, a worked example, and the capstone choice","notes":"The first two sessions serve LO5 (the audit), the last two LO6 (reporting by language and the standard). Session 4 ends with the capstone choice.","minutes":null,"lo":[]},{"id":"review-day3","n":3,"title":"A grader, a small set, and an interval","kind":"quiz","session":0,"hash":"5d44fc4e","md":"#### [day4#review-day3] A grader, a small set, and an interval\n\n*Review of Day 3*\n\n**Question:** A grader's Arabic specificity is 0.73, from 49 human-failed answers. A team corrects an Arabic pass rate and reports an interval from the test set alone. What should the reviewer ask for?\n\n- A. Nothing: the corrected rate is unbiased\n- B. A Clopper-Pearson interval on the test set\n- C. An interval that also resamples the calibration verdicts\n- D. The uncorrected rate, which has a narrower interval","notes":"Answer: C. Option D is the tempting retreat: narrower, and biased.","minutes":null,"lo":["LO1","LO4"]},{"id":"s1","n":4,"title":"Contamination and unequal budgets","kind":"section","session":1,"hash":"7a6d88e7","md":"#### [day4#s1] Contamination and unequal budgets\n\n*Session 1*\n\n- Detect overlap between test items and tuning examples, including Arabic spelling variants\n- Measure how overlap changes a score\n- Recompute a comparison at equal budgets","notes":"","minutes":null,"lo":["LO5"]},{"id":"the-leaderboard","n":5,"title":"D at 86.7%, fifteen points ahead of C","kind":"content","session":1,"hash":"5c985baa","md":"#### [day4#the-leaderboard] D at 86.7%, fifteen points ahead of C\n\n*Khattab's leaderboard*\n\n| Item | Value |\n| --- | --- |\n| D | 86.7% |\n| C | 72.1% |\n| B | 69.8% |\n| A | 63.2% |\n\n- 600 questions, temperature 0.2, five samples, model grader.\n- No intervals, no slices, no word on how D was tuned.","notes":"From data/leaderboard_report.md (synthetic). Ask: before computing anything, what would you check first? Collect answers; the next slides cover three of them: how each configuration was scored, how D was tuned, and whether the test questions leaked.","minutes":null,"lo":["LO5"]},{"id":"settings-differ","n":6,"title":"D was scored differently and tuned on the test set","kind":"content","session":1,"hash":"6f405e97","md":"#### [day4#settings-differ] D was scored differently and tuned on the test set\n\n*How each was scored*\n\n| Config | Scored as | Prompt variants tried on the test set | Max output tokens |\n| --- | --- | --- | --- |\n| A, B, C | mean of 5 samples | 1 | 512 |\n| D | best of 5 samples | 12 | 2,048 |","notes":"From data/report_settings.csv. Three asymmetries, each a budget: the scoring rule (best of five is pass@5, Day 1), the selection of the best of twelve prompts on the very questions it is scored on, and four times the output tokens. The Leaderboard Illusion paper documents the same pattern at scale: providers testing many private variants and publishing the best.\n\nSources: arXiv 2504.20879.","minutes":null,"lo":["LO5"]},{"id":"contamination","n":7,"title":"Test questions inside the tuning examples inflate the score on exactly those questions","kind":"content","session":1,"hash":"1ea6064b","md":"#### [day4#contamination] Test questions inside the tuning examples inflate the score on exactly those questions\n\n*Contamination*\n\n- **Pre-training contamination:** a public benchmark in a model's training data.\n- **Tuning contamination:** test items among the few-shot or prompt-tuning examples.\n- The model then recalls answers instead of reading the regulation.\n\n- **The test.** Find the overlap, then compare each configuration's score on overlapping and clean questions.","notes":"The contamination survey reviews detection methods; for an in-house set the simplest check is exact and normalised matching against everything the configuration saw. AE-303 checked a golden set for overlap with prompt examples; here we measure what the overlap did to the score.\n\nSources: arXiv 2406.04244.","minutes":null,"lo":["LO5"]},{"id":"arabic-normalisation","n":8,"title":"An exact match finds 35 overlapping questions; normalising Arabic finds 48","kind":"content","session":1,"hash":"02a1ebe2","md":"#### [day4#arabic-normalisation] An exact match finds 35 overlapping questions; normalising Arabic finds 48\n\n*Arabic spelling variants*\n\n| Folded | Example |\n| --- | --- |\n| hamza on alef | الأدنى ← الادنى |\n| ta marbuta | لائحة ← لائحه |\n| alef maqsura | في ← فى |\n| diacritics, tatweel, spaces | removed |\n\n**13 of 21** Arabic overlaps found only after normalisation","notes":"From Lab 4.1, with U.normalize in labs/bunyan.py. 27 English and 8 Arabic questions match verbatim; normalisation adds 13 Arabic ones. A check that skips this step misses most of the Arabic overlap and would declare the comparison clean.","minutes":null,"lo":["LO5"]},{"id":"overlap-effect","n":9,"title":"Only D scores higher on the overlapping questions: 90.4% against 72.9%","kind":"content","session":1,"hash":"61422177","md":"#### [day4#overlap-effect] Only D scores higher on the overlapping questions: 90.4% against 72.9%\n\n*Lab 4.1 result*\n\n| Config | Overlapping (48) | Clean (552) | Difference |\n| --- | --- | --- | --- |\n| A | 64.6% | 63.0% | +1.5 |\n| B | 68.3% | 69.9% | −1.6 |\n| C | 72.1% | 72.1% | 0.0 |\n| D | 90.4% | 72.9% | +17.6 |","notes":"The other three configurations are the control: the overlapping questions are not easier in general. The gain is D's alone, on the questions its prompt was tuned on.","minutes":null,"lo":["LO5"]},{"id":"equal-budgets","n":10,"title":"Fifteen points become two, then one, and the last one is not shown","kind":"content","session":1,"hash":"ac08f844","md":"#### [day4#equal-budgets] Fifteen points become two, then one, and the last one is not shown\n\n*The comparison, made fair*\n\n| D minus C | Points |\n| --- | --- |\n| As reported: D best of 5, C mean of 5 | 14.6 |\n| Equal budget: both mean of 5, all questions | 2.2 (0.5 to 3.9) |\n| Equal budget, clean questions only | 0.8 (−0.8 to 2.3) |\n\nChoosing the best of 12 equally good prompts on the test set adds about 0.8 points by itself (Lab 4.1 stretch).","notes":"Go back to Day 2: the 2.2 points that were \"better, not shown to matter\" were themselves partly contamination. On clean questions no difference is shown. This is the most important slide of the course for the release decision.","minutes":null,"lo":["LO5","LO2"]},{"id":"saturation","n":11,"title":"A saturated or public benchmark cannot separate strong systems","kind":"content","session":1,"hash":"5915f855","md":"#### [day4#saturation] A saturated or public benchmark cannot separate strong systems\n\n*One more threat*\n\n- When every system scores near the ceiling, differences sit inside the noise (Day 3).\n- A public set may be in some systems' training data and not others'.\n- Keep a private, versioned set, refreshed as regulations change.","notes":"The catalog lists benchmark sets and their saturation among the things that must be refreshed. Bunyan's set is private and built from its own regulations, which protects it from pre-training contamination but not from the tuning contamination we just found.","minutes":null,"lo":["LO5"]},{"id":"check-budgets","n":12,"title":"A fair comparison","kind":"quiz","session":1,"hash":"cf91b559","md":"#### [day4#check-budgets] A fair comparison\n\n*Checkpoint*\n\n**Question:** A report compares two configurations. One was scored as the best of five samples and tuned on 12 prompt variants using the test questions; the other as the mean of five, untuned. What must the audit do first?\n\n- A. Rescore both the same way and remove the test questions used in tuning before comparing\n- B. Add confidence intervals to the reported numbers\n- C. Ask for more test questions\n- D. Accept it: the tuned configuration earned its lead","notes":"Answer: A. Intervals come second: on a biased comparison they are precise about the wrong thing.","minutes":null,"lo":["LO5"]},{"id":"lab-4-1","n":13,"title":"Overlap and unequal budgets","kind":"lab","session":1,"hash":"fbfa5b20","md":"#### [day4#lab-4-1] Overlap and unequal budgets\n\nLab 4.1 · 25 min\n\nCheck configuration D's comparison for test questions that appear in its tuning examples, after Arabic normalisation, measure the score on clean questions, and recompute the comparison at equal budgets.\n\n[D4_1_check_comparison_test.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D4_1_check_comparison_test.ipynb)\n\n- [ ] Exact matches between tuning examples and test questions (4 min)\n- [ ] Arabic normalisation and the matches it adds (6 min)\n- [ ] D on clean and overlapping questions (5 min)\n- [ ] Best of five against mean of five (5 min)\n- [ ] The comparison at equal budgets, clean questions only (5 min)\n- [ ] ✱ Stretch: Estimate the winner's curse of choosing the best of twelve prompts on the test set","notes":"Typical problems: normalising only one side of the match; comparing D's overlap score with D's average instead of with its clean score; forgetting that best of five must be recomputed for every configuration, not only D.","minutes":null,"lo":[]},{"id":"s2","n":14,"title":"Auditing a report","kind":"section","session":2,"hash":"cc70b22a","md":"#### [day4#s2] Auditing a report\n\n*Session 2*\n\n- Classify an evaluation claim by the evidence it needs\n- Re-analyse a claim from item-level logs\n- Write an audit memo a decision owner can act on","notes":"","minutes":null,"lo":["LO5"]},{"id":"three-classes","n":15,"title":"Every claim is supported, unsupported or untestable","kind":"content","session":2,"hash":"e88a0a04","md":"#### [day4#three-classes] Every claim is supported, unsupported or untestable\n\n*Auditing a claim*\n\n- **Supported.** The data back it at the strength stated.\n- **Unsupported.** The available data contradict it, or do not back it as stated.\n- **Untestable.** No data the authority holds could decide it.\n\n> **From DS-305.** The same three classes were used for model-card claims; here the evidence is statistical.","notes":"Recap from DS-305 day 1. \"Unsupported\" is not \"false\": a claim of 15 points is unsupported even though D is not worse than C. The audit's job is to say what the evidence supports, so the memo always proposes the claim that would be supported.","minutes":null,"lo":["LO5"]},{"id":"evidence-needed","n":16,"title":"Write down what would decide each claim","kind":"content","session":2,"hash":"b009a5da","md":"#### [day4#evidence-needed] Write down what would decide each claim\n\n*Before re-analysing*\n\n| Claim | Decided by |\n| --- | --- |\n| C1 D leads C by 15 points | equal budgets, clean questions, paired and clustered |\n| C2, C3 B beats A (at 0.2, at 0.8) | paired clustered difference at each temperature |\n| C4 D never unsafe | an upper bound from 40 of 40 |\n| C5 no grader correction needed | specificity by language |\n| C6 C equal in both languages | clustered gap, observed and corrected |\n| C7, C8 the 2027 lead; applicants' preference | data the authority does not have |","notes":"Writing the deciding evidence first is the audit's own pre-registration: it stops the auditor from shopping for an analysis that confirms a suspicion.","minutes":null,"lo":["LO5"]},{"id":"audit-results","n":17,"title":"Two claims supported, four unsupported, two untestable","kind":"content","session":2,"hash":"cefe8a29","md":"#### [day4#audit-results] Two claims supported, four unsupported, two untestable\n\n*Lab 4.2 result*\n\n| Claim | Class | Deciding number |\n| --- | --- | --- |\n| C1 | unsupported | clean, equal budgets: 0.8 points (−0.8 to 2.3) |\n| C2 | supported | B minus A 6.6 points (4.5 to 8.8) |\n| C3 | supported | at 0.8: 2.1 points (0.2 to 4.1) |\n| C4 | unsupported | unsafe rate below 7.2%, not zero |\n| C5 | unsupported | Arabic specificity 0.73 against 0.91 |\n| C6 | unsupported | Arabic minus English −5.8 points (−11.5 to just below 0) |\n| C7, C8 | untestable | no 2027 data; no preference data |","notes":"Compare with the room's guesses from the morning. C3 usually surprises: it is supported, though narrowly. C6 is the closest call: the observed interval's upper end is minus 0.02 points (p = 0.049); be honest that it is borderline, and point out that the observed gap is shrunk by the lenient Arabic grader (session 3). The class does not hang on that margin: a claim of equality needs an equivalence margin and an interval inside it (Day 2), and neither the observed interval nor the corrected one (−22.2 to +2.4) is inside any useful margin.","minutes":null,"lo":["LO5"]},{"id":"untestable-is-information","n":18,"title":"An untestable claim tells the decision owner what evidence to commission","kind":"content","session":2,"hash":"c2aec7b1","md":"#### [day4#untestable-is-information] An untestable claim tells the decision owner what evidence to commission\n\n*Untestable claims*\n\n- **C7 · the 2027 regulations.** A new population: size a new set (Day 2: 417 questions for three points).\n- **C8 · applicants' preference.** Needs a preference study or an online experiment (DS-302), not grader verdicts.","notes":"Untestable is not a dismissal. In a memo it comes with the study that would test it and its rough cost; that turns the audit into a plan.","minutes":null,"lo":["LO5"]},{"id":"memo-shape","n":19,"title":"One line per claim: the class, the number, the claim that would be supported","kind":"content","session":2,"hash":"1512b4e6","md":"#### [day4#memo-shape] One line per claim: the class, the number, the claim that would be supported\n\n*The audit memo*\n\nPrompt for Audit memo, line C4:\n\n```text\nC4 unsupported: 40 of 40 bounds D's unsafe rate below 7.2% at 95%; it does not show \"never\". Supported version: \"D gave no unsafe answer on the 40-question safety set; with 95% confidence its unsafe rate on such questions is below 7.2%.\"\n```","notes":"The memo is the evidence for LO5. It goes to Dr. Nadeen, so it is written for a decision owner: no statistics vocabulary without its number, and every unsupported claim paired with the version the data support.","minutes":null,"lo":["LO5"]},{"id":"audit-ethics","n":20,"title":"Audit the claims, not the person","kind":"content","session":2,"hash":"838fadbb","md":"#### [day4#audit-ethics] Audit the claims, not the person\n\n*Auditing colleagues' work*\n\n- Khattab's numbers were computed correctly; the comparison was not fair.\n- Show every re-analysis with its code, so the author can rerun it.\n- A standard (session 4) prevents the next report from needing an audit.","notes":"The SDAIA AI Ethics Principles ask for transparency and accountability in how AI systems are assessed; an audit that the author can rerun serves both. Keep the room's tone constructive: most of these faults are common practice, not misconduct.","minutes":null,"lo":["LO5"]},{"id":"check-audit","n":21,"title":"Classing a claim","kind":"quiz","session":2,"hash":"154800e3","md":"#### [day4#check-audit] Classing a claim\n\n*Checkpoint*\n\n**Question:** A report claims \"the assistant is equally accurate for all regions\". The logs carry no region field. How should the audit class the claim?\n\n- A. Supported: no regional difference was found\n- B. Unsupported: equal accuracy is unlikely\n- C. Supported, because regions should not matter for regulations\n- D. Untestable with these logs; name the data that would test it","notes":"Answer: D. If the room is split between B and D, the distinction is: unsupported means the data in hand speak against or fail to back it; untestable means they cannot speak to it at all.","minutes":null,"lo":["LO5"]},{"id":"lab-4-2","n":22,"title":"Auditing the leaderboard","kind":"lab","session":2,"hash":"55f6c45c","md":"#### [day4#lab-4-2] Auditing the leaderboard\n\nLab 4.2 · 25 min\n\nClassify each of the eight claims of the configuration leaderboard as supported, unsupported or untestable, with the re-analysis that decides each, and write the audit memo.\n\n[D4_2_classify_each_claim.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D4_2_classify_each_claim.ipynb)\n\n- [ ] Read the report and its eight claims (3 min)\n- [ ] The evidence each claim needs (4 min)\n- [ ] Re-analyse the testable claims (10 min)\n- [ ] Classify all eight (4 min)\n- [ ] The audit memo (4 min)\n- [ ] ✱ Stretch: Rewrite one unsupported claim so that the data supports it","notes":"The re-analyses are short because the helpers from Days 1 to 3 do the work; the time goes into wording. Ask early finishers to rewrite C1 as a supported claim. Participants who did not finish Lab 4.1 have its results in data/reference/d4_1.json automatically.","minutes":null,"lo":[]},{"id":"s3","n":23,"title":"Slicing by language","kind":"section","session":3,"hash":"66a61825","md":"#### [day4#s3] Slicing by language\n\n*Session 3*\n\n- Report a score by language with clustered intervals\n- Test the gap between languages using documents with questions in both\n- Show how grader correction changes a gap","notes":"","minutes":null,"lo":["LO6","LO4"]},{"id":"averages-hide","n":24,"title":"C and D have similar averages; one of them is weaker in Arabic","kind":"content","session":3,"hash":"d93f9e02","md":"#### [day4#averages-hide] C and D have similar averages; one of them is weaker in Arabic\n\n*Averages hide groups*\n\n| Item | Value |\n| --- | --- |\n| C · Arabic | 69.2% |\n| C · English | 75.0% |\n| D · Arabic | 74.2% |\n| D · English | 74.3% |","notes":"Observed grader pass rates, mean of five samples, temperature 0.2 (Lab 4.3). The course's responsible-use line: results by language and category with intervals, so a system weaker in Arabic cannot hide behind an average. The SDAIA AI Bias Reference Guide calls an evaluation that does not represent the whole user base evaluation bias.\n\nSources: SDAIA AI Bias Reference Guide.","minutes":null,"lo":["LO6"]},{"id":"slice-intervals","n":25,"title":"Each slice keeps its clustering: about 300 questions over the same 80 documents","kind":"content","session":3,"hash":"7b231777","md":"#### [day4#slice-intervals] Each slice keeps its clustering: about 300 questions over the same 80 documents\n\n*Intervals per language*\n\n| Config | Arabic (95% CI) | English (95% CI) |\n| --- | --- | --- |\n| A | 63.0 (57.4 to 68.6) | 63.4 (56.7 to 70.1) |\n| B | 70.6 (65.2 to 75.9) | 69.0 (62.9 to 75.1) |\n| C | 69.2 (63.8 to 74.6) | 75.0 (69.3 to 80.8) |\n| D | 74.2 (69.0 to 79.4) | 74.3 (68.7 to 80.0) |","notes":"The slice intervals are wider than the overall ones (half the questions, same documents). The two intervals for C overlap, which is why the next slide tests the gap directly instead of eyeballing overlap (Day 2's lesson).","minutes":null,"lo":["LO6"]},{"id":"gap-test","n":26,"title":"Test the gap itself, clustered by document, because most documents have questions in both languages","kind":"content","session":3,"hash":"b4878907","md":"#### [day4#gap-test] Test the gap itself, clustered by document, because most documents have questions in both languages\n\n*Testing the gap*\n\n- Each Arabic question gets weight +1 / nar, each English one −1 / nen.\n- Sum the weighted deviations within each document, then square.\n- A hard document lowers both languages; that part cancels.\n\n**−5.8** C's Arabic minus English, 95% CI −11.5 to −0.02 points","notes":"Lab 4.3. For A, B and D the gap is within ±1.5 points and its interval wide around zero. For C the interval just excludes zero (p = 0.049): report it as a borderline gap and look at the corrected version before concluding.","minutes":null,"lo":["LO6"]},{"id":"corrected-gap","n":27,"title":"Correction widens C's gap to nine points, and its interval with it","kind":"content","session":3,"hash":"5ea30bee","md":"#### [day4#corrected-gap] Correction widens C's gap to nine points, and its interval with it\n\n*With the grader corrected*\n\n| Config | Observed gap | Corrected gap (95% CI) |\n| --- | --- | --- |\n| C | −5.8 | −9.0 (−22.2 to +2.4) |\n| A | −0.4 | −5.5 (−19.6 to +6.8) |\n| D | −0.2 | −0.7 (−12.4 to +10.8) |\n\nThe lenient Arabic grader was shrinking the gap; the 49 failed Arabic answers in the calibration set make the corrected interval wide.","notes":"Both statements are true and both go into the report: the best estimate of C's gap is larger than observed, and the uncertainty about it is too large to settle without more Arabic labels. This is the moment to recall Day 3's \"label failed answers, not answers\": that is what narrows this interval.","minutes":null,"lo":["LO6","LO4"]},{"id":"slice-table","n":28,"title":"A slice table: rate and interval per language, the gap, observed and corrected","kind":"content","session":3,"hash":"d97bae2e","md":"#### [day4#slice-table] A slice table: rate and interval per language, the gap, observed and corrected\n\n*What the report shows*\n\n- Every configuration, both languages, with clustered intervals.\n- The gap with its own interval; corrected for the grader by language.\n- Categories as a second slice, adjusted for eight comparisons.","notes":"The lab writes artifacts/D4_3/language_slices.csv. In the capstone the slice table is required (rubric: grader correction and slicing, 20 points). The category stretch uses Bonferroni over eight: no category of C is separated from its average at that strength.","minutes":null,"lo":["LO6"]},{"id":"check-slices","n":29,"title":"Two overlapping intervals","kind":"quiz","session":3,"hash":"ecfbac0e","md":"#### [day4#check-slices] Two overlapping intervals\n\n*Checkpoint*\n\n**Question:** C's Arabic interval is 63.8 to 74.6 and its English interval 69.3 to 80.8. They overlap. Most documents have questions in both languages. What can you conclude about the gap?\n\n- A. No gap: the intervals overlap\n- B. Nothing yet: test the gap itself with a standard error clustered by document\n- C. Compute the gap's SE as the root sum of the two squared SEs\n- D. Report both rates; gaps are never tested","notes":"Answer: B. The independent-samples SE (option C) is close here, but it is the wrong method whenever slices share clusters.","minutes":null,"lo":["LO6"]},{"id":"lab-4-3","n":30,"title":"Arabic and English","kind":"lab","session":3,"hash":"b683e1c6","md":"#### [day4#lab-4-3] Arabic and English\n\nLab 4.3 · 25 min\n\nReport each configuration's Arabic and English pass rates with clustered intervals, test the gap, and show how the grader correction changes it.\n\n[D4_3_report_arabic_english.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D4_3_report_arabic_english.ipynb)\n\n- [ ] Pass rates by language for four configurations (4 min)\n- [ ] Clustered intervals per language (5 min)\n- [ ] The gap and its interval (7 min)\n- [ ] The gap after grader correction (5 min)\n- [ ] The slice table for the report (4 min)\n- [ ] ✱ Stretch: Slice by category as well and adjust for eight comparisons","notes":"The gap SE is the conceptual hurdle: walk one table through the weights on the whiteboard. The corrected-gap bootstrap must resample the same documents for both languages in each replicate, or the pairing is lost. Participants without Lab 3.4 have nothing to load: this lab recomputes the rates.","minutes":null,"lo":[]},{"id":"s4","n":31,"title":"A reporting standard","kind":"section","session":4,"hash":"3d847dcd","md":"#### [day4#s4] A reporting standard\n\n*Session 4*\n\n- List the required fields of an evaluation report\n- Validate a worked example against the standard\n- Choose the configurations and the plan of the capstone","notes":"","minutes":null,"lo":["LO6"]},{"id":"findings-to-fields","n":32,"title":"Every failure this week becomes a required field of the standard","kind":"content","session":4,"hash":"b18e5a9b","md":"#### [day4#findings-to-fields] Every failure this week becomes a required field of the standard\n\n*From findings to fields*\n\n| Field | The failure it prevents |\n| --- | --- |\n| plan_commit | metric and slices chosen after the results |\n| items_and_clusters | 600 questions treated as independent |\n| estimand, decoding | best of five compared with mean of five |\n| comparison, multiplicity | unpaired comparisons; unadjusted rankings |\n| grader_calibration | a lenient Arabic grader left uncorrected |\n| budget_parity, overlap_check | tuning on the test set; unequal scoring |\n| slices, small_sets | an Arabic gap hidden; 40 of 40 read as never |","notes":"Fifteen fields in the lab's reference version; this table groups them. A two-page standard: one line per field with its reason and an example on page one, the worked example on page two.","minutes":null,"lo":["LO6"]},{"id":"validator","n":33,"title":"A validator turns the standard into a gate","kind":"content","session":4,"hash":"00f101e2","md":"#### [day4#validator] A validator turns the standard into a gate\n\n*Make it checkable*\n\n```python\n# file: Lab 4.4\ndef validate(report):\n    problems = [f\"missing: {f}\" for f in STANDARD if not report.get(f)]\n    if not {\"ar\", \"en\"} \u003c= set(report.get(\"slices\") or {}):\n        problems.append(\"slices: Arabic and English required\")\n    if report.get(\"shared_items\") and \"paired\" not in report.get(\"comparison\", \"\"):\n        problems.append(\"comparison must be paired\")\n    return problems\n```","notes":"The lab's version also rejects naive or Wald intervals and a grader without per-language sensitivity and specificity. The stretch turns it into a release gate that raises an error: in the capstone it runs in the repository's tests.","minutes":null,"lo":["LO6"]},{"id":"worked-example","n":34,"title":"The week's decision passes the standard; the leaderboard fails on fourteen counts","kind":"content","session":4,"hash":"27444809","md":"#### [day4#worked-example] The week's decision passes the standard; the leaderboard fails on fourteen counts\n\n*The worked example*\n\n- **D against C, reported to the standard.** Plan committed; clustered and paired; 3-point minimum effect; grader by language; overlap checked; slices; safety bound. Passes.\n- **The leaderboard.** Ten fields missing; naive intervals; an unpaired ranking; no slices; no grader rates. Fourteen problems.","notes":"From Lab 4.4. The worked example is page two of the standard and the evidence for LO6 together with the fields. Ask: which single field would have stopped the headline claim? Budget parity.","minutes":null,"lo":["LO6"]},{"id":"release-process","n":35,"title":"The standard is checked before a report reaches the release decision","kind":"content","session":4,"hash":"0dd407ae","md":"#### [day4#release-process] The standard is checked before a report reaches the release decision\n\n*Where the standard sits*\n\n1. **1 · Plan** committed, dated\n2. **2 · Run** logs kept per item\n3. **3 · Report** to the standard\n4. **4 · Gate** validator, then review\n5. **5 · Decide** Dr. Nadeen","notes":"The National AI Risk Management Framework expects risks of an AI system to be measured and documented before deployment decisions; the standard is how Bunyan makes the evaluation part of that measurable. Do not quote the framework's clauses; it is cited by name.","minutes":null,"lo":["LO6"]},{"id":"capstone-choice","n":36,"title":"Choose two open-weight configurations, and commit the plan before anything runs","kind":"content","session":4,"hash":"71e9c232","md":"#### [day4#capstone-choice] Choose two open-weight configurations, and commit the plan before anything runs\n\n*The capstone*\n\n- Two or more configurations you serve yourself: a laptop (llama.cpp, Ollama), a free notebook GPU (vLLM), or a free hosted endpoint.\n- Bunyan's 600 questions, or your own set with a licence that allows it.\n- Starter: `labs/capstone/`.\n\n- **First commit.** capstone_plan.json from Lab 4.4: configurations, minimum effect, samples, temperature, primary comparison.","notes":"The catalog allows local model serving for the capstone only. A participant whose laptop cannot run a model uses a free notebook GPU or a free hosted endpoint; the starter's runner speaks the same API to all of them. Remind them: the plan's commit date is checked in the review.","minutes":null,"lo":["LO3","LO6"]},{"id":"check-standard","n":37,"title":"The field that matters","kind":"quiz","session":4,"hash":"04d4a143","md":"#### [day4#check-standard] The field that matters\n\n*Checkpoint*\n\n**Question:** A team's report has intervals, a plan and slices, but scores its own configuration as the best of five samples and the vendor's as the mean of five. Which field of the standard catches it?\n\n- A. multiplicity\n- B. slices\n- C. budget_parity, with the estimand stated per configuration\n- D. interval_method","notes":"Answer: C.","minutes":null,"lo":["LO6"]},{"id":"lab-4-4","n":38,"title":"The standard and the capstone choice","kind":"lab","session":4,"hash":"ea23dbe7","md":"#### [day4#lab-4-4] The standard and the capstone choice\n\nLab 4.4 · 25 min\n\nDraft the reporting standard's required fields, test a worked example against them, and choose the configurations and the plan of the capstone.\n\n[D4_4_reporting_standard.ipynb](https://sdaiaacademy.github.io/ds-403/labs/D4_4_reporting_standard.ipynb)\n\n- [ ] Fields from the week's findings (6 min)\n- [ ] A validator for a report (6 min)\n- [ ] The worked example: pass and fail (5 min)\n- [ ] Choose the capstone configurations (5 min)\n- [ ] Commit the capstone plan (3 min)\n- [ ] ✱ Stretch: Turn the standard into a release gate that blocks a report with a missing field","notes":"Most time goes into the fields; keep the validator short. End the lab by having each participant read their two configurations aloud, so the room hears the spread of capstone choices and nobody leaves without one.","minutes":null,"lo":[]},{"id":"wrap-up","n":39,"title":"Three things to keep","kind":"content","session":4,"hash":"b8bb4a9b","md":"#### [day4#wrap-up] Three things to keep\n\n*Day 4 · wrap-up*\n\n- **Same budget, clean items.** Fifteen points became 0.8, not shown.\n- **Three classes, one number each.** Supported, unsupported, untestable, with the claim that would be supported.\n- **Slice, correct, standardise.** Arabic and English with intervals; fifteen required fields.","notes":"Close the teaching part of the course. The supervised check (AI-off) can run now or at the start of the capstone day: a clustered SE by hand, paired or unpaired, reading a sizing plan.","minutes":null,"lo":[]},{"id":"next","n":40,"title":"Capstone: your statistical evaluation report","kind":"content","session":4,"hash":"e1071826","md":"#### [day4#next] Capstone: your statistical evaluation report\n\n*Next*\n\nCommit your plan before any result. Bring the repository link, results by language and one statistical choice you are ready to defend.","notes":"The capstone review is 15 minutes: the assessor will drop a cluster or change the minimum effect and ask for a prediction before re-running. Tell participants now, so they can practise on their own analysis.","minutes":null,"lo":[]}],"activities":[{"id":"review-day3-q1","slide":"review-day3","type":"single","prompt":"A grader's Arabic specificity is 0.73, from 49 human-failed answers. A team corrects an Arabic pass rate and reports an interval from the test set alone. What should the reviewer ask for?","options":[{"key":"A","text":"Nothing: the corrected rate is unbiased"},{"key":"B","text":"A Clopper-Pearson interval on the test set"},{"key":"C","text":"An interval that also resamples the calibration verdicts"},{"key":"D","text":"The uncorrected rate, which has a narrower interval"}],"correct":[2],"explanation":"Sensitivity and specificity are estimates from a small labelled set; their uncertainty belongs in the corrected rate's interval.","misconceptions":["Thinks the correction makes the grader exact","Applies the small-set rule to the wrong quantity: the test set has hundreds of items","","Removes the correction instead of measuring its uncertainty"],"lo":["LO4"]},{"id":"check-budgets-q1","slide":"check-budgets","type":"single","prompt":"A report compares two configurations. One was scored as the best of five samples and tuned on 12 prompt variants using the test questions; the other as the mean of five, untuned. What must the audit do first?","options":[{"key":"A","text":"Rescore both the same way and remove the test questions used in tuning before comparing"},{"key":"B","text":"Add confidence intervals to the reported numbers"},{"key":"C","text":"Ask for more test questions"},{"key":"D","text":"Accept it: the tuned configuration earned its lead"}],"correct":[0],"explanation":"Unequal scoring and tuning on the test set are biases, not noise; only an equal-budget comparison on clean questions measures the configurations rather than the procedure.","misconceptions":["","Thinks an interval fixes a biased comparison; it only measures noise","Thinks a larger test set dilutes a bias that comes from how it was scored","Reads tuning on the test set as legitimate effort"],"lo":["LO5"]},{"id":"check-audit-q1","slide":"check-audit","type":"single","prompt":"A report claims \"the assistant is equally accurate for all regions\". The logs carry no region field. How should the audit class the claim?","options":[{"key":"A","text":"Supported: no regional difference was found"},{"key":"B","text":"Unsupported: equal accuracy is unlikely"},{"key":"C","text":"Supported, because regions should not matter for regulations"},{"key":"D","text":"Untestable with these logs; name the data that would test it"}],"correct":[3],"explanation":"Without a region field no analysis of these logs can decide the claim; the memo says what data would.","misconceptions":["Reads absence of evidence against the claim as evidence for it","Treats a claim the data cannot address as contradicted by them","Thinks a claim can be classed by the auditor's prior belief",""],"lo":["LO5"]},{"id":"check-slices-q1","slide":"check-slices","type":"single","prompt":"C's Arabic interval is 63.8 to 74.6 and its English interval 69.3 to 80.8. They overlap. Most documents have questions in both languages. What can you conclude about the gap?","options":[{"key":"A","text":"No gap: the intervals overlap"},{"key":"B","text":"Nothing yet: test the gap itself with a standard error clustered by document"},{"key":"C","text":"Compute the gap's SE as the root sum of the two squared SEs"},{"key":"D","text":"Report both rates; gaps are never tested"}],"correct":[1],"explanation":"Two slices that share documents are correlated; only an interval for the gap itself, clustered by document, says whether the gap is real.","misconceptions":["Uses overlap as a test, which Day 2 showed ignores the shared structure","","Treats the two slices as independent, when they share documents","Thinks slices are only descriptive and never tested"],"lo":["LO6"]},{"id":"check-standard-q1","slide":"check-standard","type":"single","prompt":"A team's report has intervals, a plan and slices, but scores its own configuration as the best of five samples and the vendor's as the mean of five. Which field of the standard catches it?","options":[{"key":"A","text":"multiplicity"},{"key":"B","text":"slices"},{"key":"C","text":"budget_parity, with the estimand stated per configuration"},{"key":"D","text":"interval_method"}],"correct":[2],"explanation":"Budget parity requires every configuration to be scored and tuned the same way; a stated estimand makes the difference visible.","misconceptions":["Multiplicity concerns how many comparisons, not how each was scored","Slices check groups of questions, not scoring rules","","The interval method governs uncertainty, not the comparability of the scores"],"lo":["LO6"]}],"ai":{"context":{"course":"../context/course.md","courseJs":"../context/course.js","day":"day4.md","llms":"../llms.txt"},"tasks":[],"tools":[]},"bridge":{"allowedOrigins":[]},"features":{},"strings":{}}</script>
+<script src="../_engine/academy.js"></script>
+</body>
+</html>

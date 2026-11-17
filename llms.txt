@@ -1,0 +1,47 @@
+# Statistical Evaluation of AI Systems
+
+> Treat every evaluation of an AI system as an experiment: report scores with honest intervals, compare systems with paired designs, size evaluations within budget, correct for grader error and audit the claims. SDAIA Academy course DS-403, version 2027.1.0, in English.
+
+Each slide is a heading such as "#### [day1#slide-id] Title": cite slides by that id, and each citation is a link (slides/day1.html#slide-id). These files are what a trainee sees: no speaker notes and no answer keys.
+
+## Course
+
+- [Course page](https://sdaiaacademy.github.io/ds-403/index.md): overview, outcomes, schedule and labs; the page itself is https://sdaiaacademy.github.io/ds-403/index.html
+- [The whole course](https://sdaiaacademy.github.io/ds-403/llms-full.txt): every unit, session and slide in one file, about 18,957 tokens
+- [Practice questions](https://sdaiaacademy.github.io/ds-403/practice.html): questions to check yourself, with feedback after each answer
+
+## Slides
+
+- [Day 1: Scores have standard errors](https://sdaiaacademy.github.io/ds-403/slides/day1.md): An evaluation score is an estimate: give it a standard error that respects how the items were drawn; sessions: An evaluation is a sample, Clustered items, Repeated samples, Plan before results; page: https://sdaiaacademy.github.io/ds-403/slides/day1.html; about 4,539 tokens
+- [Day 2: Comparing systems](https://sdaiaacademy.github.io/ds-403/slides/day2.md): Decide whether one configuration beats another, and plan an evaluation big enough to tell; sessions: Paired designs, Many configurations, Sizing an evaluation, Spending the budget; page: https://sdaiaacademy.github.io/ds-403/slides/day2.html; about 4,138 tokens
+- [Day 3: Small sets and imperfect graders](https://sdaiaacademy.github.io/ds-403/slides/day3.md): Intervals that keep their promise on small sets, and pass rates corrected for an imperfect grader; sessions: Where large-sample intervals fail, Exact and Bayesian intervals, Graders against people, Correcting for grader error; page: https://sdaiaacademy.github.io/ds-403/slides/day3.html; about 4,268 tokens
+- [Day 4: Auditing claims and setting standards](https://sdaiaacademy.github.io/ds-403/slides/day4.md): Audit the claims an evaluation makes, slice by language, and write the standard every report must meet; sessions: Contamination and unequal budgets, Auditing a report, Slicing by language, A reporting standard; page: https://sdaiaacademy.github.io/ds-403/slides/day4.html; about 4,327 tokens
+- [Capstone: Capstone project presentations](https://sdaiaacademy.github.io/ds-403/slides/capstone.md): Fifteen minutes each: the committed plan, the measured results, and one statistical choice defended live; page: https://sdaiaacademy.github.io/ds-403/slides/capstone.html; about 1,035 tokens
+
+## Labs
+
+- [Lab 1.1: A pass rate with two intervals](https://sdaiaacademy.github.io/ds-403/labs/D1_1_bootstrap_pass_rate.ipynb): Day 1, Session 1, 25 min
+- [Lab 1.2: Clustered by document](https://sdaiaacademy.github.io/ds-403/labs/D1_2_compute_standard_errors.ipynb): Day 1, Session 2, 25 min
+- [Lab 1.3: Item and sampling variance](https://sdaiaacademy.github.io/ds-403/labs/D1_3_split_variance_into.ipynb): Day 1, Session 3, 25 min
+- [Lab 1.4: A plan before the results](https://sdaiaacademy.github.io/ds-403/labs/D1_4_draft_pre_registered.ipynb): Day 1, Session 4, 25 min
+- [Lab 2.1: Paired against unpaired](https://sdaiaacademy.github.io/ds-403/labs/D2_1_compare_paired_unpaired.ipynb): Day 2, Session 1, 25 min
+- [Lab 2.2: Six configurations ranked](https://sdaiaacademy.github.io/ds-403/labs/D2_2_rank_six_configurations.ipynb): Day 2, Session 2, 25 min
+- [Lab 2.3: Sizing for three points](https://sdaiaacademy.github.io/ds-403/labs/D2_3_size_evaluation_three.ipynb): Day 2, Session 3, 25 min
+- [Lab 2.4: Items or samples at fixed cost](https://sdaiaacademy.github.io/ds-403/labs/D2_4_choose_more_items.ipynb): Day 2, Session 4, 25 min
+- [Lab 3.1: Coverage by simulation](https://sdaiaacademy.github.io/ds-403/labs/D3_1_simulate_interval_coverage.ipynb): Day 3, Session 1, 25 min
+- [Lab 3.2: Forty safety questions](https://sdaiaacademy.github.io/ds-403/labs/D3_2_compute_exact_beta.ipynb): Day 3, Session 2, 25 min
+- [Lab 3.3: The grader against people](https://sdaiaacademy.github.io/ds-403/labs/D3_3_estimate_grader_sensitivity.ipynb): Day 3, Session 3, 25 min
+- [Lab 3.4: Correcting the pass rate](https://sdaiaacademy.github.io/ds-403/labs/D3_4_correct_pass_rate.ipynb): Day 3, Session 4, 25 min
+- [Lab 4.1: Overlap and unequal budgets](https://sdaiaacademy.github.io/ds-403/labs/D4_1_check_comparison_test.ipynb): Day 4, Session 1, 25 min
+- [Lab 4.2: Auditing the leaderboard](https://sdaiaacademy.github.io/ds-403/labs/D4_2_classify_each_claim.ipynb): Day 4, Session 2, 25 min
+- [Lab 4.3: Arabic and English](https://sdaiaacademy.github.io/ds-403/labs/D4_3_report_arabic_english.ipynb): Day 4, Session 3, 25 min
+- [Lab 4.4: The standard and the capstone choice](https://sdaiaacademy.github.io/ds-403/labs/D4_4_reporting_standard.ipynb): Day 4, Session 4, 25 min
+
+## Context files
+
+- [context/course.md](https://sdaiaacademy.github.io/ds-403/context/course.md): the whole course, for an assistant that takes a file, about 18,957 tokens
+- [context/day1.md](https://sdaiaacademy.github.io/ds-403/context/day1.md): Day 1, about 4,539 tokens
+- [context/day2.md](https://sdaiaacademy.github.io/ds-403/context/day2.md): Day 2, about 4,138 tokens
+- [context/day3.md](https://sdaiaacademy.github.io/ds-403/context/day3.md): Day 3, about 4,268 tokens
+- [context/day4.md](https://sdaiaacademy.github.io/ds-403/context/day4.md): Day 4, about 4,327 tokens
+- [context/capstone.md](https://sdaiaacademy.github.io/ds-403/context/capstone.md): Capstone, about 1,035 tokens

@@ -1,0 +1,601 @@
+item_id,doc_id,category,language,question,answer,unit
+Q0001,R-001,zoning,en,"Under regulation R-001, what is the maximum built-up ratio for a villa?",70,%
+Q0002,R-001,zoning,ar,وفق اللائحة R-001، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,500,m2
+Q0003,R-001,zoning,en,"Under regulation R-001, what is the maximum built-up ratio for an apartment block?",60,%
+Q0004,R-001,zoning,ar,وفق اللائحة R-001، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,450,m2
+Q0005,R-001,zoning,en,"Under regulation R-001, what is the maximum built-up ratio for a shop?",50,%
+Q0006,R-001,zoning,ar,وفق اللائحة R-001، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,350,m2
+Q0007,R-001,zoning,en,"Under regulation R-001, what is the maximum built-up ratio for a warehouse?",40,%
+Q0008,R-001,zoning,ar,وفق اللائحة R-001، ما الحد الأدنى لمساحة القطعة في حالة مستودع؟,850,m2
+Q0009,R-002,setbacks,ar,وفق اللائحة R-002، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,4,m
+Q0010,R-002,setbacks,en,"Under regulation R-002, what is the maximum number of floors for an apartment block?",6,floors
+Q0011,R-002,setbacks,ar,وفق اللائحة R-002، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,6,m
+Q0012,R-002,setbacks,en,"Under regulation R-002, what is the maximum number of floors for a shop?",6,floors
+Q0013,R-002,setbacks,ar,وفق اللائحة R-002، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,6,m
+Q0014,R-003,fire,en,"Under regulation R-003, what is the maximum travel distance to an exit for a shop?",25,m
+Q0015,R-003,fire,ar,وفق اللائحة R-003، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,1,exits
+Q0016,R-003,fire,en,"Under regulation R-003, what is the maximum travel distance to an exit for a warehouse?",30,m
+Q0017,R-003,fire,ar,وفق اللائحة R-003، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,2,exits
+Q0018,R-004,structural,ar,وفق اللائحة R-004، ما أدنى عمق للأساسات في حالة مستودع؟,80,cm
+Q0019,R-004,structural,en,"Under regulation R-004, what is the minimum slab thickness for a warehouse?",20,cm
+Q0020,R-004,structural,ar,وفق اللائحة R-004، ما أدنى عمق للأساسات في حالة مدرسة؟,80,cm
+Q0021,R-004,structural,en,"Under regulation R-004, what is the minimum slab thickness for a school?",14,cm
+Q0022,R-004,structural,ar,وفق اللائحة R-004، ما أدنى عمق للأساسات في حالة عيادة؟,220,cm
+Q0023,R-004,structural,en,"Under regulation R-004, what is the minimum slab thickness for a clinic?",18,cm
+Q0024,R-004,structural,ar,وفق اللائحة R-004، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,140,cm
+Q0025,R-004,structural,en,"Under regulation R-004, what is the minimum slab thickness for an office building?",30,cm
+Q0026,R-004,structural,ar,وفق اللائحة R-004، ما أدنى عمق للأساسات في حالة فندق؟,200,cm
+Q0027,R-005,fees,en,"Under regulation R-005, what is the permit fee per square metre for a school?",18,SAR
+Q0028,R-005,fees,ar,وفق اللائحة R-005، ما رسم التجديد في حالة مدرسة؟,400,SAR
+Q0029,R-005,fees,en,"Under regulation R-005, what is the permit fee per square metre for a clinic?",17,SAR
+Q0030,R-005,fees,ar,وفق اللائحة R-005، ما رسم التجديد في حالة عيادة؟,550,SAR
+Q0031,R-005,fees,en,"Under regulation R-005, what is the permit fee per square metre for an office building?",14,SAR
+Q0032,R-005,fees,ar,وفق اللائحة R-005، ما رسم التجديد في حالة مبنى مكتبي؟,600,SAR
+Q0033,R-005,fees,en,"Under regulation R-005, what is the permit fee per square metre for a hotel?",20,SAR
+Q0034,R-005,fees,ar,وفق اللائحة R-005، ما رسم التجديد في حالة فندق؟,700,SAR
+Q0035,R-006,timelines,ar,وفق اللائحة R-006، ما عدد أيام إصدار القرار في حالة عيادة؟,35,days
+Q0036,R-006,timelines,en,"Under regulation R-006, what is the months of permit validity for a clinic?",24,months
+Q0037,R-006,timelines,ar,وفق اللائحة R-006، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0038,R-006,timelines,en,"Under regulation R-006, what is the months of permit validity for an office building?",12,months
+Q0039,R-006,timelines,ar,وفق اللائحة R-006، ما عدد أيام إصدار القرار في حالة فندق؟,40,days
+Q0040,R-006,timelines,en,"Under regulation R-006, what is the months of permit validity for a hotel?",30,months
+Q0041,R-007,heritage,en,"Under regulation R-007, what is the minimum distance from a listed building for an office building?",70,m
+Q0042,R-007,heritage,ar,وفق اللائحة R-007، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,13,m
+Q0043,R-007,heritage,en,"Under regulation R-007, what is the minimum distance from a listed building for a hotel?",90,m
+Q0044,R-007,heritage,ar,وفق اللائحة R-007، ما أقصى ارتفاع للواجهة في حالة فندق؟,13,m
+Q0045,R-007,heritage,en,"Under regulation R-007, what is the minimum distance from a listed building for a villa?",20,m
+Q0046,R-007,heritage,ar,وفق اللائحة R-007، ما أقصى ارتفاع للواجهة في حالة فيلا؟,8,m
+Q0047,R-007,heritage,en,"Under regulation R-007, what is the minimum distance from a listed building for an apartment block?",90,m
+Q0048,R-007,heritage,ar,وفق اللائحة R-007، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,14,m
+Q0049,R-007,heritage,en,"Under regulation R-007, what is the minimum distance from a listed building for a shop?",60,m
+Q0050,R-008,access,ar,وفق اللائحة R-008، ما أدنى عرض للمنحدر في حالة فندق؟,90,cm
+Q0051,R-008,access,en,"Under regulation R-008, what is the minimum accessible parking spaces for a hotel?",4,spaces
+Q0052,R-008,access,ar,وفق اللائحة R-008، ما أدنى عرض للمنحدر في حالة فيلا؟,150,cm
+Q0053,R-008,access,en,"Under regulation R-008, what is the minimum accessible parking spaces for a villa?",5,spaces
+Q0054,R-008,access,ar,وفق اللائحة R-008، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,90,cm
+Q0055,R-008,access,en,"Under regulation R-008, what is the minimum accessible parking spaces for an apartment block?",5,spaces
+Q0056,R-008,access,ar,وفق اللائحة R-008، ما أدنى عرض للمنحدر في حالة محل تجاري؟,90,cm
+Q0057,R-008,access,en,"Under regulation R-008, what is the minimum accessible parking spaces for a shop?",2,spaces
+Q0058,R-008,access,ar,وفق اللائحة R-008، ما أدنى عرض للمنحدر في حالة مستودع؟,90,cm
+Q0059,R-009,zoning,en,"Under regulation R-009, what is the maximum built-up ratio for a villa?",65,%
+Q0060,R-009,zoning,ar,وفق اللائحة R-009، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,650,m2
+Q0061,R-009,zoning,en,"Under regulation R-009, what is the maximum built-up ratio for an apartment block?",40,%
+Q0062,R-009,zoning,ar,وفق اللائحة R-009، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,750,m2
+Q0063,R-010,setbacks,ar,وفق اللائحة R-010، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,4,m
+Q0064,R-010,setbacks,en,"Under regulation R-010, what is the maximum number of floors for an apartment block?",11,floors
+Q0065,R-010,setbacks,ar,وفق اللائحة R-010، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,3,m
+Q0066,R-010,setbacks,en,"Under regulation R-010, what is the maximum number of floors for a shop?",12,floors
+Q0067,R-010,setbacks,ar,وفق اللائحة R-010، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,7,m
+Q0068,R-010,setbacks,en,"Under regulation R-010, what is the maximum number of floors for a warehouse?",10,floors
+Q0069,R-010,setbacks,ar,وفق اللائحة R-010، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,6,m
+Q0070,R-010,setbacks,en,"Under regulation R-010, what is the maximum number of floors for a school?",12,floors
+Q0071,R-011,fire,en,"Under regulation R-011, what is the maximum travel distance to an exit for a shop?",45,m
+Q0072,R-011,fire,ar,وفق اللائحة R-011، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,3,exits
+Q0073,R-011,fire,en,"Under regulation R-011, what is the maximum travel distance to an exit for a warehouse?",60,m
+Q0074,R-011,fire,ar,وفق اللائحة R-011، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,4,exits
+Q0075,R-011,fire,en,"Under regulation R-011, what is the maximum travel distance to an exit for a school?",60,m
+Q0076,R-011,fire,ar,وفق اللائحة R-011، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,2,exits
+Q0077,R-011,fire,en,"Under regulation R-011, what is the maximum travel distance to an exit for a clinic?",60,m
+Q0078,R-011,fire,ar,وفق اللائحة R-011، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,4,exits
+Q0079,R-012,structural,ar,وفق اللائحة R-012، ما أدنى عمق للأساسات في حالة مستودع؟,160,cm
+Q0080,R-012,structural,en,"Under regulation R-012, what is the minimum slab thickness for a warehouse?",14,cm
+Q0081,R-012,structural,ar,وفق اللائحة R-012، ما أدنى عمق للأساسات في حالة مدرسة؟,200,cm
+Q0082,R-012,structural,en,"Under regulation R-012, what is the minimum slab thickness for a school?",30,cm
+Q0083,R-012,structural,ar,وفق اللائحة R-012، ما أدنى عمق للأساسات في حالة عيادة؟,160,cm
+Q0084,R-012,structural,en,"Under regulation R-012, what is the minimum slab thickness for a clinic?",22,cm
+Q0085,R-013,fees,en,"Under regulation R-013, what is the permit fee per square metre for a school?",10,SAR
+Q0086,R-013,fees,ar,وفق اللائحة R-013، ما رسم التجديد في حالة مدرسة؟,600,SAR
+Q0087,R-013,fees,en,"Under regulation R-013, what is the permit fee per square metre for a clinic?",5,SAR
+Q0088,R-013,fees,ar,وفق اللائحة R-013، ما رسم التجديد في حالة عيادة؟,550,SAR
+Q0089,R-013,fees,en,"Under regulation R-013, what is the permit fee per square metre for an office building?",15,SAR
+Q0090,R-014,timelines,ar,وفق اللائحة R-014، ما عدد أيام إصدار القرار في حالة عيادة؟,50,days
+Q0091,R-014,timelines,en,"Under regulation R-014, what is the months of permit validity for a clinic?",30,months
+Q0092,R-014,timelines,ar,وفق اللائحة R-014، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,55,days
+Q0093,R-014,timelines,en,"Under regulation R-014, what is the months of permit validity for an office building?",18,months
+Q0094,R-014,timelines,ar,وفق اللائحة R-014، ما عدد أيام إصدار القرار في حالة فندق؟,30,days
+Q0095,R-014,timelines,en,"Under regulation R-014, what is the months of permit validity for a hotel?",30,months
+Q0096,R-014,timelines,ar,وفق اللائحة R-014، ما عدد أيام إصدار القرار في حالة فيلا؟,15,days
+Q0097,R-014,timelines,en,"Under regulation R-014, what is the months of permit validity for a villa?",6,months
+Q0098,R-014,timelines,ar,وفق اللائحة R-014، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,10,days
+Q0099,R-015,heritage,en,"Under regulation R-015, what is the minimum distance from a listed building for an office building?",60,m
+Q0100,R-015,heritage,ar,وفق اللائحة R-015، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,14,m
+Q0101,R-015,heritage,en,"Under regulation R-015, what is the minimum distance from a listed building for a hotel?",70,m
+Q0102,R-015,heritage,ar,وفق اللائحة R-015، ما أقصى ارتفاع للواجهة في حالة فندق؟,10,m
+Q0103,R-015,heritage,en,"Under regulation R-015, what is the minimum distance from a listed building for a villa?",70,m
+Q0104,R-015,heritage,ar,وفق اللائحة R-015، ما أقصى ارتفاع للواجهة في حالة فيلا؟,14,m
+Q0105,R-016,access,ar,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة فندق؟,100,cm
+Q0106,R-016,access,en,"Under regulation R-016, what is the minimum accessible parking spaces for a hotel?",6,spaces
+Q0107,R-016,access,ar,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة فيلا؟,100,cm
+Q0108,R-016,access,en,"Under regulation R-016, what is the minimum accessible parking spaces for a villa?",2,spaces
+Q0109,R-016,access,ar,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,130,cm
+Q0110,R-016,access,en,"Under regulation R-016, what is the minimum accessible parking spaces for an apartment block?",6,spaces
+Q0111,R-016,access,ar,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة محل تجاري؟,130,cm
+Q0112,R-016,access,en,"Under regulation R-016, what is the minimum accessible parking spaces for a shop?",1,spaces
+Q0113,R-016,access,ar,وفق اللائحة R-016، ما أدنى عرض للمنحدر في حالة مستودع؟,110,cm
+Q0114,R-017,zoning,en,"Under regulation R-017, what is the maximum built-up ratio for a villa?",55,%
+Q0115,R-017,zoning,ar,وفق اللائحة R-017، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,450,m2
+Q0116,R-017,zoning,en,"Under regulation R-017, what is the maximum built-up ratio for an apartment block?",50,%
+Q0117,R-017,zoning,ar,وفق اللائحة R-017، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,500,m2
+Q0118,R-017,zoning,en,"Under regulation R-017, what is the maximum built-up ratio for a shop?",60,%
+Q0119,R-017,zoning,ar,وفق اللائحة R-017، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,650,m2
+Q0120,R-017,zoning,en,"Under regulation R-017, what is the maximum built-up ratio for a warehouse?",60,%
+Q0121,R-017,zoning,ar,وفق اللائحة R-017، ما الحد الأدنى لمساحة القطعة في حالة مستودع؟,900,m2
+Q0122,R-018,setbacks,ar,وفق اللائحة R-018، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,8,m
+Q0123,R-018,setbacks,en,"Under regulation R-018, what is the maximum number of floors for an apartment block?",5,floors
+Q0124,R-018,setbacks,ar,وفق اللائحة R-018، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,3,m
+Q0125,R-018,setbacks,en,"Under regulation R-018, what is the maximum number of floors for a shop?",6,floors
+Q0126,R-019,fire,en,"Under regulation R-019, what is the maximum travel distance to an exit for a shop?",25,m
+Q0127,R-019,fire,ar,وفق اللائحة R-019، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,2,exits
+Q0128,R-019,fire,en,"Under regulation R-019, what is the maximum travel distance to an exit for a warehouse?",50,m
+Q0129,R-019,fire,ar,وفق اللائحة R-019، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,1,exits
+Q0130,R-019,fire,en,"Under regulation R-019, what is the maximum travel distance to an exit for a school?",50,m
+Q0131,R-019,fire,ar,وفق اللائحة R-019، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,1,exits
+Q0132,R-019,fire,en,"Under regulation R-019, what is the maximum travel distance to an exit for a clinic?",40,m
+Q0133,R-019,fire,ar,وفق اللائحة R-019، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,1,exits
+Q0134,R-019,fire,en,"Under regulation R-019, what is the maximum travel distance to an exit for an office building?",60,m
+Q0135,R-020,structural,ar,وفق اللائحة R-020، ما أدنى عمق للأساسات في حالة مستودع؟,80,cm
+Q0136,R-020,structural,en,"Under regulation R-020, what is the minimum slab thickness for a warehouse?",20,cm
+Q0137,R-020,structural,ar,وفق اللائحة R-020، ما أدنى عمق للأساسات في حالة مدرسة؟,220,cm
+Q0138,R-020,structural,en,"Under regulation R-020, what is the minimum slab thickness for a school?",18,cm
+Q0139,R-020,structural,ar,وفق اللائحة R-020، ما أدنى عمق للأساسات في حالة عيادة؟,260,cm
+Q0140,R-020,structural,en,"Under regulation R-020, what is the minimum slab thickness for a clinic?",20,cm
+Q0141,R-021,fees,en,"Under regulation R-021, what is the permit fee per square metre for a school?",2,SAR
+Q0142,R-021,fees,ar,وفق اللائحة R-021، ما رسم التجديد في حالة مدرسة؟,150,SAR
+Q0143,R-021,fees,en,"Under regulation R-021, what is the permit fee per square metre for a clinic?",2,SAR
+Q0144,R-021,fees,ar,وفق اللائحة R-021، ما رسم التجديد في حالة عيادة؟,400,SAR
+Q0145,R-021,fees,en,"Under regulation R-021, what is the permit fee per square metre for an office building?",10,SAR
+Q0146,R-021,fees,ar,وفق اللائحة R-021، ما رسم التجديد في حالة مبنى مكتبي؟,550,SAR
+Q0147,R-021,fees,en,"Under regulation R-021, what is the permit fee per square metre for a hotel?",4,SAR
+Q0148,R-022,timelines,ar,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة عيادة؟,25,days
+Q0149,R-022,timelines,en,"Under regulation R-022, what is the months of permit validity for a clinic?",12,months
+Q0150,R-022,timelines,ar,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,35,days
+Q0151,R-022,timelines,en,"Under regulation R-022, what is the months of permit validity for an office building?",24,months
+Q0152,R-022,timelines,ar,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة فندق؟,45,days
+Q0153,R-022,timelines,en,"Under regulation R-022, what is the months of permit validity for a hotel?",18,months
+Q0154,R-022,timelines,ar,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة فيلا؟,45,days
+Q0155,R-022,timelines,en,"Under regulation R-022, what is the months of permit validity for a villa?",6,months
+Q0156,R-022,timelines,ar,وفق اللائحة R-022، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,55,days
+Q0157,R-023,heritage,en,"Under regulation R-023, what is the minimum distance from a listed building for an office building?",100,m
+Q0158,R-023,heritage,ar,وفق اللائحة R-023، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,13,m
+Q0159,R-023,heritage,en,"Under regulation R-023, what is the minimum distance from a listed building for a hotel?",40,m
+Q0160,R-023,heritage,ar,وفق اللائحة R-023، ما أقصى ارتفاع للواجهة في حالة فندق؟,8,m
+Q0161,R-023,heritage,en,"Under regulation R-023, what is the minimum distance from a listed building for a villa?",70,m
+Q0162,R-023,heritage,ar,وفق اللائحة R-023، ما أقصى ارتفاع للواجهة في حالة فيلا؟,13,m
+Q0163,R-023,heritage,en,"Under regulation R-023, what is the minimum distance from a listed building for an apartment block?",40,m
+Q0164,R-024,access,ar,وفق اللائحة R-024، ما أدنى عرض للمنحدر في حالة فندق؟,130,cm
+Q0165,R-024,access,en,"Under regulation R-024, what is the minimum accessible parking spaces for a hotel?",1,spaces
+Q0166,R-024,access,ar,وفق اللائحة R-024، ما أدنى عرض للمنحدر في حالة فيلا؟,100,cm
+Q0167,R-024,access,en,"Under regulation R-024, what is the minimum accessible parking spaces for a villa?",1,spaces
+Q0168,R-024,access,ar,وفق اللائحة R-024، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,100,cm
+Q0169,R-024,access,en,"Under regulation R-024, what is the minimum accessible parking spaces for an apartment block?",2,spaces
+Q0170,R-025,zoning,en,"Under regulation R-025, what is the maximum built-up ratio for a villa?",65,%
+Q0171,R-025,zoning,ar,وفق اللائحة R-025، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,450,m2
+Q0172,R-025,zoning,en,"Under regulation R-025, what is the maximum built-up ratio for an apartment block?",40,%
+Q0173,R-025,zoning,ar,وفق اللائحة R-025، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,600,m2
+Q0174,R-025,zoning,en,"Under regulation R-025, what is the maximum built-up ratio for a shop?",55,%
+Q0175,R-025,zoning,ar,وفق اللائحة R-025، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,500,m2
+Q0176,R-026,setbacks,ar,وفق اللائحة R-026، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,4,m
+Q0177,R-026,setbacks,en,"Under regulation R-026, what is the maximum number of floors for an apartment block?",3,floors
+Q0178,R-026,setbacks,ar,وفق اللائحة R-026، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,2,m
+Q0179,R-026,setbacks,en,"Under regulation R-026, what is the maximum number of floors for a shop?",11,floors
+Q0180,R-026,setbacks,ar,وفق اللائحة R-026، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,4,m
+Q0181,R-026,setbacks,en,"Under regulation R-026, what is the maximum number of floors for a warehouse?",5,floors
+Q0182,R-026,setbacks,ar,وفق اللائحة R-026، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,8,m
+Q0183,R-027,fire,en,"Under regulation R-027, what is the maximum travel distance to an exit for a shop?",55,m
+Q0184,R-027,fire,ar,وفق اللائحة R-027، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,1,exits
+Q0185,R-027,fire,en,"Under regulation R-027, what is the maximum travel distance to an exit for a warehouse?",40,m
+Q0186,R-027,fire,ar,وفق اللائحة R-027، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,2,exits
+Q0187,R-027,fire,en,"Under regulation R-027, what is the maximum travel distance to an exit for a school?",60,m
+Q0188,R-027,fire,ar,وفق اللائحة R-027، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,1,exits
+Q0189,R-027,fire,en,"Under regulation R-027, what is the maximum travel distance to an exit for a clinic?",20,m
+Q0190,R-027,fire,ar,وفق اللائحة R-027، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,3,exits
+Q0191,R-027,fire,en,"Under regulation R-027, what is the maximum travel distance to an exit for an office building?",50,m
+Q0192,R-028,structural,ar,وفق اللائحة R-028، ما أدنى عمق للأساسات في حالة مستودع؟,260,cm
+Q0193,R-028,structural,en,"Under regulation R-028, what is the minimum slab thickness for a warehouse?",20,cm
+Q0194,R-028,structural,ar,وفق اللائحة R-028، ما أدنى عمق للأساسات في حالة مدرسة؟,200,cm
+Q0195,R-028,structural,en,"Under regulation R-028, what is the minimum slab thickness for a school?",14,cm
+Q0196,R-028,structural,ar,وفق اللائحة R-028، ما أدنى عمق للأساسات في حالة عيادة؟,80,cm
+Q0197,R-028,structural,en,"Under regulation R-028, what is the minimum slab thickness for a clinic?",22,cm
+Q0198,R-028,structural,ar,وفق اللائحة R-028، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,100,cm
+Q0199,R-028,structural,en,"Under regulation R-028, what is the minimum slab thickness for an office building?",26,cm
+Q0200,R-028,structural,ar,وفق اللائحة R-028، ما أدنى عمق للأساسات في حالة فندق؟,280,cm
+Q0201,R-029,fees,en,"Under regulation R-029, what is the permit fee per square metre for a school?",17,SAR
+Q0202,R-029,fees,ar,وفق اللائحة R-029، ما رسم التجديد في حالة مدرسة؟,300,SAR
+Q0203,R-029,fees,en,"Under regulation R-029, what is the permit fee per square metre for a clinic?",2,SAR
+Q0204,R-029,fees,ar,وفق اللائحة R-029، ما رسم التجديد في حالة عيادة؟,900,SAR
+Q0205,R-029,fees,en,"Under regulation R-029, what is the permit fee per square metre for an office building?",8,SAR
+Q0206,R-029,fees,ar,وفق اللائحة R-029، ما رسم التجديد في حالة مبنى مكتبي؟,450,SAR
+Q0207,R-029,fees,en,"Under regulation R-029, what is the permit fee per square metre for a hotel?",16,SAR
+Q0208,R-029,fees,ar,وفق اللائحة R-029، ما رسم التجديد في حالة فندق؟,850,SAR
+Q0209,R-029,fees,en,"Under regulation R-029, what is the permit fee per square metre for a villa?",5,SAR
+Q0210,R-030,timelines,ar,وفق اللائحة R-030، ما عدد أيام إصدار القرار في حالة عيادة؟,5,days
+Q0211,R-030,timelines,en,"Under regulation R-030, what is the months of permit validity for a clinic?",18,months
+Q0212,R-030,timelines,ar,وفق اللائحة R-030، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0213,R-030,timelines,en,"Under regulation R-030, what is the months of permit validity for an office building?",12,months
+Q0214,R-030,timelines,ar,وفق اللائحة R-030، ما عدد أيام إصدار القرار في حالة فندق؟,55,days
+Q0215,R-030,timelines,en,"Under regulation R-030, what is the months of permit validity for a hotel?",30,months
+Q0216,R-031,heritage,en,"Under regulation R-031, what is the minimum distance from a listed building for an office building?",70,m
+Q0217,R-031,heritage,ar,وفق اللائحة R-031، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,13,m
+Q0218,R-031,heritage,en,"Under regulation R-031, what is the minimum distance from a listed building for a hotel?",100,m
+Q0219,R-031,heritage,ar,وفق اللائحة R-031، ما أقصى ارتفاع للواجهة في حالة فندق؟,11,m
+Q0220,R-031,heritage,en,"Under regulation R-031, what is the minimum distance from a listed building for a villa?",70,m
+Q0221,R-031,heritage,ar,وفق اللائحة R-031، ما أقصى ارتفاع للواجهة في حالة فيلا؟,6,m
+Q0222,R-031,heritage,en,"Under regulation R-031, what is the minimum distance from a listed building for an apartment block?",90,m
+Q0223,R-031,heritage,ar,وفق اللائحة R-031، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,7,m
+Q0224,R-032,access,ar,وفق اللائحة R-032، ما أدنى عرض للمنحدر في حالة فندق؟,130,cm
+Q0225,R-032,access,en,"Under regulation R-032, what is the minimum accessible parking spaces for a hotel?",2,spaces
+Q0226,R-032,access,ar,وفق اللائحة R-032، ما أدنى عرض للمنحدر في حالة فيلا؟,140,cm
+Q0227,R-032,access,en,"Under regulation R-032, what is the minimum accessible parking spaces for a villa?",1,spaces
+Q0228,R-033,zoning,en,"Under regulation R-033, what is the maximum built-up ratio for a villa?",40,%
+Q0229,R-033,zoning,ar,وفق اللائحة R-033، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,700,m2
+Q0230,R-033,zoning,en,"Under regulation R-033, what is the maximum built-up ratio for an apartment block?",55,%
+Q0231,R-033,zoning,ar,وفق اللائحة R-033، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,600,m2
+Q0232,R-033,zoning,en,"Under regulation R-033, what is the maximum built-up ratio for a shop?",50,%
+Q0233,R-033,zoning,ar,وفق اللائحة R-033، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,300,m2
+Q0234,R-034,setbacks,ar,وفق اللائحة R-034، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,6,m
+Q0235,R-034,setbacks,en,"Under regulation R-034, what is the maximum number of floors for an apartment block?",12,floors
+Q0236,R-034,setbacks,ar,وفق اللائحة R-034، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,6,m
+Q0237,R-034,setbacks,en,"Under regulation R-034, what is the maximum number of floors for a shop?",4,floors
+Q0238,R-034,setbacks,ar,وفق اللائحة R-034، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,3,m
+Q0239,R-035,fire,en,"Under regulation R-035, what is the maximum travel distance to an exit for a shop?",55,m
+Q0240,R-035,fire,ar,وفق اللائحة R-035، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,2,exits
+Q0241,R-035,fire,en,"Under regulation R-035, what is the maximum travel distance to an exit for a warehouse?",60,m
+Q0242,R-035,fire,ar,وفق اللائحة R-035، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,3,exits
+Q0243,R-035,fire,en,"Under regulation R-035, what is the maximum travel distance to an exit for a school?",45,m
+Q0244,R-035,fire,ar,وفق اللائحة R-035، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,1,exits
+Q0245,R-035,fire,en,"Under regulation R-035, what is the maximum travel distance to an exit for a clinic?",20,m
+Q0246,R-036,structural,ar,وفق اللائحة R-036، ما أدنى عمق للأساسات في حالة مستودع؟,240,cm
+Q0247,R-036,structural,en,"Under regulation R-036, what is the minimum slab thickness for a warehouse?",30,cm
+Q0248,R-036,structural,ar,وفق اللائحة R-036، ما أدنى عمق للأساسات في حالة مدرسة؟,160,cm
+Q0249,R-036,structural,en,"Under regulation R-036, what is the minimum slab thickness for a school?",14,cm
+Q0250,R-036,structural,ar,وفق اللائحة R-036، ما أدنى عمق للأساسات في حالة عيادة؟,260,cm
+Q0251,R-036,structural,en,"Under regulation R-036, what is the minimum slab thickness for a clinic?",24,cm
+Q0252,R-036,structural,ar,وفق اللائحة R-036، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,180,cm
+Q0253,R-036,structural,en,"Under regulation R-036, what is the minimum slab thickness for an office building?",22,cm
+Q0254,R-037,fees,en,"Under regulation R-037, what is the permit fee per square metre for a school?",6,SAR
+Q0255,R-037,fees,ar,وفق اللائحة R-037، ما رسم التجديد في حالة مدرسة؟,350,SAR
+Q0256,R-037,fees,en,"Under regulation R-037, what is the permit fee per square metre for a clinic?",10,SAR
+Q0257,R-037,fees,ar,وفق اللائحة R-037، ما رسم التجديد في حالة عيادة؟,550,SAR
+Q0258,R-037,fees,en,"Under regulation R-037, what is the permit fee per square metre for an office building?",4,SAR
+Q0259,R-038,timelines,ar,وفق اللائحة R-038، ما عدد أيام إصدار القرار في حالة عيادة؟,15,days
+Q0260,R-038,timelines,en,"Under regulation R-038, what is the months of permit validity for a clinic?",18,months
+Q0261,R-038,timelines,ar,وفق اللائحة R-038، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0262,R-038,timelines,en,"Under regulation R-038, what is the months of permit validity for an office building?",18,months
+Q0263,R-038,timelines,ar,وفق اللائحة R-038، ما عدد أيام إصدار القرار في حالة فندق؟,40,days
+Q0264,R-038,timelines,en,"Under regulation R-038, what is the months of permit validity for a hotel?",18,months
+Q0265,R-038,timelines,ar,وفق اللائحة R-038، ما عدد أيام إصدار القرار في حالة فيلا؟,10,days
+Q0266,R-038,timelines,en,"Under regulation R-038, what is the months of permit validity for a villa?",24,months
+Q0267,R-038,timelines,ar,وفق اللائحة R-038، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,25,days
+Q0268,R-039,heritage,en,"Under regulation R-039, what is the minimum distance from a listed building for an office building?",20,m
+Q0269,R-039,heritage,ar,وفق اللائحة R-039، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,14,m
+Q0270,R-039,heritage,en,"Under regulation R-039, what is the minimum distance from a listed building for a hotel?",80,m
+Q0271,R-039,heritage,ar,وفق اللائحة R-039، ما أقصى ارتفاع للواجهة في حالة فندق؟,11,m
+Q0272,R-039,heritage,en,"Under regulation R-039, what is the minimum distance from a listed building for a villa?",60,m
+Q0273,R-039,heritage,ar,وفق اللائحة R-039، ما أقصى ارتفاع للواجهة في حالة فيلا؟,10,m
+Q0274,R-039,heritage,en,"Under regulation R-039, what is the minimum distance from a listed building for an apartment block?",50,m
+Q0275,R-039,heritage,ar,وفق اللائحة R-039، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,14,m
+Q0276,R-039,heritage,en,"Under regulation R-039, what is the minimum distance from a listed building for a shop?",50,m
+Q0277,R-040,access,ar,وفق اللائحة R-040، ما أدنى عرض للمنحدر في حالة فندق؟,100,cm
+Q0278,R-040,access,en,"Under regulation R-040, what is the minimum accessible parking spaces for a hotel?",5,spaces
+Q0279,R-040,access,ar,وفق اللائحة R-040، ما أدنى عرض للمنحدر في حالة فيلا؟,150,cm
+Q0280,R-040,access,en,"Under regulation R-040, what is the minimum accessible parking spaces for a villa?",6,spaces
+Q0281,R-040,access,ar,وفق اللائحة R-040، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,150,cm
+Q0282,R-040,access,en,"Under regulation R-040, what is the minimum accessible parking spaces for an apartment block?",1,spaces
+Q0283,R-041,zoning,en,"Under regulation R-041, what is the maximum built-up ratio for a villa?",40,%
+Q0284,R-041,zoning,ar,وفق اللائحة R-041، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,600,m2
+Q0285,R-041,zoning,en,"Under regulation R-041, what is the maximum built-up ratio for an apartment block?",60,%
+Q0286,R-041,zoning,ar,وفق اللائحة R-041، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,650,m2
+Q0287,R-042,setbacks,ar,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,7,m
+Q0288,R-042,setbacks,en,"Under regulation R-042, what is the maximum number of floors for an apartment block?",7,floors
+Q0289,R-042,setbacks,ar,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,6,m
+Q0290,R-042,setbacks,en,"Under regulation R-042, what is the maximum number of floors for a shop?",7,floors
+Q0291,R-042,setbacks,ar,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,3,m
+Q0292,R-042,setbacks,en,"Under regulation R-042, what is the maximum number of floors for a warehouse?",6,floors
+Q0293,R-042,setbacks,ar,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,2,m
+Q0294,R-042,setbacks,en,"Under regulation R-042, what is the maximum number of floors for a school?",4,floors
+Q0295,R-042,setbacks,ar,وفق اللائحة R-042، ما الحد الأدنى للارتداد الأمامي في حالة عيادة؟,7,m
+Q0296,R-043,fire,en,"Under regulation R-043, what is the maximum travel distance to an exit for a shop?",45,m
+Q0297,R-043,fire,ar,وفق اللائحة R-043، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,1,exits
+Q0298,R-043,fire,en,"Under regulation R-043, what is the maximum travel distance to an exit for a warehouse?",25,m
+Q0299,R-043,fire,ar,وفق اللائحة R-043، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,2,exits
+Q0300,R-043,fire,en,"Under regulation R-043, what is the maximum travel distance to an exit for a school?",35,m
+Q0301,R-043,fire,ar,وفق اللائحة R-043، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,1,exits
+Q0302,R-043,fire,en,"Under regulation R-043, what is the maximum travel distance to an exit for a clinic?",55,m
+Q0303,R-043,fire,ar,وفق اللائحة R-043، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,3,exits
+Q0304,R-044,structural,ar,وفق اللائحة R-044، ما أدنى عمق للأساسات في حالة مستودع؟,180,cm
+Q0305,R-044,structural,en,"Under regulation R-044, what is the minimum slab thickness for a warehouse?",14,cm
+Q0306,R-044,structural,ar,وفق اللائحة R-044، ما أدنى عمق للأساسات في حالة مدرسة؟,180,cm
+Q0307,R-044,structural,en,"Under regulation R-044, what is the minimum slab thickness for a school?",26,cm
+Q0308,R-044,structural,ar,وفق اللائحة R-044، ما أدنى عمق للأساسات في حالة عيادة؟,300,cm
+Q0309,R-044,structural,en,"Under regulation R-044, what is the minimum slab thickness for a clinic?",30,cm
+Q0310,R-045,fees,en,"Under regulation R-045, what is the permit fee per square metre for a school?",6,SAR
+Q0311,R-045,fees,ar,وفق اللائحة R-045، ما رسم التجديد في حالة مدرسة؟,400,SAR
+Q0312,R-045,fees,en,"Under regulation R-045, what is the permit fee per square metre for a clinic?",11,SAR
+Q0313,R-045,fees,ar,وفق اللائحة R-045، ما رسم التجديد في حالة عيادة؟,700,SAR
+Q0314,R-045,fees,en,"Under regulation R-045, what is the permit fee per square metre for an office building?",3,SAR
+Q0315,R-045,fees,ar,وفق اللائحة R-045، ما رسم التجديد في حالة مبنى مكتبي؟,100,SAR
+Q0316,R-045,fees,en,"Under regulation R-045, what is the permit fee per square metre for a hotel?",15,SAR
+Q0317,R-046,timelines,ar,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة عيادة؟,45,days
+Q0318,R-046,timelines,en,"Under regulation R-046, what is the months of permit validity for a clinic?",30,months
+Q0319,R-046,timelines,ar,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0320,R-046,timelines,en,"Under regulation R-046, what is the months of permit validity for an office building?",6,months
+Q0321,R-046,timelines,ar,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة فندق؟,35,days
+Q0322,R-046,timelines,en,"Under regulation R-046, what is the months of permit validity for a hotel?",12,months
+Q0323,R-046,timelines,ar,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة فيلا؟,20,days
+Q0324,R-046,timelines,en,"Under regulation R-046, what is the months of permit validity for a villa?",30,months
+Q0325,R-046,timelines,ar,وفق اللائحة R-046، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,30,days
+Q0326,R-047,heritage,en,"Under regulation R-047, what is the minimum distance from a listed building for an office building?",40,m
+Q0327,R-047,heritage,ar,وفق اللائحة R-047، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,12,m
+Q0328,R-047,heritage,en,"Under regulation R-047, what is the minimum distance from a listed building for a hotel?",60,m
+Q0329,R-047,heritage,ar,وفق اللائحة R-047، ما أقصى ارتفاع للواجهة في حالة فندق؟,8,m
+Q0330,R-047,heritage,en,"Under regulation R-047, what is the minimum distance from a listed building for a villa?",80,m
+Q0331,R-047,heritage,ar,وفق اللائحة R-047، ما أقصى ارتفاع للواجهة في حالة فيلا؟,11,m
+Q0332,R-048,access,ar,وفق اللائحة R-048، ما أدنى عرض للمنحدر في حالة فندق؟,120,cm
+Q0333,R-048,access,en,"Under regulation R-048, what is the minimum accessible parking spaces for a hotel?",3,spaces
+Q0334,R-048,access,ar,وفق اللائحة R-048، ما أدنى عرض للمنحدر في حالة فيلا؟,100,cm
+Q0335,R-048,access,en,"Under regulation R-048, what is the minimum accessible parking spaces for a villa?",6,spaces
+Q0336,R-048,access,ar,وفق اللائحة R-048، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,120,cm
+Q0337,R-048,access,en,"Under regulation R-048, what is the minimum accessible parking spaces for an apartment block?",1,spaces
+Q0338,R-048,access,ar,وفق اللائحة R-048، ما أدنى عرض للمنحدر في حالة محل تجاري؟,120,cm
+Q0339,R-049,zoning,en,"Under regulation R-049, what is the maximum built-up ratio for a villa?",60,%
+Q0340,R-049,zoning,ar,وفق اللائحة R-049، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,900,m2
+Q0341,R-049,zoning,en,"Under regulation R-049, what is the maximum built-up ratio for an apartment block?",70,%
+Q0342,R-049,zoning,ar,وفق اللائحة R-049، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,450,m2
+Q0343,R-049,zoning,en,"Under regulation R-049, what is the maximum built-up ratio for a shop?",65,%
+Q0344,R-049,zoning,ar,وفق اللائحة R-049، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,450,m2
+Q0345,R-049,zoning,en,"Under regulation R-049, what is the maximum built-up ratio for a warehouse?",40,%
+Q0346,R-049,zoning,ar,وفق اللائحة R-049، ما الحد الأدنى لمساحة القطعة في حالة مستودع؟,450,m2
+Q0347,R-050,setbacks,ar,وفق اللائحة R-050، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,5,m
+Q0348,R-050,setbacks,en,"Under regulation R-050, what is the maximum number of floors for an apartment block?",8,floors
+Q0349,R-050,setbacks,ar,وفق اللائحة R-050، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,3,m
+Q0350,R-050,setbacks,en,"Under regulation R-050, what is the maximum number of floors for a shop?",9,floors
+Q0351,R-050,setbacks,ar,وفق اللائحة R-050، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,6,m
+Q0352,R-050,setbacks,en,"Under regulation R-050, what is the maximum number of floors for a warehouse?",8,floors
+Q0353,R-050,setbacks,ar,وفق اللائحة R-050، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,8,m
+Q0354,R-051,fire,en,"Under regulation R-051, what is the maximum travel distance to an exit for a shop?",55,m
+Q0355,R-051,fire,ar,وفق اللائحة R-051، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,4,exits
+Q0356,R-051,fire,en,"Under regulation R-051, what is the maximum travel distance to an exit for a warehouse?",55,m
+Q0357,R-051,fire,ar,وفق اللائحة R-051، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,3,exits
+Q0358,R-051,fire,en,"Under regulation R-051, what is the maximum travel distance to an exit for a school?",20,m
+Q0359,R-051,fire,ar,وفق اللائحة R-051، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,2,exits
+Q0360,R-051,fire,en,"Under regulation R-051, what is the maximum travel distance to an exit for a clinic?",60,m
+Q0361,R-051,fire,ar,وفق اللائحة R-051، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,1,exits
+Q0362,R-051,fire,en,"Under regulation R-051, what is the maximum travel distance to an exit for an office building?",45,m
+Q0363,R-052,structural,ar,وفق اللائحة R-052، ما أدنى عمق للأساسات في حالة مستودع؟,160,cm
+Q0364,R-052,structural,en,"Under regulation R-052, what is the minimum slab thickness for a warehouse?",12,cm
+Q0365,R-052,structural,ar,وفق اللائحة R-052، ما أدنى عمق للأساسات في حالة مدرسة؟,260,cm
+Q0366,R-052,structural,en,"Under regulation R-052, what is the minimum slab thickness for a school?",12,cm
+Q0367,R-052,structural,ar,وفق اللائحة R-052، ما أدنى عمق للأساسات في حالة عيادة؟,180,cm
+Q0368,R-052,structural,en,"Under regulation R-052, what is the minimum slab thickness for a clinic?",24,cm
+Q0369,R-052,structural,ar,وفق اللائحة R-052، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,200,cm
+Q0370,R-052,structural,en,"Under regulation R-052, what is the minimum slab thickness for an office building?",16,cm
+Q0371,R-052,structural,ar,وفق اللائحة R-052، ما أدنى عمق للأساسات في حالة فندق؟,80,cm
+Q0372,R-053,fees,en,"Under regulation R-053, what is the permit fee per square metre for a school?",13,SAR
+Q0373,R-053,fees,ar,وفق اللائحة R-053، ما رسم التجديد في حالة مدرسة؟,800,SAR
+Q0374,R-053,fees,en,"Under regulation R-053, what is the permit fee per square metre for a clinic?",14,SAR
+Q0375,R-053,fees,ar,وفق اللائحة R-053، ما رسم التجديد في حالة عيادة؟,350,SAR
+Q0376,R-053,fees,en,"Under regulation R-053, what is the permit fee per square metre for an office building?",14,SAR
+Q0377,R-053,fees,ar,وفق اللائحة R-053، ما رسم التجديد في حالة مبنى مكتبي؟,150,SAR
+Q0378,R-053,fees,en,"Under regulation R-053, what is the permit fee per square metre for a hotel?",9,SAR
+Q0379,R-053,fees,ar,وفق اللائحة R-053، ما رسم التجديد في حالة فندق؟,900,SAR
+Q0380,R-053,fees,en,"Under regulation R-053, what is the permit fee per square metre for a villa?",19,SAR
+Q0381,R-054,timelines,ar,وفق اللائحة R-054، ما عدد أيام إصدار القرار في حالة عيادة؟,5,days
+Q0382,R-054,timelines,en,"Under regulation R-054, what is the months of permit validity for a clinic?",36,months
+Q0383,R-054,timelines,ar,وفق اللائحة R-054، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,15,days
+Q0384,R-054,timelines,en,"Under regulation R-054, what is the months of permit validity for an office building?",18,months
+Q0385,R-054,timelines,ar,وفق اللائحة R-054، ما عدد أيام إصدار القرار في حالة فندق؟,40,days
+Q0386,R-054,timelines,en,"Under regulation R-054, what is the months of permit validity for a hotel?",12,months
+Q0387,R-054,timelines,ar,وفق اللائحة R-054، ما عدد أيام إصدار القرار في حالة فيلا؟,55,days
+Q0388,R-054,timelines,en,"Under regulation R-054, what is the months of permit validity for a villa?",36,months
+Q0389,R-054,timelines,ar,وفق اللائحة R-054، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,25,days
+Q0390,R-055,heritage,en,"Under regulation R-055, what is the minimum distance from a listed building for an office building?",60,m
+Q0391,R-055,heritage,ar,وفق اللائحة R-055، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,10,m
+Q0392,R-055,heritage,en,"Under regulation R-055, what is the minimum distance from a listed building for a hotel?",100,m
+Q0393,R-055,heritage,ar,وفق اللائحة R-055، ما أقصى ارتفاع للواجهة في حالة فندق؟,7,m
+Q0394,R-055,heritage,en,"Under regulation R-055, what is the minimum distance from a listed building for a villa?",10,m
+Q0395,R-055,heritage,ar,وفق اللائحة R-055، ما أقصى ارتفاع للواجهة في حالة فيلا؟,8,m
+Q0396,R-055,heritage,en,"Under regulation R-055, what is the minimum distance from a listed building for an apartment block?",20,m
+Q0397,R-055,heritage,ar,وفق اللائحة R-055، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,10,m
+Q0398,R-055,heritage,en,"Under regulation R-055, what is the minimum distance from a listed building for a shop?",90,m
+Q0399,R-056,access,ar,وفق اللائحة R-056، ما أدنى عرض للمنحدر في حالة فندق؟,120,cm
+Q0400,R-056,access,en,"Under regulation R-056, what is the minimum accessible parking spaces for a hotel?",5,spaces
+Q0401,R-056,access,ar,وفق اللائحة R-056، ما أدنى عرض للمنحدر في حالة فيلا؟,90,cm
+Q0402,R-056,access,en,"Under regulation R-056, what is the minimum accessible parking spaces for a villa?",6,spaces
+Q0403,R-056,access,ar,وفق اللائحة R-056، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,150,cm
+Q0404,R-056,access,en,"Under regulation R-056, what is the minimum accessible parking spaces for an apartment block?",1,spaces
+Q0405,R-056,access,ar,وفق اللائحة R-056، ما أدنى عرض للمنحدر في حالة محل تجاري؟,150,cm
+Q0406,R-056,access,en,"Under regulation R-056, what is the minimum accessible parking spaces for a shop?",1,spaces
+Q0407,R-056,access,ar,وفق اللائحة R-056، ما أدنى عرض للمنحدر في حالة مستودع؟,140,cm
+Q0408,R-057,zoning,en,"Under regulation R-057, what is the maximum built-up ratio for a villa?",60,%
+Q0409,R-057,zoning,ar,وفق اللائحة R-057، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,700,m2
+Q0410,R-057,zoning,en,"Under regulation R-057, what is the maximum built-up ratio for an apartment block?",50,%
+Q0411,R-057,zoning,ar,وفق اللائحة R-057، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,350,m2
+Q0412,R-057,zoning,en,"Under regulation R-057, what is the maximum built-up ratio for a shop?",70,%
+Q0413,R-057,zoning,ar,وفق اللائحة R-057، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,650,m2
+Q0414,R-057,zoning,en,"Under regulation R-057, what is the maximum built-up ratio for a warehouse?",65,%
+Q0415,R-057,zoning,ar,وفق اللائحة R-057، ما الحد الأدنى لمساحة القطعة في حالة مستودع؟,350,m2
+Q0416,R-057,zoning,en,"Under regulation R-057, what is the maximum built-up ratio for a school?",40,%
+Q0417,R-058,setbacks,ar,وفق اللائحة R-058، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,5,m
+Q0418,R-058,setbacks,en,"Under regulation R-058, what is the maximum number of floors for an apartment block?",2,floors
+Q0419,R-058,setbacks,ar,وفق اللائحة R-058، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,8,m
+Q0420,R-058,setbacks,en,"Under regulation R-058, what is the maximum number of floors for a shop?",11,floors
+Q0421,R-058,setbacks,ar,وفق اللائحة R-058، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,8,m
+Q0422,R-058,setbacks,en,"Under regulation R-058, what is the maximum number of floors for a warehouse?",3,floors
+Q0423,R-058,setbacks,ar,وفق اللائحة R-058، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,4,m
+Q0424,R-058,setbacks,en,"Under regulation R-058, what is the maximum number of floors for a school?",12,floors
+Q0425,R-058,setbacks,ar,وفق اللائحة R-058، ما الحد الأدنى للارتداد الأمامي في حالة عيادة؟,2,m
+Q0426,R-059,fire,en,"Under regulation R-059, what is the maximum travel distance to an exit for a shop?",60,m
+Q0427,R-059,fire,ar,وفق اللائحة R-059، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,4,exits
+Q0428,R-059,fire,en,"Under regulation R-059, what is the maximum travel distance to an exit for a warehouse?",50,m
+Q0429,R-059,fire,ar,وفق اللائحة R-059، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,1,exits
+Q0430,R-059,fire,en,"Under regulation R-059, what is the maximum travel distance to an exit for a school?",45,m
+Q0431,R-059,fire,ar,وفق اللائحة R-059، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,3,exits
+Q0432,R-059,fire,en,"Under regulation R-059, what is the maximum travel distance to an exit for a clinic?",30,m
+Q0433,R-059,fire,ar,وفق اللائحة R-059، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,3,exits
+Q0434,R-060,structural,ar,وفق اللائحة R-060، ما أدنى عمق للأساسات في حالة مستودع؟,240,cm
+Q0435,R-060,structural,en,"Under regulation R-060, what is the minimum slab thickness for a warehouse?",16,cm
+Q0436,R-060,structural,ar,وفق اللائحة R-060، ما أدنى عمق للأساسات في حالة مدرسة؟,140,cm
+Q0437,R-060,structural,en,"Under regulation R-060, what is the minimum slab thickness for a school?",12,cm
+Q0438,R-060,structural,ar,وفق اللائحة R-060، ما أدنى عمق للأساسات في حالة عيادة؟,180,cm
+Q0439,R-060,structural,en,"Under regulation R-060, what is the minimum slab thickness for a clinic?",28,cm
+Q0440,R-060,structural,ar,وفق اللائحة R-060، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,260,cm
+Q0441,R-060,structural,en,"Under regulation R-060, what is the minimum slab thickness for an office building?",22,cm
+Q0442,R-060,structural,ar,وفق اللائحة R-060، ما أدنى عمق للأساسات في حالة فندق؟,120,cm
+Q0443,R-061,fees,en,"Under regulation R-061, what is the permit fee per square metre for a school?",12,SAR
+Q0444,R-061,fees,ar,وفق اللائحة R-061، ما رسم التجديد في حالة مدرسة؟,450,SAR
+Q0445,R-061,fees,en,"Under regulation R-061, what is the permit fee per square metre for a clinic?",16,SAR
+Q0446,R-061,fees,ar,وفق اللائحة R-061، ما رسم التجديد في حالة عيادة؟,350,SAR
+Q0447,R-061,fees,en,"Under regulation R-061, what is the permit fee per square metre for an office building?",6,SAR
+Q0448,R-061,fees,ar,وفق اللائحة R-061، ما رسم التجديد في حالة مبنى مكتبي؟,500,SAR
+Q0449,R-062,timelines,ar,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة عيادة؟,50,days
+Q0450,R-062,timelines,en,"Under regulation R-062, what is the months of permit validity for a clinic?",6,months
+Q0451,R-062,timelines,ar,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0452,R-062,timelines,en,"Under regulation R-062, what is the months of permit validity for an office building?",12,months
+Q0453,R-062,timelines,ar,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة فندق؟,60,days
+Q0454,R-062,timelines,en,"Under regulation R-062, what is the months of permit validity for a hotel?",18,months
+Q0455,R-062,timelines,ar,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة فيلا؟,45,days
+Q0456,R-062,timelines,en,"Under regulation R-062, what is the months of permit validity for a villa?",30,months
+Q0457,R-062,timelines,ar,وفق اللائحة R-062، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,5,days
+Q0458,R-063,heritage,en,"Under regulation R-063, what is the minimum distance from a listed building for an office building?",20,m
+Q0459,R-063,heritage,ar,وفق اللائحة R-063، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,14,m
+Q0460,R-063,heritage,en,"Under regulation R-063, what is the minimum distance from a listed building for a hotel?",20,m
+Q0461,R-063,heritage,ar,وفق اللائحة R-063، ما أقصى ارتفاع للواجهة في حالة فندق؟,15,m
+Q0462,R-063,heritage,en,"Under regulation R-063, what is the minimum distance from a listed building for a villa?",10,m
+Q0463,R-063,heritage,ar,وفق اللائحة R-063، ما أقصى ارتفاع للواجهة في حالة فيلا؟,12,m
+Q0464,R-063,heritage,en,"Under regulation R-063, what is the minimum distance from a listed building for an apartment block?",50,m
+Q0465,R-063,heritage,ar,وفق اللائحة R-063، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,12,m
+Q0466,R-063,heritage,en,"Under regulation R-063, what is the minimum distance from a listed building for a shop?",60,m
+Q0467,R-064,access,ar,وفق اللائحة R-064، ما أدنى عرض للمنحدر في حالة فندق؟,140,cm
+Q0468,R-064,access,en,"Under regulation R-064, what is the minimum accessible parking spaces for a hotel?",6,spaces
+Q0469,R-064,access,ar,وفق اللائحة R-064، ما أدنى عرض للمنحدر في حالة فيلا؟,110,cm
+Q0470,R-064,access,en,"Under regulation R-064, what is the minimum accessible parking spaces for a villa?",5,spaces
+Q0471,R-064,access,ar,وفق اللائحة R-064، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,120,cm
+Q0472,R-064,access,en,"Under regulation R-064, what is the minimum accessible parking spaces for an apartment block?",4,spaces
+Q0473,R-064,access,ar,وفق اللائحة R-064، ما أدنى عرض للمنحدر في حالة محل تجاري؟,110,cm
+Q0474,R-064,access,en,"Under regulation R-064, what is the minimum accessible parking spaces for a shop?",5,spaces
+Q0475,R-065,zoning,en,"Under regulation R-065, what is the maximum built-up ratio for a villa?",55,%
+Q0476,R-065,zoning,ar,وفق اللائحة R-065، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,350,m2
+Q0477,R-065,zoning,en,"Under regulation R-065, what is the maximum built-up ratio for an apartment block?",50,%
+Q0478,R-065,zoning,ar,وفق اللائحة R-065، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,900,m2
+Q0479,R-065,zoning,en,"Under regulation R-065, what is the maximum built-up ratio for a shop?",50,%
+Q0480,R-065,zoning,ar,وفق اللائحة R-065، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,600,m2
+Q0481,R-066,setbacks,ar,وفق اللائحة R-066، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,2,m
+Q0482,R-066,setbacks,en,"Under regulation R-066, what is the maximum number of floors for an apartment block?",8,floors
+Q0483,R-066,setbacks,ar,وفق اللائحة R-066، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,4,m
+Q0484,R-066,setbacks,en,"Under regulation R-066, what is the maximum number of floors for a shop?",11,floors
+Q0485,R-066,setbacks,ar,وفق اللائحة R-066، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,2,m
+Q0486,R-066,setbacks,en,"Under regulation R-066, what is the maximum number of floors for a warehouse?",2,floors
+Q0487,R-066,setbacks,ar,وفق اللائحة R-066، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,5,m
+Q0488,R-066,setbacks,en,"Under regulation R-066, what is the maximum number of floors for a school?",3,floors
+Q0489,R-066,setbacks,ar,وفق اللائحة R-066، ما الحد الأدنى للارتداد الأمامي في حالة عيادة؟,5,m
+Q0490,R-067,fire,en,"Under regulation R-067, what is the maximum travel distance to an exit for a shop?",55,m
+Q0491,R-067,fire,ar,وفق اللائحة R-067، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,1,exits
+Q0492,R-067,fire,en,"Under regulation R-067, what is the maximum travel distance to an exit for a warehouse?",35,m
+Q0493,R-067,fire,ar,وفق اللائحة R-067، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,1,exits
+Q0494,R-067,fire,en,"Under regulation R-067, what is the maximum travel distance to an exit for a school?",30,m
+Q0495,R-067,fire,ar,وفق اللائحة R-067، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,1,exits
+Q0496,R-067,fire,en,"Under regulation R-067, what is the maximum travel distance to an exit for a clinic?",40,m
+Q0497,R-067,fire,ar,وفق اللائحة R-067، ما الحد الأدنى لعدد المخارج في حالة عيادة؟,3,exits
+Q0498,R-067,fire,en,"Under regulation R-067, what is the maximum travel distance to an exit for an office building?",30,m
+Q0499,R-068,structural,ar,وفق اللائحة R-068، ما أدنى عمق للأساسات في حالة مستودع؟,140,cm
+Q0500,R-068,structural,en,"Under regulation R-068, what is the minimum slab thickness for a warehouse?",12,cm
+Q0501,R-068,structural,ar,وفق اللائحة R-068، ما أدنى عمق للأساسات في حالة مدرسة؟,160,cm
+Q0502,R-068,structural,en,"Under regulation R-068, what is the minimum slab thickness for a school?",30,cm
+Q0503,R-068,structural,ar,وفق اللائحة R-068، ما أدنى عمق للأساسات في حالة عيادة؟,100,cm
+Q0504,R-068,structural,en,"Under regulation R-068, what is the minimum slab thickness for a clinic?",16,cm
+Q0505,R-068,structural,ar,وفق اللائحة R-068، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,100,cm
+Q0506,R-068,structural,en,"Under regulation R-068, what is the minimum slab thickness for an office building?",12,cm
+Q0507,R-068,structural,ar,وفق اللائحة R-068، ما أدنى عمق للأساسات في حالة فندق؟,100,cm
+Q0508,R-069,fees,en,"Under regulation R-069, what is the permit fee per square metre for a school?",9,SAR
+Q0509,R-069,fees,ar,وفق اللائحة R-069، ما رسم التجديد في حالة مدرسة؟,750,SAR
+Q0510,R-069,fees,en,"Under regulation R-069, what is the permit fee per square metre for a clinic?",17,SAR
+Q0511,R-069,fees,ar,وفق اللائحة R-069، ما رسم التجديد في حالة عيادة؟,750,SAR
+Q0512,R-069,fees,en,"Under regulation R-069, what is the permit fee per square metre for an office building?",15,SAR
+Q0513,R-069,fees,ar,وفق اللائحة R-069، ما رسم التجديد في حالة مبنى مكتبي؟,100,SAR
+Q0514,R-069,fees,en,"Under regulation R-069, what is the permit fee per square metre for a hotel?",16,SAR
+Q0515,R-069,fees,ar,وفق اللائحة R-069، ما رسم التجديد في حالة فندق؟,550,SAR
+Q0516,R-069,fees,en,"Under regulation R-069, what is the permit fee per square metre for a villa?",16,SAR
+Q0517,R-070,timelines,ar,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة عيادة؟,45,days
+Q0518,R-070,timelines,en,"Under regulation R-070, what is the months of permit validity for a clinic?",18,months
+Q0519,R-070,timelines,ar,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,45,days
+Q0520,R-070,timelines,en,"Under regulation R-070, what is the months of permit validity for an office building?",30,months
+Q0521,R-070,timelines,ar,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة فندق؟,35,days
+Q0522,R-070,timelines,en,"Under regulation R-070, what is the months of permit validity for a hotel?",18,months
+Q0523,R-070,timelines,ar,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة فيلا؟,45,days
+Q0524,R-070,timelines,en,"Under regulation R-070, what is the months of permit validity for a villa?",18,months
+Q0525,R-070,timelines,ar,وفق اللائحة R-070، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,10,days
+Q0526,R-071,heritage,en,"Under regulation R-071, what is the minimum distance from a listed building for an office building?",20,m
+Q0527,R-071,heritage,ar,وفق اللائحة R-071، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,15,m
+Q0528,R-071,heritage,en,"Under regulation R-071, what is the minimum distance from a listed building for a hotel?",80,m
+Q0529,R-071,heritage,ar,وفق اللائحة R-071، ما أقصى ارتفاع للواجهة في حالة فندق؟,12,m
+Q0530,R-071,heritage,en,"Under regulation R-071, what is the minimum distance from a listed building for a villa?",80,m
+Q0531,R-071,heritage,ar,وفق اللائحة R-071، ما أقصى ارتفاع للواجهة في حالة فيلا؟,15,m
+Q0532,R-071,heritage,en,"Under regulation R-071, what is the minimum distance from a listed building for an apartment block?",80,m
+Q0533,R-071,heritage,ar,وفق اللائحة R-071، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,12,m
+Q0534,R-071,heritage,en,"Under regulation R-071, what is the minimum distance from a listed building for a shop?",90,m
+Q0535,R-072,access,ar,وفق اللائحة R-072، ما أدنى عرض للمنحدر في حالة فندق؟,90,cm
+Q0536,R-072,access,en,"Under regulation R-072, what is the minimum accessible parking spaces for a hotel?",2,spaces
+Q0537,R-072,access,ar,وفق اللائحة R-072، ما أدنى عرض للمنحدر في حالة فيلا؟,140,cm
+Q0538,R-072,access,en,"Under regulation R-072, what is the minimum accessible parking spaces for a villa?",4,spaces
+Q0539,R-072,access,ar,وفق اللائحة R-072، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,150,cm
+Q0540,R-073,zoning,en,"Under regulation R-073, what is the maximum built-up ratio for a villa?",45,%
+Q0541,R-073,zoning,ar,وفق اللائحة R-073، ما الحد الأدنى لمساحة القطعة في حالة فيلا؟,650,m2
+Q0542,R-073,zoning,en,"Under regulation R-073, what is the maximum built-up ratio for an apartment block?",55,%
+Q0543,R-073,zoning,ar,وفق اللائحة R-073، ما الحد الأدنى لمساحة القطعة في حالة عمارة سكنية؟,650,m2
+Q0544,R-073,zoning,en,"Under regulation R-073, what is the maximum built-up ratio for a shop?",45,%
+Q0545,R-073,zoning,ar,وفق اللائحة R-073، ما الحد الأدنى لمساحة القطعة في حالة محل تجاري؟,400,m2
+Q0546,R-074,setbacks,ar,وفق اللائحة R-074، ما الحد الأدنى للارتداد الأمامي في حالة عمارة سكنية؟,5,m
+Q0547,R-074,setbacks,en,"Under regulation R-074, what is the maximum number of floors for an apartment block?",2,floors
+Q0548,R-074,setbacks,ar,وفق اللائحة R-074، ما الحد الأدنى للارتداد الأمامي في حالة محل تجاري؟,6,m
+Q0549,R-074,setbacks,en,"Under regulation R-074, what is the maximum number of floors for a shop?",4,floors
+Q0550,R-074,setbacks,ar,وفق اللائحة R-074، ما الحد الأدنى للارتداد الأمامي في حالة مستودع؟,7,m
+Q0551,R-074,setbacks,en,"Under regulation R-074, what is the maximum number of floors for a warehouse?",8,floors
+Q0552,R-074,setbacks,ar,وفق اللائحة R-074، ما الحد الأدنى للارتداد الأمامي في حالة مدرسة؟,4,m
+Q0553,R-074,setbacks,en,"Under regulation R-074, what is the maximum number of floors for a school?",5,floors
+Q0554,R-075,fire,en,"Under regulation R-075, what is the maximum travel distance to an exit for a shop?",20,m
+Q0555,R-075,fire,ar,وفق اللائحة R-075، ما الحد الأدنى لعدد المخارج في حالة محل تجاري؟,4,exits
+Q0556,R-075,fire,en,"Under regulation R-075, what is the maximum travel distance to an exit for a warehouse?",40,m
+Q0557,R-075,fire,ar,وفق اللائحة R-075، ما الحد الأدنى لعدد المخارج في حالة مستودع؟,4,exits
+Q0558,R-075,fire,en,"Under regulation R-075, what is the maximum travel distance to an exit for a school?",35,m
+Q0559,R-075,fire,ar,وفق اللائحة R-075، ما الحد الأدنى لعدد المخارج في حالة مدرسة؟,3,exits
+Q0560,R-076,structural,ar,وفق اللائحة R-076، ما أدنى عمق للأساسات في حالة مستودع؟,200,cm
+Q0561,R-076,structural,en,"Under regulation R-076, what is the minimum slab thickness for a warehouse?",30,cm
+Q0562,R-076,structural,ar,وفق اللائحة R-076، ما أدنى عمق للأساسات في حالة مدرسة؟,120,cm
+Q0563,R-076,structural,en,"Under regulation R-076, what is the minimum slab thickness for a school?",14,cm
+Q0564,R-076,structural,ar,وفق اللائحة R-076، ما أدنى عمق للأساسات في حالة عيادة؟,180,cm
+Q0565,R-076,structural,en,"Under regulation R-076, what is the minimum slab thickness for a clinic?",26,cm
+Q0566,R-076,structural,ar,وفق اللائحة R-076، ما أدنى عمق للأساسات في حالة مبنى مكتبي؟,260,cm
+Q0567,R-076,structural,en,"Under regulation R-076, what is the minimum slab thickness for an office building?",26,cm
+Q0568,R-077,fees,en,"Under regulation R-077, what is the permit fee per square metre for a school?",8,SAR
+Q0569,R-077,fees,ar,وفق اللائحة R-077، ما رسم التجديد في حالة مدرسة؟,300,SAR
+Q0570,R-077,fees,en,"Under regulation R-077, what is the permit fee per square metre for a clinic?",18,SAR
+Q0571,R-077,fees,ar,وفق اللائحة R-077، ما رسم التجديد في حالة عيادة؟,550,SAR
+Q0572,R-077,fees,en,"Under regulation R-077, what is the permit fee per square metre for an office building?",20,SAR
+Q0573,R-077,fees,ar,وفق اللائحة R-077، ما رسم التجديد في حالة مبنى مكتبي؟,350,SAR
+Q0574,R-077,fees,en,"Under regulation R-077, what is the permit fee per square metre for a hotel?",12,SAR
+Q0575,R-078,timelines,ar,وفق اللائحة R-078، ما عدد أيام إصدار القرار في حالة عيادة؟,20,days
+Q0576,R-078,timelines,en,"Under regulation R-078, what is the months of permit validity for a clinic?",12,months
+Q0577,R-078,timelines,ar,وفق اللائحة R-078، ما عدد أيام إصدار القرار في حالة مبنى مكتبي؟,40,days
+Q0578,R-078,timelines,en,"Under regulation R-078, what is the months of permit validity for an office building?",24,months
+Q0579,R-078,timelines,ar,وفق اللائحة R-078، ما عدد أيام إصدار القرار في حالة فندق؟,40,days
+Q0580,R-078,timelines,en,"Under regulation R-078, what is the months of permit validity for a hotel?",30,months
+Q0581,R-078,timelines,ar,وفق اللائحة R-078، ما عدد أيام إصدار القرار في حالة فيلا؟,45,days
+Q0582,R-078,timelines,en,"Under regulation R-078, what is the months of permit validity for a villa?",6,months
+Q0583,R-078,timelines,ar,وفق اللائحة R-078، ما عدد أيام إصدار القرار في حالة عمارة سكنية؟,45,days
+Q0584,R-079,heritage,en,"Under regulation R-079, what is the minimum distance from a listed building for an office building?",20,m
+Q0585,R-079,heritage,ar,وفق اللائحة R-079، ما أقصى ارتفاع للواجهة في حالة مبنى مكتبي؟,8,m
+Q0586,R-079,heritage,en,"Under regulation R-079, what is the minimum distance from a listed building for a hotel?",80,m
+Q0587,R-079,heritage,ar,وفق اللائحة R-079، ما أقصى ارتفاع للواجهة في حالة فندق؟,7,m
+Q0588,R-079,heritage,en,"Under regulation R-079, what is the minimum distance from a listed building for a villa?",20,m
+Q0589,R-079,heritage,ar,وفق اللائحة R-079، ما أقصى ارتفاع للواجهة في حالة فيلا؟,12,m
+Q0590,R-079,heritage,en,"Under regulation R-079, what is the minimum distance from a listed building for an apartment block?",70,m
+Q0591,R-079,heritage,ar,وفق اللائحة R-079، ما أقصى ارتفاع للواجهة في حالة عمارة سكنية؟,14,m
+Q0592,R-080,access,ar,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة فندق؟,90,cm
+Q0593,R-080,access,en,"Under regulation R-080, what is the minimum accessible parking spaces for a hotel?",2,spaces
+Q0594,R-080,access,ar,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة فيلا؟,140,cm
+Q0595,R-080,access,en,"Under regulation R-080, what is the minimum accessible parking spaces for a villa?",1,spaces
+Q0596,R-080,access,ar,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة عمارة سكنية؟,90,cm
+Q0597,R-080,access,en,"Under regulation R-080, what is the minimum accessible parking spaces for an apartment block?",1,spaces
+Q0598,R-080,access,ar,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة محل تجاري؟,150,cm
+Q0599,R-080,access,en,"Under regulation R-080, what is the minimum accessible parking spaces for a shop?",2,spaces
+Q0600,R-080,access,ar,وفق اللائحة R-080، ما أدنى عرض للمنحدر في حالة مستودع؟,130,cm

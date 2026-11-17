@@ -1,0 +1,1878 @@
+{
+  "format": "classpulse-bank",
+  "version": 1,
+  "course": {
+    "name": "Statistical Evaluation of AI Systems",
+    "los": [
+      {
+        "code": "LO1",
+        "description": "Compute standard errors and intervals for an evaluation score that account for clustered items, repeated samples and small item counts, given item-level results where questions share source documents"
+      },
+      {
+        "code": "LO2",
+        "description": "Decide whether the difference between two systems is real and large enough to matter, using a paired analysis, given item-level results for two configurations and a minimum effect"
+      },
+      {
+        "code": "LO3",
+        "description": "Design an evaluation's size in items, samples per item and grader calls to detect a stated difference within budget, given pilot variances and unit costs"
+      },
+      {
+        "code": "LO4",
+        "description": "Evaluate the bias that grader error adds to a pass rate and correct it, carrying calibration uncertainty into the interval, given a model grader with 300 human-labelled verdicts in two languages"
+      },
+      {
+        "code": "LO5",
+        "description": "Audit an evaluation claim for statistical validity, contamination risk and unequal tuning or token budgets, given a leaderboard-style report on four systems"
+      },
+      {
+        "code": "LO6",
+        "description": "Design a reporting standard for evaluation claims, including results by language and subgroup, given the audit findings and a release process"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "check-sample-q1",
+      "type": "single",
+      "prompt": "Configuration B scores 69.8% on the 600 questions, 95% interval 66.7% to 72.9%. A manager asks what the interval means. Which answer is right?",
+      "options": [
+        "B passes between 66.7% and 72.9% of these 600 questions",
+        "B's pass rate on questions written the same way is plausibly between 66.7% and 72.9%",
+        "Each answer of B passes with a probability between 66.7% and 72.9%",
+        "B will score between 66.7% and 72.9% on next year's regulations"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The interval estimates the pass rate on the population the questions were sampled from; on the sample itself there is no uncertainty, and other populations are not covered.",
+      "misconceptions": [
+        "Treats the 600 questions as the population: on them the rate is known exactly",
+        "",
+        "Reads the interval as a range of individual answers, not of a rate",
+        "Assumes the interval covers any population, including questions of a different kind"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 12
+    },
+    {
+      "id": "check-clusters-q1",
+      "type": "single",
+      "prompt": "C's design effect is 2.5. Furat can pay for 160 more questions. Which plan narrows C's clustered interval most?",
+      "options": [
+        "160 questions from the same 80 documents, two per document",
+        "Ten samples per question in place of five",
+        "160 questions from 20 new documents",
+        "Report the naive interval, which is already narrower"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The clustered standard error falls with the number of documents; new documents add independent evidence that more questions from old documents do not.",
+      "misconceptions": [
+        "Treats questions as independent: more questions from the same documents carry the same document effects",
+        "Confuses sampling noise with clustering: more samples shrink the within-item part only",
+        "",
+        "Believes the naive formula is the safer report: it is narrower because it is wrong"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 21
+    },
+    {
+      "id": "check-samples-q1",
+      "type": "single",
+      "prompt": "At temperature 0.2, D's between-item variance is 0.123 and its within-item variance 0.068. A colleague proposes 20 samples per question in place of 5 to \"make the score precise\". What happens?",
+      "options": [
+        "The standard error barely falls, because the between-item part does not shrink with samples",
+        "The standard error halves, as it would with four times the questions",
+        "The pass rate rises, because more samples find more right answers",
+        "The score becomes pass@20, which is the right metric at last"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "More samples reduce only the within / K term; the between-item term, 0.123 here, stays, so the SE goes from 0.0151 to 0.0145.",
+      "misconceptions": [
+        "",
+        "Treats samples as independent questions: they share the question's difficulty",
+        "Confuses precision with bias: more samples change the noise, not the expected score",
+        "Mistakes pass@k for the mean: the mean is unchanged in expectation"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 29
+    },
+    {
+      "id": "check-plan-q1",
+      "type": "single",
+      "prompt": "The plan named the mean pass rate. After the run, D beats C on pass@5 but not on the mean. The team wants to headline pass@5 \"because it shows D's potential\". What should the report do?",
+      "options": [
+        "Headline pass@5, since it is a recognised metric",
+        "Headline pass@5 with alpha lowered to 0.01",
+        "Delete pass@5 from the report entirely",
+        "Headline the planned mean and label pass@5 as an unplanned, exploratory result"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The planned metric carries the stated error rate; an outcome chosen because it won does not, so it can be shown only as exploratory.",
+      "misconceptions": [
+        "Treats any defensible metric as equal once results are known: that is the forking path",
+        "Believes a lower alpha repairs a post hoc choice: it does not undo the selection",
+        "Thinks a plan forbids any other result: secondary results are allowed when labelled",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 38
+    },
+    {
+      "id": "review-day1-q1",
+      "type": "single",
+      "prompt": "A new task set has 400 questions from 40 documents. The naive standard error of a configuration's score is 0.020 and the clustered one is 0.032. Which should the report use, and what does it imply?",
+      "options": [
+        "The naive one: it is more precise",
+        "The mean of the two, 0.026",
+        "Either, if each question was sampled five times",
+        "The clustered one: the 400 questions are worth about 156 independent ones"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Questions from one document share its difficulty; DEFF = (0.032 / 0.020)² = 2.56, so 400 / 2.56 ≈ 156.",
+      "misconceptions": [
+        "Thinks the narrower interval is the more precise one, when it is narrower only because it ignores clustering",
+        "Averages two estimates as if both were valid",
+        "Believes repeated samples fix clustering, which comes from documents, not draws",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 3
+    },
+    {
+      "id": "check-paired-q1",
+      "type": "single",
+      "prompt": "Two configurations answer the same 500 questions. Their scores' intervals overlap heavily. A colleague concludes there is no difference. What is wrong with that?",
+      "options": [
+        "Overlapping separate intervals ignore the correlation; the paired interval of the difference can exclude zero",
+        "The intervals should have been clustered first",
+        "Nothing: overlapping intervals mean no difference",
+        "The difference must be checked against the minimum effect before anything else"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Shared questions make the scores correlated; the variance of their difference subtracts twice the covariance, so the paired interval is much narrower than the overlap suggests.",
+      "misconceptions": [
+        "",
+        "Thinks clustering is the missing piece, when it barely changes a paired difference",
+        "Believes overlap is always conclusive, which is true only for independent samples, and then only roughly",
+        "Confuses the size of the effect with the evidence for it"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 11
+    },
+    {
+      "id": "check-ranking-q1",
+      "type": "single",
+      "prompt": "Of six configurations, F has the highest pass rate. After Holm adjustment F is separated from A, B and C, but not from D or E. What may the release note say?",
+      "options": [
+        "F is the best configuration",
+        "F is the best, because it beats D at the 25% level",
+        "F, D and E are tied at the top; F is better than A, B and C",
+        "F, D and E are shown to be equally good"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The adjusted analysis separates F from three configurations only; between F, D and E the data cannot tell, which is a tie in the evidence, not a proof of equality.",
+      "misconceptions": [
+        "Reads the highest point estimate as a shown ranking",
+        "Uses unadjusted tests after looking at fifteen pairs",
+        "",
+        "Confuses not separated with shown to be equal"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 19
+    },
+    {
+      "id": "check-sizing-q1",
+      "type": "single",
+      "prompt": "A pilot of two configurations on 200 shared questions shows a 6-point difference and an SD of per-question differences of 0.25. The decision needs to detect 3 points. Which inputs should the sizing use?",
+      "options": [
+        "The 6-point difference and SD 0.25",
+        "The 3-point minimum effect and SD 0.25",
+        "3 points and the SD of each configuration's scores",
+        "200 questions, since the pilot already found a difference"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The effect to detect comes from the decision, the noise from the pilot; the pilot's observed difference is itself uncertain and would undersize the study.",
+      "misconceptions": [
+        "Sizes for the pilot's lucky draw instead of the effect that matters",
+        "",
+        "Uses each score's spread, which ignores the pairing",
+        "Thinks the pilot's own n settles the question"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 28
+    },
+    {
+      "id": "check-budget-q1",
+      "type": "single",
+      "prompt": "A new question costs SAR 15 and a sample with its grader call SAR 0.10. At temperature 0.8 within-item variance exceeds between-item variance. Which design is closest to the best at a fixed budget?",
+      "options": [
+        "As many questions as possible, one sample each",
+        "Few questions, thirty samples each",
+        "Whatever K, since the grader cost does not enter",
+        "About ten to fifteen samples per question, the rest on questions"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "K* = √((15 / 0.10) × within / between) is above 12 when within exceeds between; the optimum is flat around it.",
+      "misconceptions": [
+        "Thinks only questions reduce variance, ignoring that sampling noise is the larger part here",
+        "Thinks cheap samples are always the answer, ignoring the between-item floor",
+        "Believes the cost of grading does not affect the choice",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 36
+    },
+    {
+      "id": "review-day2-q1",
+      "type": "single",
+      "prompt": "D minus C is 2.2 points, paired and clustered 95% interval 0.5 to 3.9, minimum effect 3 points. Dr. Nadeen asks for one sentence. Which is right?",
+      "options": [
+        "D is three points better; switch",
+        "D is better, but not shown to be better by three points",
+        "D is better, but by less than three points",
+        "No difference can be shown"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The interval excludes zero, so D is better; it includes values both below and above 3, so whether the gain reaches the minimum effect is not shown.",
+      "misconceptions": [
+        "Reads significance as importance: the interval includes values below the threshold",
+        "",
+        "Reads an interval that includes 3 as proof of an effect below 3",
+        "Uses the unpaired interval, which ignores that the questions are shared"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 3
+    },
+    {
+      "id": "check-coverage-q1",
+      "type": "single",
+      "prompt": "A new circular yields 25 questions; configuration D passes 24. The report needs a 95% interval for D's pass rate. Which choice is sound?",
+      "options": [
+        "p ± 1.96 √(p(1 − p) / n), the standard formula",
+        "A bootstrap over the 25 questions",
+        "A Wilson or Jeffreys interval, or Clopper-Pearson if it supports a safety claim",
+        "No interval: 25 items are too few to say anything"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With few items near 1, Wald and the percentile bootstrap are too narrow; Wilson and Jeffreys keep close to 95%, Clopper-Pearson at least 95%.",
+      "misconceptions": [
+        "Applies the large-sample formula where the lab showed it under-covers badly",
+        "Thinks a bootstrap fixes small samples; with 24 of 25 it inherits the same collapse",
+        "",
+        "Believes small sets cannot be reported at all, when an honest wide interval is informative"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 11
+    },
+    {
+      "id": "check-safety-q1",
+      "type": "single",
+      "prompt": "A configuration answers 60 safety questions with no unsafe answer. Which statement can the report make at 95% confidence?",
+      "options": [
+        "Its unsafe rate on such questions is below about 5%",
+        "It never gives unsafe answers on such questions",
+        "Its unsafe rate is 0% ± 0",
+        "At most 3 of the next 60 answers will be unsafe"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With zero failures in n, the one-sided 95% upper bound on the failure rate is 1 − 0.051/n, about 3 / n: 4.9% for n = 60.",
+      "misconceptions": [
+        "",
+        "Turns zero observed failures into a claim of zero failures",
+        "Uses the Wald interval, which collapses to a point at 60 of 60",
+        "Confuses the bound for the rate with a bound on a count of future failures"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 20
+    },
+    {
+      "id": "check-grader-q1",
+      "type": "single",
+      "prompt": "A grader agrees with people on 92% of 400 verdicts. In Arabic its specificity is 0.70; in English 0.92. What does that do to the pass rates it reports?",
+      "options": [
+        "Nothing: 92% agreement is good enough",
+        "Arabic pass rates are understated",
+        "Both languages are biased equally, so comparisons are safe",
+        "Arabic pass rates are inflated more than English ones, shrinking any language gap"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Low specificity means bad answers are passed; more of them pass in Arabic, so Arabic rates rise more and a real Arabic weakness looks smaller.",
+      "misconceptions": [
+        "Thinks high overall agreement makes the error rates irrelevant",
+        "Confuses specificity with sensitivity: low specificity passes bad answers, it does not fail good ones",
+        "Assumes errors in both directions cancel, which needs equal rates in both languages",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 29
+    },
+    {
+      "id": "check-correction-q1",
+      "type": "single",
+      "prompt": "You corrected an Arabic pass rate with sensitivity and specificity from 150 labelled answers, and built the interval from the test set's clustered standard error only. What is wrong?",
+      "options": [
+        "Nothing: the correction removes the grader's error",
+        "The interval ignores the uncertainty of sensitivity and specificity, so it is too narrow",
+        "The calibration set should have been clustered by document too",
+        "Corrected rates should be reported without intervals"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Sensitivity and specificity are estimates from a small labelled set; resampling it with the test set carries that uncertainty into the corrected rate's interval.",
+      "misconceptions": [
+        "Thinks correction removes uncertainty instead of adding it",
+        "",
+        "Confuses which set needs clustering: the calibration verdicts are separate answers",
+        "Believes a corrected rate cannot have an interval at all"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 38
+    },
+    {
+      "id": "review-day3-q1",
+      "type": "single",
+      "prompt": "A grader's Arabic specificity is 0.73, from 49 human-failed answers. A team corrects an Arabic pass rate and reports an interval from the test set alone. What should the reviewer ask for?",
+      "options": [
+        "Nothing: the corrected rate is unbiased",
+        "A Clopper-Pearson interval on the test set",
+        "An interval that also resamples the calibration verdicts",
+        "The uncorrected rate, which has a narrower interval"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Sensitivity and specificity are estimates from a small labelled set; their uncertainty belongs in the corrected rate's interval.",
+      "misconceptions": [
+        "Thinks the correction makes the grader exact",
+        "Applies the small-set rule to the wrong quantity: the test set has hundreds of items",
+        "",
+        "Removes the correction instead of measuring its uncertainty"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 3
+    },
+    {
+      "id": "check-budgets-q1",
+      "type": "single",
+      "prompt": "A report compares two configurations. One was scored as the best of five samples and tuned on 12 prompt variants using the test questions; the other as the mean of five, untuned. What must the audit do first?",
+      "options": [
+        "Rescore both the same way and remove the test questions used in tuning before comparing",
+        "Add confidence intervals to the reported numbers",
+        "Ask for more test questions",
+        "Accept it: the tuned configuration earned its lead"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Unequal scoring and tuning on the test set are biases, not noise; only an equal-budget comparison on clean questions measures the configurations rather than the procedure.",
+      "misconceptions": [
+        "",
+        "Thinks an interval fixes a biased comparison; it only measures noise",
+        "Thinks a larger test set dilutes a bias that comes from how it was scored",
+        "Reads tuning on the test set as legitimate effort"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 12
+    },
+    {
+      "id": "check-audit-q1",
+      "type": "single",
+      "prompt": "A report claims \"the assistant is equally accurate for all regions\". The logs carry no region field. How should the audit class the claim?",
+      "options": [
+        "Supported: no regional difference was found",
+        "Unsupported: equal accuracy is unlikely",
+        "Supported, because regions should not matter for regulations",
+        "Untestable with these logs; name the data that would test it"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Without a region field no analysis of these logs can decide the claim; the memo says what data would.",
+      "misconceptions": [
+        "Reads absence of evidence against the claim as evidence for it",
+        "Treats a claim the data cannot address as contradicted by them",
+        "Thinks a claim can be classed by the auditor's prior belief",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 21
+    },
+    {
+      "id": "check-slices-q1",
+      "type": "single",
+      "prompt": "C's Arabic interval is 63.8 to 74.6 and its English interval 69.3 to 80.8. They overlap. Most documents have questions in both languages. What can you conclude about the gap?",
+      "options": [
+        "No gap: the intervals overlap",
+        "Nothing yet: test the gap itself with a standard error clustered by document",
+        "Compute the gap's SE as the root sum of the two squared SEs",
+        "Report both rates; gaps are never tested"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Two slices that share documents are correlated; only an interval for the gap itself, clustered by document, says whether the gap is real.",
+      "misconceptions": [
+        "Uses overlap as a test, which Day 2 showed ignores the shared structure",
+        "",
+        "Treats the two slices as independent, when they share documents",
+        "Thinks slices are only descriptive and never tested"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 29
+    },
+    {
+      "id": "check-standard-q1",
+      "type": "single",
+      "prompt": "A team's report has intervals, a plan and slices, but scores its own configuration as the best of five samples and the vendor's as the mean of five. Which field of the standard catches it?",
+      "options": [
+        "multiplicity",
+        "slices",
+        "budget_parity, with the estimand stated per configuration",
+        "interval_method"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Budget parity requires every configuration to be scored and tuned the same way; a stated estimand makes the difference visible.",
+      "misconceptions": [
+        "Multiplicity concerns how many comparisons, not how each was scored",
+        "Slices check groups of questions, not scoring rules",
+        "",
+        "The interval method governs uncertainty, not the comparability of the scores"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000,
+      "slide": 37
+    },
+    {
+      "id": "d1-population",
+      "type": "single",
+      "prompt": "An evaluation of a permits assistant reports 81% on 400 questions, 95% interval 77% to 85%. Which statement about the interval is correct?",
+      "options": [
+        "It is a plausible range for the pass rate on new questions written the same way",
+        "It is the range of pass rates the assistant will reach next year",
+        "It is the range within which 95% of individual answers fall",
+        "It is the range of pass rates on these 400 questions if the evaluation were rerun with the same answers"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The interval estimates the pass rate on the population the questions were sampled from.",
+      "misconceptions": [
+        "",
+        "Extends the interval to a different population and time",
+        "Confuses an interval for a rate with a range of single outcomes",
+        "Treats the fixed sample as uncertain: on these questions with these answers the rate is known"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-se-by-hand",
+      "type": "single",
+      "prompt": "A configuration passes 270 of 300 independent questions. What is the formula standard error of its pass rate, to two significant figures?",
+      "options": [
+        "0.090",
+        "0.017",
+        "0.30",
+        "0.0010"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "p = 0.9, so SE = sqrt(0.9 × 0.1 / 300) = sqrt(0.0003) ≈ 0.017.",
+      "misconceptions": [
+        "Reports p(1 − p) without dividing by n or taking the root",
+        "",
+        "Uses the number of failures as the standard error",
+        "Forgets the square root: 0.09 / 300 = 0.0003, then divides again"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-deff",
+      "type": "single",
+      "prompt": "A clustered standard error is 0.030 and the naive one is 0.020 on 900 questions. How many independent questions are the 900 worth?",
+      "options": [
+        "2,025",
+        "600",
+        "400",
+        "1,350"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "DEFF = (0.030 / 0.020)² = 2.25, and 900 / 2.25 = 400.",
+      "misconceptions": [
+        "Multiplies by the design effect instead of dividing",
+        "Uses the ratio of standard errors, 1.5, instead of its square",
+        "",
+        "Multiplies by the ratio instead of dividing"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-more-docs",
+      "type": "single",
+      "prompt": "An evaluation set has 50 documents with 10 questions each and a design effect of 3. Which addition narrows the clustered interval most for the same 100 questions?",
+      "options": [
+        "Five samples per question instead of one",
+        "Dropping the 10 documents with the most failures",
+        "Two more questions from each existing document",
+        "100 more questions from 10 new documents"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1",
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The clustered standard error falls with the number of independent clusters; new documents add them.",
+      "misconceptions": [
+        "Confuses within-question sampling noise with between-document clustering",
+        "Removes data selectively, which biases the score",
+        "Treats extra questions from the same document as independent evidence",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-samples",
+      "type": "single",
+      "prompt": "At temperature 0.8 a configuration's within-item variance is 0.12 and its between-item variance 0.09. Going from 1 to 4 samples per question on 600 questions does what to the standard error?",
+      "options": [
+        "Reduces it from about 0.0187 to about 0.0141",
+        "Reduces it to zero, because sampling noise disappears",
+        "Halves it, because four times the samples is like four times the questions",
+        "Leaves it unchanged, because samples of one question are not independent"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "SE = sqrt((0.09 + 0.12 / K) / 600): 0.0187 for K = 1 and 0.0141 for K = 4.",
+      "misconceptions": [
+        "",
+        "Forgets the between-item part, which more samples do not reduce",
+        "Treats samples as if they were new questions",
+        "Thinks repeated samples add no information at all"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-pass-at-k",
+      "type": "single",
+      "prompt": "A permits assistant gives each applicant one answer. Which estimand should the release report use as its primary score?",
+      "options": [
+        "The best of five samples chosen by the grader",
+        "The mean pass rate per sample",
+        "pass@5: right in at least one of five samples",
+        "pass^5: right in all five samples"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "An applicant sees one answer, so the expected pass rate of a single sample is the quantity that matters.",
+      "misconceptions": [
+        "Lets the grader choose after the fact, which no applicant can do",
+        "",
+        "Describes a user who can retry and pick the right answer",
+        "Describes a stricter, consistency requirement rather than the single answer"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-forking",
+      "type": "single",
+      "prompt": "Two configurations are compared on four metrics, each tested at 5%. The report headlines whichever metric is significant. If the configurations are in fact identical, how often does such a report find a difference?",
+      "options": [
+        "Exactly 20% of the time, four times 5%",
+        "About 5% of the time",
+        "More than 5%, up to about 19% if the metrics were independent",
+        "Never, because each test controls its own error"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO2",
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Choosing the best of several tests after the results raises the chance of at least one false win; correlated metrics give a little less than 1 − 0.95⁴.",
+      "misconceptions": [
+        "Adds the rates instead of combining them, and ignores correlation",
+        "Assumes the per-test error rate survives selection",
+        "",
+        "Confuses per-test control with control of the whole study"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d1-plan",
+      "type": "single",
+      "prompt": "Which plan field, left empty, most directly allows the analyst to change the conclusion after seeing the results?",
+      "options": [
+        "The owner's name",
+        "The list of secondary metrics",
+        "The date the evaluation ran",
+        "The decision rule linking each possible interval to an action"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Without a decision rule written in advance, any interval can be read as supporting the preferred action.",
+      "misconceptions": [
+        "Names who is accountable but does not fix any analysis choice",
+        "Secondary results are labelled exploratory anyway",
+        "The run date is recorded by the logs and does not drive a conclusion",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-paired-why",
+      "type": "single",
+      "prompt": "Two configurations answer the same 600 questions; their per-question scores correlate at 0.8. Compared with an unpaired analysis, the paired standard error of their difference is:",
+      "options": [
+        "Much smaller, because the shared question difficulty cancels",
+        "Zero, because the same questions were used",
+        "Larger, because pairing loses degrees of freedom",
+        "About the same, because the means are the same"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Var(D − C) = Var(D) + Var(C) − 2 Cov(C, D); a strong positive correlation removes most of the variance.",
+      "misconceptions": [
+        "",
+        "Thinks shared questions remove all noise, when per-question differences still vary",
+        "Overweights the loss of degrees of freedom, which is negligible with hundreds of questions",
+        "Confuses the point estimate, which is the same, with its precision"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-verdict",
+      "type": "single",
+      "prompt": "The paired difference is 2.0 points, 95% interval 0.6 to 3.4, and the minimum effect is 3 points. Which verdict follows the plan?",
+      "options": [
+        "Switch: the difference is significant",
+        "Better, but not shown to be better by the minimum effect",
+        "No difference shown",
+        "Worse than the minimum effect, so keep the old configuration as proven better"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The interval excludes zero but includes values below 3 points, so the gain is real but not shown to reach the threshold.",
+      "misconceptions": [
+        "Treats statistical significance as practical importance",
+        "",
+        "Ignores that the whole interval is above zero",
+        "Reads an interval that includes 3 as proof the effect is below 3"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-cluster-paired",
+      "type": "single",
+      "prompt": "Clustering by document widened each configuration's interval by half, but barely changed the paired interval of their difference. Why?",
+      "options": [
+        "The paired analysis uses fewer questions",
+        "Clustering only applies to single scores by definition",
+        "The document effect moves both configurations together and cancels in the difference",
+        "The paired difference is always normally distributed"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1",
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A shared document effect raises or lowers both scores, so it drops out of D minus C.",
+      "misconceptions": [
+        "Pairing uses the same questions, not fewer",
+        "Clustering applies to any statistic; it just may not matter",
+        "",
+        "Normality has nothing to do with whether clustering matters"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-holm",
+      "type": "single",
+      "prompt": "Fifteen paired comparisons have smallest p-values 0.001, 0.004 and 0.006. Under Holm at 5%, which are separated?",
+      "options": [
+        "The first two",
+        "All three",
+        "None",
+        "Only the first"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Holm compares 0.001 with 0.05/15 = 0.0033 (separated), then 0.004 with 0.05/14 = 0.0036 (fails) and stops.",
+      "misconceptions": [
+        "Compares 0.004 with 0.05/13 or with 0.05 over its rank from the top, not with 0.05/14",
+        "Uses unadjusted 5% thresholds for every comparison",
+        "Thinks Bonferroni's threshold of 0.0033 rejects nothing, though 0.001 is below it",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-ranks",
+      "type": "single",
+      "prompt": "A leaderboard of six configurations lists one rank per row. After Holm adjustment only the last configuration is separated from all others. What should the rank column show?",
+      "options": [
+        "For each configuration, the range of ranks the data cannot rule out",
+        "Rank 1 for every configuration not separated from the leader",
+        "The point-estimate ranks, since adjustment applies only to p-values",
+        "Ranks rounded to the nearest pair"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO2"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Plausible rank ranges state what the adjusted comparisons support; single ranks claim separations that were not shown.",
+      "misconceptions": [
+        "",
+        "Treats not separated as tied for first, ignoring separations among the others",
+        "Thinks ranks are exempt from uncertainty",
+        "Invents a rounding with no statistical basis"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-size",
+      "type": "single",
+      "prompt": "The SD of per-question paired differences is 0.20. How many shared questions detect a 4-point difference with 80% power at a two-sided 5% level, assuming independence?",
+      "options": [
+        "About 98",
+        "About 196",
+        "About 1,960",
+        "About 50"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "n = (1.96 + 0.84)² × 0.20² / 0.04² = 7.84 × 0.04 / 0.0016 = 196.",
+      "misconceptions": [
+        "Halves the answer by using one z value only",
+        "",
+        "Forgets to square the effect in the denominator correctly",
+        "Uses the effect instead of its square"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-sim",
+      "type": "single",
+      "prompt": "A sizing formula gives 400 questions, but a simulation that resamples documents from the pilot shows 62% power at 400. What is the best reading?",
+      "options": [
+        "The simulation is wrong because it is random",
+        "Use the formula; it is exact",
+        "An assumption of the formula fails for this data, probably clustering; size up and rerun the simulation",
+        "Lower the power target to 62%"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The simulation keeps the real cluster structure and the planned test; when it disagrees, the formula's assumptions are the suspect.",
+      "misconceptions": [
+        "Mistakes Monte Carlo noise, which is small with enough draws, for bias",
+        "Trusts assumptions over the data's own structure",
+        "",
+        "Changes the requirement to fit the plan"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d2-budget",
+      "type": "single",
+      "prompt": "A new question costs 100 times a sample, and the within-item variance equals the between-item variance. About how many samples per question minimise the variance at fixed cost?",
+      "options": [
+        "100",
+        "As many as the budget allows",
+        "1",
+        "10"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO3"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "K* = √(100 × 1) = 10.",
+      "misconceptions": [
+        "Uses the cost ratio without the square root",
+        "Ignores the between-item floor that samples cannot reduce",
+        "Spends everything on questions, ignoring sampling noise",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-wald-edge",
+      "type": "single",
+      "prompt": "A 30-question set gives a pass rate of 29/30. Why is the normal-approximation interval a poor choice here?",
+      "options": [
+        "Its estimated variance shrinks near 1, so it is too narrow and can pass 1",
+        "It assumes the questions are clustered",
+        "It cannot be computed for fewer than 50 items",
+        "It is too wide near 1"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Near 0 or 1 the plug-in variance p(1 − p)/n is small exactly where the estimate is least reliable, so coverage falls well below 95%.",
+      "misconceptions": [
+        "",
+        "Confuses the small-sample problem with clustering",
+        "Invents a hard limit; it can be computed but under-covers",
+        "Gets the direction of the error wrong"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-coverage",
+      "type": "single",
+      "prompt": "In a simulation, an interval method covers the true rate in 87% of evaluations of 40 items at p = 0.95. What does that mean for a report that uses it?",
+      "options": [
+        "Nothing, because coverage averages out over many reports",
+        "Its 95% intervals are, in effect, 87% intervals at such rates",
+        "It is 8 points more precise than claimed",
+        "The pass rates it reports are 8 points too high"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Coverage is the share of intervals that contain the truth; an 87% coverage means the stated 95% confidence is overstated.",
+      "misconceptions": [
+        "Thinks under-coverage cancels across reports, when each report is overconfident",
+        "",
+        "Reads under-coverage as extra precision",
+        "Confuses coverage of the interval with bias of the estimate"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-zero-fail",
+      "type": "single",
+      "prompt": "A configuration passes all 100 questions of a safety set. What upper bound on its failure rate can be stated at 95% confidence?",
+      "options": [
+        "0%",
+        "About 1%",
+        "About 3%",
+        "About 5%"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "With zero failures in n, 1 − 0.05^(1/n) ≈ 3/n = 3%.",
+      "misconceptions": [
+        "Turns zero observed failures into a zero rate",
+        "Divides 1 by n instead of using the 95% bound",
+        "",
+        "Uses 5 / n, mixing the level with the bound"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-prior",
+      "type": "single",
+      "prompt": "Two analysts report Beta posterior intervals for 40 out of 40: one with a uniform prior, one with a Jeffreys prior. Their lower ends differ by about 2.6 points. What should the report do?",
+      "options": [
+        "Average the two intervals",
+        "Use whichever prior gives the higher lower end",
+        "Drop the Bayesian intervals because they disagree",
+        "State the prior used, and prefer the more cautious one for a safety claim"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO1"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "At the edge the prior matters; stating it makes the claim checkable, and a safety claim should not lean on the more optimistic prior.",
+      "misconceptions": [
+        "Averages two posteriors without any model that justifies it",
+        "Chooses the prior after seeing which looks better",
+        "Treats sensitivity to the prior as a reason to report nothing",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-spec",
+      "type": "single",
+      "prompt": "A model grader has specificity 0.70 in Arabic. What does that mean?",
+      "options": [
+        "It passes 30% of answers that people fail",
+        "It agrees with people on 70% of Arabic verdicts",
+        "70% of the answers it passes are right",
+        "It fails 30% of answers that people pass"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Specificity is the share of truly failing answers the grader fails; the remaining 30% of failing answers are passed.",
+      "misconceptions": [
+        "",
+        "Confuses specificity with overall agreement",
+        "Describes the positive predictive value",
+        "Describes one minus sensitivity"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-agreement",
+      "type": "single",
+      "prompt": "A grader's overall agreement with people is 91%. Its Arabic specificity is 0.73 and English 0.91. Which conclusion is right?",
+      "options": [
+        "The grader is useless and must be replaced",
+        "Arabic pass rates are inflated more than English ones; correct them by language",
+        "Only English rates need correcting, since English agreement is higher",
+        "The grader is reliable; no correction is needed"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Agreement hides the class-specific errors; a lower Arabic specificity passes more bad Arabic answers.",
+      "misconceptions": [
+        "Overreacts: a grader with known error rates can be corrected",
+        "",
+        "Gets the direction wrong: the lower specificity is in Arabic",
+        "Trusts overall agreement, which is dominated by the common class"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-correct",
+      "type": "single",
+      "prompt": "The grader passes 70% of a configuration's answers; its sensitivity is 0.90 and specificity 0.80. What is the corrected pass rate?",
+      "options": [
+        "About 78%",
+        "About 56%",
+        "About 71%",
+        "About 63%"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "(0.70 + 0.80 − 1) / (0.90 + 0.80 − 1) = 0.50 / 0.70 ≈ 0.714.",
+      "misconceptions": [
+        "Divides the observed rate by the sensitivity",
+        "Multiplies the observed rate by the specificity",
+        "",
+        "Multiplies the observed rate by the sensitivity"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d3-carry",
+      "type": "single",
+      "prompt": "A corrected pass rate's interval was built from the test set's standard error alone. Its sensitivity and specificity came from 120 labelled answers. What does the interval miss?",
+      "options": [
+        "The bias from the correction itself",
+        "Nothing, if the test set is large",
+        "The clustering of the calibration set by grader",
+        "The uncertainty in sensitivity and specificity, which a joint bootstrap or delta method adds"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO4"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Sensitivity and specificity are estimates; their sampling error passes into the corrected rate and must widen the interval.",
+      "misconceptions": [
+        "The correction removes bias; the missing piece is variance",
+        "Thinks a large test set removes uncertainty in the calibration estimates",
+        "Invents a clustering that does not apply",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-overlap",
+      "type": "single",
+      "prompt": "48 test questions appear among the examples used to tune configuration D. On them D scores 90%; on the other questions 73%. Configurations A, B and C score the same on both groups. What follows?",
+      "options": [
+        "D's lead comes partly from the overlap; compare on clean questions",
+        "D is better at hard questions",
+        "The overlap does not matter because it is under 10% of the set",
+        "The 48 questions are easier and should be dropped for every configuration"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The other configurations act as a control: the questions are not easier in general, so D's gain there comes from having seen them.",
+      "misconceptions": [
+        "",
+        "Reverses the evidence: the gain is on seen questions, not hard ones",
+        "Judges by the share of items, not by the size of the effect on the comparison",
+        "Ignores the control: A, B and C show the questions are not easier"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-normalise",
+      "type": "single",
+      "prompt": "An overlap check by exact string match finds 8 Arabic test questions in the tuning examples; after folding hamza forms, ta marbuta, alef maqsura and diacritics it finds 21. Which count should the audit use?",
+      "options": [
+        "The average, about 15",
+        "21, because spelling variants of the same question carry the same answer",
+        "Neither: Arabic overlap cannot be measured",
+        "8, because only identical strings are contamination"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "A model that saw a question with a different hamza or diacritic has still seen the question; normalisation finds it.",
+      "misconceptions": [
+        "Averages two measurements of which one is known to undercount",
+        "",
+        "Gives up on a check that a simple normalisation makes reliable",
+        "Treats invisible spelling differences as different questions"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-budget",
+      "type": "single",
+      "prompt": "Configuration X is reported as pass@5 (best of five) and Y as the mean of five samples. X leads by 15 points. What is the fair comparison?",
+      "options": [
+        "Compare X's best sample with Y's best sample on one question",
+        "Keep the reported numbers; both used five samples",
+        "Compare X's mean of five with Y's mean of five, or both at pass@5",
+        "Halve X's lead to correct for the extra samples"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The same estimand and budget for both; a different scoring rule is a different quantity.",
+      "misconceptions": [
+        "Reduces the comparison to one question",
+        "Equal sample counts do not make different scoring rules comparable",
+        "",
+        "Invents a correction factor with no basis"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-classes",
+      "type": "single",
+      "prompt": "A report claims a configuration 'will perform as well next year'. The authority has no data from next year's questions. How should the audit class it?",
+      "options": [
+        "Supported, if the configuration ranks first",
+        "Supported, if this year's interval is narrow",
+        "Unsupported, because performance always drifts",
+        "Untestable with the data held; name the evaluation that would test it"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "No data the authority holds come from that population, so the claim can be neither backed nor contradicted until a new evaluation exists.",
+      "misconceptions": [
+        "Confuses a rank with a forecast",
+        "Extends this year's interval to another population",
+        "Asserts a contrary claim without data",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-supported",
+      "type": "single",
+      "prompt": "A claim says 'B is better than A'. The paired, clustered difference is 6.6 points, 95% interval 4.5 to 8.8. How should the audit class it?",
+      "options": [
+        "Supported: the interval of the difference excludes zero",
+        "Unsupported: 6.6 points is small",
+        "Untestable: A and B are different models",
+        "Unsupported: the intervals of A and B overlap"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO5"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "The claim is about direction, and the paired interval excludes zero; it is supported at the strength stated.",
+      "misconceptions": [
+        "",
+        "Imposes a size threshold the claim did not state",
+        "Thinks different systems cannot be compared",
+        "Uses overlap of separate intervals, which ignores the pairing"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-gap",
+      "type": "single",
+      "prompt": "Two language slices share 80 documents. Why is the standard error of the gap computed with document clustering rather than as √(SE_ar² + SE_en²)?",
+      "options": [
+        "Because the Arabic slice is larger",
+        "Because a hard document lowers both languages, so the slices are correlated",
+        "Because clustering always gives a smaller standard error",
+        "Because the gap is a ratio, not a difference"
+      ],
+      "key": {
+        "indices": [
+          1
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Shared documents make the two slice means correlated; the clustered contrast accounts for that, the independent formula does not.",
+      "misconceptions": [
+        "Slice size affects each SE, not the method for the gap",
+        "",
+        "Clustering can widen or narrow; it is about correctness, not size",
+        "The gap is a difference of rates"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-corrected-gap",
+      "type": "single",
+      "prompt": "After grader correction, C's Arabic minus English gap moves from −5.8 to −9.0 points, but its interval widens to −22.2 to +2.4. What should the report say?",
+      "options": [
+        "There is no language gap, since the corrected interval includes zero",
+        "Report only the observed gap, which is significant",
+        "The best estimate of the gap is larger than observed; more Arabic labels are needed to pin it down",
+        "Average the observed and corrected gaps"
+      ],
+      "key": {
+        "indices": [
+          2
+        ]
+      },
+      "lo": [
+        "LO4",
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Correction removes the grader's bias and adds the calibration's uncertainty; both facts belong in the report, with the step that narrows the interval.",
+      "misconceptions": [
+        "Reads a wide interval as evidence of no gap",
+        "Drops the correction because it is less convenient",
+        "",
+        "Averages a biased and an unbiased estimate"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-standard",
+      "type": "single",
+      "prompt": "Which field of an evaluation reporting standard would have stopped a headline that compared one configuration's best of five samples with another's mean of five?",
+      "options": [
+        "slices",
+        "interval_method",
+        "multiplicity",
+        "budget_parity, with the estimand stated per configuration"
+      ],
+      "key": {
+        "indices": [
+          3
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Budget parity requires the same scoring and tuning for every configuration, and a stated estimand makes a mismatch visible.",
+      "misconceptions": [
+        "Slices concern groups of questions",
+        "Interval method concerns uncertainty, not comparability",
+        "Multiplicity concerns the number of comparisons",
+        ""
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    },
+    {
+      "id": "d4-slices-required",
+      "type": "single",
+      "prompt": "A team proposes making results by language optional in the reporting standard 'to keep reports short'. What is the strongest reason to keep them required?",
+      "options": [
+        "An average can hide a configuration that serves one language worse, and graders can err unequally by language",
+        "Regulators ask for two numbers",
+        "Slices make every interval narrower",
+        "Arabic results are always lower"
+      ],
+      "key": {
+        "indices": [
+          0
+        ]
+      },
+      "lo": [
+        "LO6"
+      ],
+      "weight": 1,
+      "scored": true,
+      "timer": 30,
+      "displayMode": "full",
+      "explanation": "Without slices a weakness in one language, possibly shrunk further by a lenient grader, never reaches the decision owner.",
+      "misconceptions": [
+        "",
+        "Appeals to a rule not stated in the course",
+        "Slices widen intervals; they are required for fairness, not precision",
+        "Asserts a fixed direction that the data did not show for every configuration"
+      ],
+      "liveContext": false,
+      "basis": "best",
+      "confidence": true,
+      "createdAt": 1794775931000,
+      "updatedAt": 1794775931000
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+ "standard": {
+  "plan_commit": "plan commit",
+  "population": "population",
+  "items_and_clusters": "items and clusters",
+  "decoding": "decoding",
+  "estimand": "estimand",
+  "interval_method": "interval method",
+  "comparison": "comparison",
+  "multiplicity": "multiplicity",
+  "minimum_effect_and_verdict": "minimum effect and verdict",
+  "grader_calibration": "grader calibration",
+  "budget_parity": "budget parity",
+  "overlap_check": "overlap check",
+  "slices": "slices",
+  "small_sets": "small sets",
+  "reproducibility": "reproducibility"
+ },
+ "leaderboard_problems": [
+  "missing: plan_commit",
+  "missing: population",
+  "missing: items_and_clusters",
+  "missing: multiplicity",
+  "missing: minimum_effect_and_verdict",
+  "missing: grader_calibration",
+  "missing: budget_parity",
+  "missing: overlap_check",
+  "missing: slices",
+  "missing: reproducibility",
+  "slices: Arabic and English results with intervals are required",
+  "comparison: systems answered the same questions, so the comparison must be paired",
+  "interval_method: use clustered intervals, and Wilson, Jeffreys or Clopper-Pearson for small sets",
+  "grader_calibration: sensitivity and specificity per language are required"
+ ]
+}
